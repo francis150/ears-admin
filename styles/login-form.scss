@@ -1,0 +1,118 @@
+@import "./partials/fonts";
+@import "./partials/colors";
+
+/* PROPERTIES */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    color: $dark-grey;
+    margin: 77px 41.5px;
+
+    h1 {
+        font-family: extra-light;
+        font-size: 50px;
+        letter-spacing: 20px;
+        line-height: 85px;
+        text-align: center;
+    }
+
+    .meaning {
+        font-family: regular;
+        font-size: 12px;
+        line-height: 17px;
+        letter-spacing: 1.4px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .version {
+        font-family: medium;
+        font-size: 12px;
+        line-height: 17px;
+        opacity: 0.8;
+        margin-top: 5px;
+        margin-left: 1px;
+    }
+}
+
+.form {
+    margin: 0 auto;
+
+    form {
+        display: flex;
+        flex-direction: column;
+
+        input[type=text], input[type=password] {
+            width: 335px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-size: 13px;
+            font-family: semi-bold;
+            padding: 13px 20px;
+            background: $light-grey;
+            color: $dark-grey;
+            border: none;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        input[type=submit] {
+            margin-top: 20px;
+            margin-left: auto;
+            background: $purple;
+            font-family: regular;
+            font-size: 18px;
+            color: white;
+            border-radius: 5px;
+            width: 164px;
+            height: 41px;
+            border: none;
+            transition: 0.3s transform ease;
+
+            &:focus {
+                outline: none;
+            }
+
+            &:active {
+                transform: scale(0.9);
+            }
+        }
+
+        small {
+            
+            font-family: medium;
+            color: $red;
+        }
+    }
+}
+
+footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding: 30px;
+
+    p {
+        font-family: medium;
+        font-size: 11px;
+        line-height: 15px;
+        opacity: 0.6;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+}
+

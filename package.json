@@ -1,0 +1,26 @@
+{
+  "name": "ears-admin",
+  "version": "1.0.0",
+  "description": "Ears Admin App (Desktop)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francis150/ears-admin.git"
+  },
+  "author": "Francis Dela Victoria",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/francis150/ears-admin/issues"
+  },
+  "homepage": "https://github.com/francis150/ears-admin#readme",
+  "dependencies": {
+    "firebase": "^8.0.1"
+  },
+  "devDependencies": {
+    "electron": "^10.1.5",
+    "electron-reload": "^1.5.0"
+  }
+}

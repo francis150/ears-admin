@@ -1,0 +1,180 @@
+/* FONTS */
+@font-face {
+  src: url(../assets/fonts/Montserrat-Black.ttf);
+  font-family: black;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Bold.ttf);
+  font-family: bold;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-ExtraBold.ttf);
+  font-family: extra-bold;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-ExtraLight.ttf);
+  font-family: extra-light;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Light.ttf);
+  font-family: light;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Medium.ttf);
+  font-family: medium;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Regular.ttf);
+  font-family: regular;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-SemiBold.ttf);
+  font-family: semi-bold;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Thin.ttf);
+  font-family: thin;
+}
+
+/* COLORS */
+/* PROPERTIES */
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html, body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: #363636;
+  margin: 77px 41.5px;
+}
+
+.title h1 {
+  font-family: extra-light;
+  font-size: 50px;
+  letter-spacing: 20px;
+  line-height: 85px;
+  text-align: center;
+}
+
+.title .meaning {
+  font-family: regular;
+  font-size: 12px;
+  line-height: 17px;
+  letter-spacing: 1.4px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.title .version {
+  font-family: medium;
+  font-size: 12px;
+  line-height: 17px;
+  opacity: 0.8;
+  margin-top: 5px;
+  margin-left: 1px;
+}
+
+.form {
+  margin: 0 auto;
+}
+
+.form form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.form form input[type=text], .form form input[type=password] {
+  width: 335px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-family: semi-bold;
+  padding: 13px 20px;
+  background: #f1f1f1;
+  color: #363636;
+  border: none;
+}
+
+.form form input[type=text]:focus, .form form input[type=password]:focus {
+  outline: none;
+}
+
+.form form input[type=submit] {
+  margin-top: 20px;
+  margin-left: auto;
+  background: #726eff;
+  font-family: regular;
+  font-size: 18px;
+  color: white;
+  border-radius: 5px;
+  width: 164px;
+  height: 41px;
+  border: none;
+  -webkit-transition: 0.3s -webkit-transform ease;
+  transition: 0.3s -webkit-transform ease;
+  transition: 0.3s transform ease;
+  transition: 0.3s transform ease, 0.3s -webkit-transform ease;
+}
+
+.form form input[type=submit]:focus {
+  outline: none;
+}
+
+.form form input[type=submit]:active {
+  -webkit-transform: scale(0.9);
+          transform: scale(0.9);
+}
+
+.form form small {
+  font-family: medium;
+  color: #f92d48;
+}
+
+footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 30px;
+}
+
+footer p {
+  font-family: medium;
+  font-size: 11px;
+  line-height: 15px;
+  opacity: 0.6;
+  text-align: center;
+  margin-bottom: 5px;
+}
+/*# sourceMappingURL=login-form.css.map */

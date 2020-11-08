@@ -1,0 +1,126 @@
+.menu {
+    display: flex;
+    flex-direction: column;
+    background: rgba($color: white, $alpha: 0.97);
+    height: 100vh;
+    width: 0;
+    z-index: 2;
+    position: fixed;
+    right: 0;
+    overflow: hidden;
+    transition: .4s all ease-in-out;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    sl-dropdown {
+
+        &::part(panel) {
+            margin: 80px;
+        }
+
+        sl-icon {
+            margin-right: 10px;
+        }
+
+        .name-description {
+            display: flex;
+            margin: 30px;
+            cursor: pointer;
+            position: absolute;
+
+            .user-image {
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+                border: solid 2px $purple;
+                pointer-events: none;
+                object-fit: cover;
+            }
+
+            .texts {
+                margin-left: 10px;
+
+                h5 {
+                    font-family: bold;
+                    font-size: 21px;
+                    color: $dark-grey;
+                    pointer-events: none;
+                }
+                
+                .title {
+                    text-transform: uppercase;
+                    font-family: medium;
+                    font-size: 12px;
+                    letter-spacing: 0.4em;
+                    pointer-events: none;
+                }
+
+            }
+
+            sl-icon {
+                margin-left: 10px;
+                margin-top: 5px;
+            }
+        }
+    }
+
+    .menu-items {
+        margin: 130px auto 0 auto;
+        width: 65%;
+        height: 75%;
+        display: grid;
+        grid-template-columns: auto auto auto;
+        justify-content: space-between;
+
+        .menu-item {
+            background: $light-grey;
+            border: none;
+            border-radius: 5px;
+            width: 202px;
+            height: 193px;
+            display: flex;
+            flex-direction: column;
+            padding: 33px 15px;
+            cursor: pointer;
+            transition: 0.3s all ease;
+
+            &:hover {
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                transform: scale(1.03);
+            }
+
+            &:focus {
+                outline: none;
+            }
+
+            &:disabled {
+                background: $light-red;
+                cursor: no-drop;
+                h1 {
+                    text-decoration-line: line-through;
+                }
+            }
+
+            img {
+                width: 50px;
+                height: 50px;
+                margin: 0 auto;
+            }
+
+            h1 {
+                text-align: center;
+                font-family: bold;
+                font-size: 18px;
+                letter-spacing: 0.02em;
+                color: $dark-grey;
+                margin: 10px auto;
+            }
+
+            p {
+                font-family: regular;
+                font-size: 13px;
+                opacity: 0.8;
+                text-align: center;
+            }
+        }
+    }
+}

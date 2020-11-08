@@ -1,0 +1,28 @@
+header {
+    display: flex;
+    flex-direction: row;
+    padding: 30px 30px 0 30px;
+
+    h1 {
+        font-size: 53px;
+        font-family: extra-bold;
+        text-transform: uppercase;
+        line-height: 65px;
+        letter-spacing: 0.05em;
+        color: $dark-grey;
+    }
+
+    img {
+        margin-left: auto;
+        width: 33px;
+        height: 22px;
+        z-index: 2;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        object-fit: none;
+
+        &:active {
+            transform: scale(0.8);
+        }
+    }
+}

@@ -1,0 +1,37 @@
+footer {
+    position: absolute;
+    width: 100vw;
+    height: 20px;
+    bottom: 0;
+    background: $purple;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5px 10px;
+    transition: background 0.5s ease-in-out;
+     
+    p {
+        font-size: 12px;
+        color: white;
+        font-family: medium;
+        margin: 0 6px;
+        cursor: default;
+    }
+
+    sl-icon {
+        color: white;
+        margin: 0 6px;
+        font-family: medium;
+    }
+
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+    }
+
+    .right {
+        flex-direction: row-reverse;
+    }
+
+}
