@@ -134,27 +134,25 @@ html, body {
 .form form input[type=submit] {
   margin-top: 20px;
   margin-left: auto;
-  background: #726eff;
-  font-family: regular;
+  width: 80px;
+  background: none;
+  font-family: bold;
   font-size: 18px;
-  color: white;
-  border-radius: 5px;
-  width: 164px;
-  height: 41px;
+  color: #726eff;
   border: none;
-  -webkit-transition: 0.3s -webkit-transform ease;
-  transition: 0.3s -webkit-transform ease;
-  transition: 0.3s transform ease;
-  transition: 0.3s transform ease, 0.3s -webkit-transform ease;
+  border-bottom: 3px solid white;
+  padding-bottom: 10px;
+  cursor: pointer;
+  -webkit-transition: border-color .2s ease-in-out;
+  transition: border-color .2s ease-in-out;
 }
 
 .form form input[type=submit]:focus {
   outline: none;
 }
 
-.form form input[type=submit]:active {
-  -webkit-transform: scale(0.9);
-          transform: scale(0.9);
+.form form input[type=submit]:hover {
+  border-color: #726eff;
 }
 
 .form form small {

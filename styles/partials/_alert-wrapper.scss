@@ -1,0 +1,62 @@
+.alert-wrapper {
+    position: absolute;
+    width: 40%;
+    padding: 30px 30px;
+    z-index: 10;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+
+    transition: height .3s ease-in-out;
+
+    .alert {
+        background: $icon-gray;
+        box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        min-height: 41px;
+        max-width: 606px;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        color: white;
+
+        animation: onShow .3s ease-in-out;
+
+        sl-icon {
+            font-size: 18px;
+            margin-left: 20px;
+            margin-right: 10px;
+        }
+
+        p {
+            font-family: semi-bold;
+            font-size: 17px;
+        }
+
+        sl-icon-button {
+            font-size: 28px;
+            
+            &::part(base) {
+                color: white;
+                margin-left: 30px;
+                opacity: .3;
+                transition: opacity .2s ease-in-out;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+@keyframes onShow {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

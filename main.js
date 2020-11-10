@@ -9,7 +9,11 @@ const firebase = require('./firebase')
 const firedb = firebase.database()
 const fireauth = firebase.auth()
 
+global.sharedObj = {
+    user: null
+}
 
+let mainWindow
 
 app.on('ready', () => {
 
@@ -37,6 +41,13 @@ app.on('window-all-closed', () => {
     app.quit()
 })
 
+app.on('will-quit', () => {
+    firedb.ref(`/users/${fireauth.currentUser.uid}`).update({ is_active: false }).then(() => {
+        app.quit()
+    }).catch((err) => {
+        console.log(`ERROR: Changing active status ${err.message}`)
+    })
+})
 
 
 
@@ -58,7 +69,7 @@ ipcMain.on('user-login', (evt, login) => {
                         sharedObj.user = user.val()
                         evt.reply('access-granted', true)
 
-                        let firstWindow = new BrowserWindow({
+                        mainWindow = new BrowserWindow({
                             width: 1200,
                             height: 720,
                             resizable: false,
@@ -68,9 +79,9 @@ ipcMain.on('user-login', (evt, login) => {
                             }
                         })
 
-                        firstWindow.loadURL(path.join('file://', __dirname, 'views/users.html'))
+                        mainWindow.loadURL(path.join('file://', __dirname, 'views/user-accounts.html'))
 
-                        firstWindow.on('closed', () => {
+                        mainWindow.on('closed', () => {
                             firstWindow = null
                         })
 
@@ -92,5 +103,90 @@ ipcMain.on('user-login', (evt, login) => {
             evt.reply('access-denied', 'Your username or password is incorrect.')
         }
     })
+
+})
+
+
+/* NOTE NAVIGATION */
+ipcMain.on('nav-to-new-user', () => {
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/new-user-account.html'))
+})
+
+ipcMain.on('nav-to-edit-user', (evt, arg) => {
+    console.log(arg)
+})
+
+
+
+/* NOTE USER ACCOUNTS */
+ipcMain.on('user-accounts-get-all-users', (evt) => {
+    firedb.ref('/users').on('value', (snapshot) => {
+        evt.reply('users-value-changed', snapshot.val())
+    })
+})
+
+ipcMain.on('users-search-get-suggestions', (evt, args) => {
+    let searchText = args.toLowerCase().split(' ')
+
+    firedb.ref(`/users`).once('value')
+        .then((snapshot) => {
+
+
+            let index = 0
+            let result = {}
+
+            snapshot.forEach(user => {
+
+                const fulltext = `${user.val().fname.toLowerCase()} ${user.val().lname.toLowerCase()}`
+
+                let a = true
+                searchText.forEach(word => {
+                    if (word !== '') {
+                        if (!fulltext.includes(word)) {
+                            a = false
+                        }
+                    } else {
+                        return
+                    }
+                });
+
+                if (a) {
+                    result[user.key] = user.val()
+                }
+
+
+                index++
+                if (index === snapshot.numChildren()) {
+                    evt.reply('users-search-get-suggestions-result', { result: result })
+                }
+            })
+
+        }).catch((err) => {
+            evt.reply('users-search-get-suggestions-result', { error: err })
+            console.log(err.message)
+        })
+})
+
+ipcMain.on('deactivate-user', (evt, arg) => {
+
+    firedb.ref(`/users/${arg}`).update({ deactivated_by: sharedObj.user.key })
+        .then(() => {
+            evt.returnValue = { result: true }
+        })
+        .catch(err => {
+            evt.returnValue = { error: err.message }
+        })
+
+})
+
+ipcMain.on('reactivate-user', (evt, arg) => {
+
+    firedb.ref(`/users/${arg}/deactivated_by`).remove()
+        .then(() => {
+            evt.returnValue = { result: true }
+        })
+        .catch(err => {
+            evt.returnValue = { error: err.message }
+        })
 
 })

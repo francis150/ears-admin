@@ -1,0 +1,412 @@
+@import "./partials/fonts";
+@import "./partials/colors";
+@import "./partials/scrollbar";
+@import "./partials/menu";
+@import "./partials/loader";
+@import "./partials/header";
+@import "./partials/footer";
+@import "./partials/alert-wrapper";
+@import "./partials/dialog-box";
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+sl-dialog{
+    font-family: regular;
+    color: $dark-grey;
+
+    &::part(title) {
+        font-family: Medium;
+        color: $dark-grey;
+    }
+
+    .yes-btn {
+        background: $purple;
+        font-size: 18px;
+        font-family: regular;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 50px;
+        transition: 0.3s transform ease;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+
+        &:active {
+            transform: scale(0.9);
+        }
+    }
+
+    .no-btn {
+        margin-left: 10px;
+        background: $red;
+        font-size: 18px;
+        font-family: regular;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 31px;
+        transition: 0.3s transform ease;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+
+        &:active {
+            transform: scale(0.9);
+        }
+    }
+}
+
+.users-page {
+    /* display: flex; */
+    display: flex;
+    flex-direction: row;
+    padding: 0 30px;
+    justify-content: space-between;
+
+    .title {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        font-size: 40px;
+        font-family: semi-bold;
+        line-height: 65px;
+        color: $dark-grey;
+    }
+
+    .users-list {
+        display: flex;
+        flex-direction: column;
+        height: 530px;
+        width: 606px;
+        margin-top: 15px;
+
+        .search-and-add {
+            width: 606px;
+            height: 41px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            
+            .search {
+                border-radius: 5px;
+                z-index: 1;
+                position: absolute;
+                transition: all .3s ease;
+                display: flex;
+                flex-direction: column;
+                background: white;
+
+                &:focus-within {
+                    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.10);
+                }
+
+                input {
+                    border-radius: 5px;
+                    font-size: 13px;
+                    font-family: semi-bold;
+                    padding: 13px 20px;
+                    background: $light-grey;
+                    color: $dark-grey;
+                    border: none;
+                    width: 350px;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+
+                a {
+                    font-family: medium;
+                    font-size: 16px;
+                    color: $dark-grey;
+                    padding: 13px 20px;
+                    transition: background .4s ease;
+                    text-decoration: none;
+
+                    &:hover {
+                        background: $light-grey;
+                        cursor: pointer;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        background: $light-grey;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            sl-icon-button {
+                margin-left: auto;
+                margin-right: 10px;
+                font-size: 1.3rem;
+                color: $red;
+                transition: 0.3s all ease;
+
+                &:active {
+                    transform: scale(0.8);
+                }
+            }
+        }
+
+        .users-list-contents {
+            display: flex;
+            flex-direction: column;
+            height: 479px;
+            width: 606px;
+            margin-top: 20px;
+            overflow-y: hidden;
+
+            &:hover {
+                overflow-y: auto;
+            }
+
+            .user {
+                display: flex;
+                flex-direction: row;
+                height: 75px;
+                background: $light-grey;
+                border-radius: 5px;
+                margin-bottom: 5px;
+                padding: 13px 20px;
+                cursor: pointer;
+                transition: 0.3s all ease;
+
+                &:hover {
+                    margin: 15px 0;
+                }
+
+                &:active {
+                    transform: scale(0.9);
+                }
+
+                .users-list-user-image {
+                    margin: 0;
+
+                    &::part(base){
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        background: white;
+                    }
+
+                    &::part(icon) {
+                        font-size: 25px;
+                        color: $icon-gray;
+                    }
+                }
+
+                .texts {
+                    margin-left: 15px;
+
+                    .name {
+                        font-family: semi-bold;
+                        font-size: 21px;
+                        color: $dark-grey;
+                        max-lines: 1;
+                        white-space: nowrap; 
+                        width: 500px; 
+                        overflow: hidden;
+                        text-overflow: ellipsis; 
+                    }
+
+                    .lower-text {
+                        display: flex;
+                        flex-direction: row;
+                        margin-top: 5px;
+
+                        .description {
+                            font-family: semi-bold;
+                            font-size: 15px;
+                            line-height: 17px;
+                            letter-spacing: 0.2em;
+                            opacity: 0.7;
+                            text-transform: uppercase;
+                            max-lines: 1;
+                            white-space: nowrap; 
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            margin-right: 10px; 
+                        }
+
+                        .badges {
+                            display: flex;
+                            flex-direction: row;
+
+                            sl-badge {
+                                margin-right: 5px;
+                            }
+                            
+                            .badge-primary {
+                                font-family: regular;
+
+                                &::part(base) {
+                                    background: $purple;
+                                }
+                            }
+
+                            .badge-danger {
+                                font-family: regular;
+
+                                &::part(base) {
+                                    background: $red;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .user-profile {
+        display: flex;
+        flex-direction: column;
+        height: 530px;
+        width: 514px;
+        background: $light-grey;
+        border-radius: 5px;
+        margin-top: 15px;
+
+        .user-profile-content {
+            width: inherit;
+            height: inherit;
+            display: none;
+            /* display: flex; */
+            flex-direction: column;
+            padding: 30px;
+
+            .top {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                .profile-badges {
+                    width: 130px;
+
+                    sl-badge {
+                        font-family: medium;
+                    }
+
+                    .danger-badge {
+                        &::part(base) {
+                            background: $red;
+                        }
+                    }
+
+                    .primary-badge {
+                        &::part(base) {
+                            background: $purple;
+                        }
+                    }
+                }
+
+                sl-avatar {
+                    &::part(base){
+                        width: 115px;
+                        height: 115px;
+                        border-radius: 50%;
+                        border: solid 3px $light-grey;
+                        background: white;
+                    }
+
+                    &::part(icon) {
+                        font-size: 50px;
+                        color: $icon-gray;
+                    }
+                }
+
+                .profile-options {
+                    
+
+                    &::part(base) {
+                        width: 130px;
+                        display: flex;
+                        flex-direction: row-reverse;
+                    }
+
+                    sl-icon {
+                        margin-right: 10px;
+                    }
+                }
+            }
+
+            .name-description-txt {
+                margin-top: 10px;
+                text-align: center;
+
+                h1 {
+                    font-family: semi-bold;
+                    font-size: 23px;
+                    color: $dark-grey;
+                    margin-bottom: 5px;
+                }
+
+                p {
+                    text-transform: uppercase;
+                    font-family: semi-bold;
+                    font-size: 16px;
+                    letter-spacing: 0.2em;
+                    color: $dark-grey;
+                    opacity: 0.9;
+                }
+            }
+
+            .accessible-functions {
+                margin-top: 40px;
+
+                h5 {
+                    font-family: semi-bold;
+                    font-size: 16px;
+                    opacity: 0.8;
+                    color: $dark-grey;
+                }
+
+                .functionalities {
+                    display: grid;
+                    grid-template-columns: auto auto;
+                    margin-top: 20px;
+                    row-gap: 15px;
+
+                    .group {
+                        h6 {
+                            display: flex;
+                            align-items: center;
+                            font-family: bold;
+                            font-size: 14px;
+                            color: $purple;
+
+                            sl-icon {
+                                font-size: 21px;
+                            }
+                        }
+
+                        p{
+                            margin-top: 5px;
+                            display: flex;
+                            align-items: center;
+                            font-family: regular;
+                            font-size: 13px;
+                            opacity: .8;
+                            color: $dark-grey;
+
+                            sl-icon {
+                                font-size: 21px;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}

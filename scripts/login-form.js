@@ -2,7 +2,6 @@ const electron = require('electron')
 const { ipcRenderer, remote } = electron
 
 const currentWindow = remote.getCurrentWindow()
-currentWindow.openDevTools()
 
 /* elements */
 const loginForm = document.getElementById('form')

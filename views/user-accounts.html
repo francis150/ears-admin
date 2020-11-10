@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.css">
+    <link rel="stylesheet" href="../styles/user-accounts.css">
+    <title>Ears Admin App | User Accounts</title>
+</head>
+<body>
+
+    <sl-drawer class="nav-menu">
+        
+        <div slot="label" class="profile">
+            <sl-avatar id="current-user-image"></sl-avatar>
+            <div class="profile-texts">
+                <h2 id="current-user-name">Loading...</h2>
+                <span id="current-user-title">Loading...</span>
+            </div>
+        </div>
+
+        <div class="group">
+            <h6 id="nav-realtime-monitor">Realtime Monitor</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-employees">Employees</h6>
+            <p id="nav-add-new-employee">Add New Employee</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-reports">Reports</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-user-accounts">User Accounts</h6>
+            <p id="nav-create-new-user-account">Create New User Account</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-history-log">History Log</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-settings">Settings</h6>
+        </div>
+
+        <div class="group" slot="footer">
+            <h6>My Profile</h6>
+            <p>Switch User</p>
+            <p>Change Username</p>
+            <p>Change Password</p>
+        </div>
+    </sl-drawer>
+    <div class="loader">
+        <div class="loader-indicator">
+        </div>
+        <h1 id="loader-message">Wait a bit.</h1>
+    </div>
+    <div class="alert-wrapper"></div>
+
+    <!-- <sl-dialog label="Dialog" class="dialog-box" open>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <div class="buttons" slot="footer">
+            <button class="positive-btn">Okay</button>
+            <button class="negative-btn">Cancel</button>
+        </div>
+    </sl-dialog> -->
+
+
+
+    <header>
+        <h1>User Accounts</h1>
+        <button id="menu-btn">Menu</button>
+    </header>
+
+    <section class="users-page" id="users-page">
+        <div class="users-list">
+            <div class="search-and-add">
+                <div class="search">
+                    <input id="users-search" type="text" placeholder="Search">
+                    <!-- <a class="search-suggestion" href="#">suggestion 1</a>
+                        <a class="search-suggestion" href="#">suggestion 2</a>
+                        <a class="search-suggestion" href="#">suggestion 3</a> -->
+                </div>
+                <sl-tooltip content="Add New User">
+                    <sl-icon-button id="new-user-btn" name="plus-circle"></sl-icon-button>
+                </sl-tooltip>
+            </div>
+            <div class="users-list-contents" id="users-list-contents">
+    
+                <!-- <div class="user">
+                        <sl-avatar class="users-list-user-image"></sl-avatar>
+                        <div class="texts">
+                            <p class="name">Dela Victoria, Francis Ian Y.</p>
+                            <div class="lower-text">
+                                <p class="description">Administrator</p>
+                                <div class="badges">
+                                    <sl-badge type="primary">Active</sl-badge>
+                                    <sl-badge type="danger">Deactivated</sl-badge>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+    
+            </div>
+        </div>
+        <div class="user-profile">
+            <div class="user-profile-content" id="user-profile-content">
+                <section class="top">
+                    <div class="profile-badges">
+                        <!-- <sl-badge type="danger">Deactivated</sl-badge> -->
+                    </div>
+                    <sl-avatar id="viewed-user-image" image=''></sl-avatar>
+                    <sl-dropdown class="profile-options">
+                        <sl-tooltip slot="trigger" content="Options">
+                            <sl-icon-button style="font-size: 1.2em;" name="three-dots-vertical"></sl-icon-button>
+                        </sl-tooltip>
+                        <sl-menu>
+                            <sl-menu-item>View History Log<sl-icon slot="prefix" name="hourglass"></sl-icon>
+                            </sl-menu-item>
+                            <sl-menu-divider></sl-menu-divider>
+                            <sl-menu-item id="edit-viewed-user-btn">Edit<sl-icon slot="prefix" name="pencil"></sl-icon>
+                            </sl-menu-item>
+                            <sl-menu-divider></sl-menu-divider>
+                            <sl-menu-item id="deactivate-viewed-user-btn">Deactivate<sl-icon slot="prefix"
+                                    name="slash-circle"></sl-icon>
+                            </sl-menu-item>
+                            <sl-menu-item id="reactivate-viewed-user-btn">Re-Activate<sl-icon slot="prefix"
+                                    name="check-circle"></sl-icon>
+                            </sl-menu-item>
+    
+                        </sl-menu>
+                    </sl-dropdown>
+                </section>
+                <section class="name-description-txt">
+                    <h1 id="viewed-user-name"></h1>
+                    <p id="viewed-user-description"></p>
+                </section>
+                <section class="accessible-functions">
+                    <h5>Permissions</h5>
+                    <div class="functionalities">
+                        <div class="group">
+                            <h6 id="profile-realtime-monitor-per"><sl-icon></sl-icon> Realtime Monitor</h6>
+                        </div>
+                        <div class="group">
+                            <h6 id="profile-employees-per"><sl-icon></sl-icon> Employees</h6>
+                            <p id="profile-add-new-employee-per"><sl-icon></sl-icon> Add New Employee</p>
+                        </div>
+                        <div class="group">
+                            <h6 id="profile-reports-per"><sl-icon></sl-icon> Reports</h6>
+                        </div>
+                        <div class="group">
+                            <h6 id="profile-user-accounts-per"><sl-icon></sl-icon> User Accounts</h6>
+                            <p id="profile-create-new-user-per"><sl-icon></sl-icon> Create New User Account</p>
+                        </div>
+                        <div class="group">
+                            <h6 id="profile-history-log-per"><sl-icon></sl-icon> History Log</h6>
+                        </div>
+                        <div class="group">
+                            <h6 id="profile-settings-per"><sl-icon></sl-icon> Settings</h6>
+                        </div>
+                    </div>
+                </section>
+    
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="left">
+        </div>
+        <div class="right">
+            <p class="time-text"></p>
+        </div>
+    </footer>
+
+
+    <script type="module" src="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.esm.js"></script>
+
+    
+    <script src="../scripts/user-accounts.js"></script>
+
+    <script src="../scripts/_dialogbox-handles.js"></script>
+    <script src="../scripts/_alert-handles.js"></script>
+    <script src="../scripts/_menu-handles.js"></script>
+    <script src="../scripts/_status-bar-handles.js"></script>
+    
+</body>
+</html>

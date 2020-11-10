@@ -1,0 +1,45 @@
+.dialog-box {
+    &::part(title) {
+        font-family: semi-bold;
+        color: $dark-grey;
+    }
+
+    &::part(body) {
+        font-family: regular;
+    }
+
+    .buttons {
+        button {
+            background: none;
+            border: none;
+            padding-bottom: 5px;
+            border-bottom: 3px solid white;
+            cursor: pointer;
+            font-family: bold;
+            margin: 0 10px;
+            transition: all .2s ease-in-out;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .positive-btn {
+            color: $purple;
+
+            &:hover {
+                border-color: $purple;
+            }
+        }
+
+        .negative-btn {
+            color: $dark-grey;
+            opacity: .5;
+
+            &:hover {
+                border-color: $dark-grey;
+                opacity: 1;
+            }
+        }
+    }
+}
