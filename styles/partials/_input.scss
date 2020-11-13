@@ -1,0 +1,68 @@
+.input-element {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+
+    label {
+        font-family: semi-bold;
+        color: $dark-grey;
+        font-size: 12px;
+        margin-bottom: 5px;
+        margin-left: 10px;
+        opacity: .7;
+        transition: opacity .2s ease-in-out;
+    }
+
+    input {
+        height: 41px;
+        background: $light-grey;
+        border: 1px white solid;
+        border-radius: 5px;
+        padding: 0 10px;
+        font-family: semi-bold;
+        color: $dark-grey;
+        font-size: 15px;
+        transition: border-color .2s ease-in-out;
+    }
+
+    small {
+        font-family: semi-bold;
+        font-size: 11px;
+        color: $dark-grey;
+        margin-top: 2px;
+        margin-left: 5px;
+        opacity: .5;
+    }
+
+    &:focus-within {
+        label {
+            opacity: 1;
+            color: $purple;
+        }
+        small {
+            opacity: 1;
+            color: $purple;
+        }
+        input {
+            outline: none;
+            border-color: $purple;
+        }
+    }
+
+    &[data-invalid=true] {
+        input {
+            border-color: $red;
+        }
+
+        small {
+            color: $red;
+            opacity: 1;
+        }
+
+        label {
+            color: $red;
+            opacity: 1;
+        }
+    }
+}

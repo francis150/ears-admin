@@ -14,6 +14,7 @@ global.sharedObj = {
 }
 
 let mainWindow
+Menu.setApplicationMenu(null)
 
 app.on('ready', () => {
 
@@ -29,16 +30,9 @@ app.on('ready', () => {
 
     loginForm.loadURL(path.join('file://', __dirname, 'views/login-form.html'))
 
-    Menu.setApplicationMenu(null)
-
     loginForm.on('closed', () => {
         loginForm = null
     })
-
-})
-
-app.on('window-all-closed', () => {
-    app.quit()
 })
 
 app.on('will-quit', () => {
@@ -83,6 +77,7 @@ ipcMain.on('user-login', (evt, login) => {
 
                         mainWindow.on('closed', () => {
                             firstWindow = null
+                            app.quit()
                         })
 
                         /* CHANGE USER is_active IN DB */
@@ -91,6 +86,7 @@ ipcMain.on('user-login', (evt, login) => {
                         })
 
                     }).catch((err) => {
+                        console.log(err.message)
                         evt.reply('access-denied', 'Your username or password is incorrect.')
                     })
 
@@ -108,7 +104,30 @@ ipcMain.on('user-login', (evt, login) => {
 
 
 /* NOTE NAVIGATION */
-ipcMain.on('nav-to-new-user', () => {
+let backURL = ''
+ipcMain.on('nav-to-realtime-monitor', (evt, arg) => {
+    console.log('nav-to-realtime-monitor')
+})
+
+ipcMain.on('nav-to-employees', (evt, arg) => {
+    console.log('nav-to-employees')
+})
+
+ipcMain.on('nav-to-new-employee', (evt, arg) => {
+    console.log('nav-to-new-employee')
+})
+
+ipcMain.on('nav-to-reports', (evt, arg) => {
+    console.log('nav-to-reports')
+})
+
+ipcMain.on('nav-to-user-accounts', (evt, arg) => {
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/user-accounts.html'))
+})
+
+ipcMain.on('nav-to-new-user', (evt, arg) => {
+    backURL = mainWindow.webContents.getURL()
     mainWindow.loadURL(path.join('file://', __dirname, 'views/new-user-account.html'))
 })
 
@@ -116,6 +135,18 @@ ipcMain.on('nav-to-edit-user', (evt, arg) => {
     console.log(arg)
 })
 
+ipcMain.on('nav-to-history-log', (evt, arg) => {
+    console.log('nav-to-history-log')
+})
+
+ipcMain.on('nav-to-settings', (evt, arg) => {
+    console.log('nav-to-settings')
+})
+
+
+ipcMain.on('nav-back', () => {
+    mainWindow.loadURL(backURL)
+})
 
 
 /* NOTE USER ACCOUNTS */
@@ -190,3 +221,68 @@ ipcMain.on('reactivate-user', (evt, arg) => {
         })
 
 })
+
+
+/* NOTE NEW USER ACCOUNT */
+ipcMain.on('check-username-availability', (evt, username) => {
+    firedb.ref(`/users`).orderByChild('username').equalTo(username).once('value').then((snapshot) => {
+        evt.returnValue = snapshot.exists()
+    })
+})
+
+ipcMain.on('check-email-availability', (evt, email) => {
+    firedb.ref(`/users`).orderByChild('email').equalTo(email).once('value').then((snapshot) => {
+        evt.returnValue = snapshot.exists()
+    })
+})
+
+ipcMain.on('add-new-user', (evt, newUserObject) => {
+    
+    fireauth.createUserWithEmailAndPassword(newUserObject.email, newUserObject.password)
+    .then((res) => {
+        newUserObject.key = res.user.uid
+
+        newUserObject.password = null
+
+        firedb.ref(`users/${newUserObject.key}`).set(newUserObject)
+        .then(() => {
+            evt.reply('add-new-user-task', { key: newUserObject.key})
+            //evt.returnValue = { key: newUserObject.key }
+        })
+        .catch((err) => {
+            evt.reply('add-new-user-task', { error: err.message }) 
+            // evt.returnValue = { error: err.message }
+        })
+    })
+    .catch((err) => {
+        // evt.returnValue = { error: err.message }
+        evt.reply('add-new-user-task', { error: err.message }) 
+    })
+
+})
+
+ipcMain.on('add-new-user-result', (evt, mainTask) => {
+    // navigate to users
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/user-accounts.html'))
+    mainWindow.webContents.once('did-finish-load', () => {
+        
+        // if mainTask.imageURL is available
+        if (mainTask.imageURL) {
+            // update user in db
+            firedb.ref(`/users/${mainTask.key}`).update({ image_url: mainTask.imageURL })
+                .then(() => {
+                    mainWindow.webContents.send('add-new-user-result', mainTask)
+                })
+                .catch((err) => {
+                    console.log(err.message)
+                    mainTask.storageError = 'Failed to set user image.'
+                    mainWindow.webContents.send('add-new-user-result', mainTask)
+                })
+        } else {
+            mainWindow.webContents.send('add-new-user-result', mainTask)
+        }
+    })
+})
+
+

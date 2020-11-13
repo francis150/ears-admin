@@ -11,12 +11,47 @@ function loadUserInfo() {
     /* menu items permision */
     document.getElementById('nav-realtime-monitor').dataset.disabled = !currentUser.permissions.realtime_monitor
     document.getElementById('nav-employees').dataset.disabled = !currentUser.permissions.employee_records
-    document.getElementById('nav-add-new-employee').dataset.disabled = !currentUser.permissions.add_new_employee
+    document.getElementById('nav-add-new-employee').dataset.disabled = !currentUser.permissions.add_new_employees
     document.getElementById('nav-reports').dataset.disabled = !currentUser.permissions.reports
     document.getElementById('nav-user-accounts').dataset.disabled = !currentUser.permissions.user_accounts
-    document.getElementById('nav-create-new-user-account').dataset.disabled = !currentUser.permissions.create_new_user_account
+    document.getElementById('nav-create-new-user-account').dataset.disabled = !currentUser.permissions.create_new_user_accounts
     document.getElementById('nav-history-log').dataset.disabled = !currentUser.permissions.history_log
     document.getElementById('nav-settings').dataset.disabled = !currentUser.permissions.settings
+
+    /* NAVS HERE */
+    document.getElementById('nav-realtime-monitor').addEventListener('click', () => {
+        ipcRenderer.send('nav-to-realtime-monitor')
+    })
+
+    document.getElementById('nav-employees').addEventListener('click', () => {
+        ipcRenderer.send('nav-to-employees')
+    })
+
+    document.getElementById('nav-add-new-employee').addEventListener('click', () => {   
+        ipcRenderer.send('nav-to-new-employee')
+    })
+
+    document.getElementById('nav-reports').addEventListener('click', () => {
+        ipcRenderer.send('nav-to-reports')
+    })
+
+    document.getElementById('nav-user-accounts').addEventListener('click', () => {
+        ipcRenderer.send('nav-to-user-accounts')
+    })
+
+    document.getElementById('nav-create-new-user-account').addEventListener('click', () => {
+        
+        ipcRenderer.send('nav-to-new-user')
+        
+    })
+
+    document.getElementById('nav-history-log').addEventListener('click', () => {
+        ipcRenderer.send('nav-to-history-log')
+    })
+
+    document.getElementById('nav-settings').addEventListener('click', () => {
+        ipcRenderer.send('nav-to-settings')
+    })
 
 }
 loadUserInfo()

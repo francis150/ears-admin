@@ -1,9 +1,6 @@
 const electron = require('electron')
 const {remote, ipcRenderer} = electron
 
-const firebase = require('../firebase')
-firestorage = firebase.storage()
-
 const currentWindow = remote.getCurrentWindow()
 currentWindow.openDevTools()
 
@@ -185,8 +182,8 @@ function viewUser(user) {
     document.querySelector('#profile-employees-per').style.textDecoration = user.permissions.employee_records ? 'none' : 'line-through'
     document.querySelector('#profile-employees-per sl-icon').name = user.permissions.employee_records ? 'check' : 'x'
 
-    document.querySelector('#profile-add-new-employee-per').style.textDecoration = user.permissions.add_new_employee ? 'none' : 'line-through'
-    document.querySelector('#profile-add-new-employee-per sl-icon').name = user.permissions.add_new_employee ? 'check' : 'x'
+    document.querySelector('#profile-add-new-employee-per').style.textDecoration = user.permissions.add_new_employees ? 'none' : 'line-through'
+    document.querySelector('#profile-add-new-employee-per sl-icon').name = user.permissions.add_new_employees ? 'check' : 'x'
 
     document.querySelector('#profile-reports-per').style.textDecoration = user.permissions.reports ? 'none' : 'line-through'
     document.querySelector('#profile-reports-per sl-icon').name = user.permissions.reports ? 'check' : 'x'
@@ -194,8 +191,8 @@ function viewUser(user) {
     document.querySelector('#profile-user-accounts-per').style.textDecoration = user.permissions.user_accounts ? 'none' : 'line-through'
     document.querySelector('#profile-user-accounts-per sl-icon').name = user.permissions.user_accounts ? 'check' : 'x'
 
-    document.querySelector('#profile-create-new-user-per').style.textDecoration = user.permissions.create_new_user_account ? 'none' : 'line-through'
-    document.querySelector('#profile-create-new-user-per sl-icon').name = user.permissions.create_new_user_account ? 'check' : 'x'
+    document.querySelector('#profile-create-new-user-per').style.textDecoration = user.permissions.create_new_user_accounts ? 'none' : 'line-through'
+    document.querySelector('#profile-create-new-user-per sl-icon').name = user.permissions.create_new_user_accounts ? 'check' : 'x'
 
     document.querySelector('#profile-history-log-per').style.textDecoration = user.permissions.history_log ? 'none' : 'line-through'
     document.querySelector('#profile-history-log-per sl-icon').name = user.permissions.history_log ? 'check' : 'x'
@@ -209,12 +206,25 @@ function viewUser(user) {
 
 /* add new user btn */
 document.getElementById('new-user-btn').addEventListener('click', () => {
-    document.querySelector('.loader').style.height = '100vh'
-    setTimeout(() => {
+    if (remote.getGlobal('sharedObj').user.permissions.create_new_user_accounts) {
         
-        ipcRenderer.send('nav-to-new-user')
+        document.querySelector('.loader').style.height = '100vh'
+        setTimeout(() => {
 
-    }, 1000);
+            ipcRenderer.send('nav-to-new-user')
+
+        }, 1000);
+
+    } else {
+        showDialog({
+            title: 'Restricted Access',
+            message: 'Seems like you dont have the permission for this option.',
+            posBtnText: 'Okay',
+            posBtnFun: function() {
+                /* none */
+            }
+        })
+    }
 })
 
 /* edit viewed user */
@@ -230,66 +240,95 @@ document.getElementById('edit-viewed-user-btn').addEventListener('click', () => 
 /* deactivate user */
 document.getElementById('deactivate-viewed-user-btn').addEventListener('click', (e) => {
 
-    if (!e.target.disabled) {
-        showDialog({
-            title: 'Confirm User Deactivation',
-            message: 'Are you sure you want to deactivate this user?',
-            posBtnText: 'Confirm',
-            posBtnFun: function() {
-                
-                const task = ipcRenderer.sendSync('deactivate-user', viewedUser.key)
+    if (remote.getGlobal('sharedObj').user.permissions.deactivate_reactivate_users) {
 
-                if (task.result) {
-                    showAlert('warning', 'User Deactivated.')
-                } else {
-                    showAlert('fail', 'Something went wrong while Deactivating User.')
-                    console.log(task.error)
+        if (!e.target.disabled) {
+            showDialog({
+                title: 'Confirm User Deactivation',
+                message: 'Are you sure you want to deactivate this user?',
+                posBtnText: 'Confirm',
+                posBtnFun: function () {
+
+                    const task = ipcRenderer.sendSync('deactivate-user', viewedUser.key)
+
+                    if (task.result) {
+                        showAlert('warning', 'User Deactivated.')
+                    } else {
+                        showAlert('fail', 'Something went wrong while Deactivating User.')
+                        console.log(task.error)
+                    }
+
+                },
+                negBtnText: 'Cancel',
+                negBtnFun: function () {
+
                 }
+            })
+        }
 
-            },
-            negBtnText: 'Cancel',
-            negBtnFun: function() {
-                
+    } else {
+        showDialog({
+            title: 'Restricted Access',
+            message: 'Seems like you dont have the permission for this option.',
+            posBtnText: 'Okay',
+            posBtnFun: function () {
+                /* none */
             }
         })
     }
 
 })
-
 
 /* re-activate user */
 document.getElementById('reactivate-viewed-user-btn').addEventListener('click', (e) => {
 
-    if (!e.target.disabled) {
-        
-        showDialog({
-            title: 'Confirm User Reactivation',
-            message: 'Are you sure you want to reactivate this user?',
-            posBtnText: 'Confirm',
-            posBtnFun: function () {
+    if(remote.getGlobal('sharedObj').user.permissions.deactivate_reactivate_users) {
 
-                const task = ipcRenderer.sendSync('reactivate-user', viewedUser.key)
+        if (!e.target.disabled) {
 
-                if (task.result) {
-                    showAlert('warning', 'User Reactivated.')
-                } else {
-                    showAlert('fail', 'Something went wrong while Reactivating User.')
-                    console.log(task.error)
+            showDialog({
+                title: 'Confirm User Reactivation',
+                message: 'Are you sure you want to reactivate this user?',
+                posBtnText: 'Confirm',
+                posBtnFun: function () {
+
+                    const task = ipcRenderer.sendSync('reactivate-user', viewedUser.key)
+
+                    if (task.result) {
+                        showAlert('warning', 'User Reactivated.')
+                    } else {
+                        showAlert('fail', 'Something went wrong while Reactivating User.')
+                        console.log(task.error)
+                    }
+
+                },
+                negBtnText: 'Cancel',
+                negBtnFun: function () {
+
                 }
+            })
 
-            },
-            negBtnText: 'Cancel',
-            negBtnFun: function () {
+        }
 
+    } else {
+        showDialog({
+            title: 'Restricted Access',
+            message: 'Seems like you dont have the permission for this option.',
+            posBtnText: 'Okay',
+            posBtnFun: function () {
+                /* none */
             }
         })
-
     }
 })
 
-
+ipcRenderer.on('add-new-user-result', (evt, arg) => {
+    if (arg.dbResult) { showAlert('success', arg.dbResult) }
+    if (arg.dbError) { showAlert('fail', arg.dbError) }
+    if (arg.storageError) { showAlert('fail', arg.storageError) }
+})
 
 
 setTimeout(() => {
     document.querySelector('.loader').style.height = '0'
-}, 3000);
+}, 1000);

@@ -3,6 +3,27 @@ header {
     flex-direction: row;
     padding: 40px 30px 20px 30px;
 
+    .back-btn {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        text-decoration: none;
+        color: $dark-grey;
+        text-transform: uppercase;
+        font-family: bold;
+        font-size: 21px;
+        line-height: 28px;
+        letter-spacing: 0.05em;
+
+        padding-bottom: 5px;
+        border-bottom: 3px solid white;
+        transition: .2s border-color ease-in-out;
+
+        &:hover {
+            border-color: $dark-grey;
+        }
+    }
+
     h1 {
         color: $dark-grey;
         font-family: semi-bold;

@@ -1,5 +1,5 @@
 function showDialog(props) {
-    
+    // props = {title, message, posBtnText, posBtnFun, negBtnText, negBtnFun}
     const dialog = document.createElement('sl-dialog')
     dialog.label = props.title
     dialog.className = 'dialog-box'
@@ -22,14 +22,18 @@ function showDialog(props) {
     })
     footer.appendChild(positiveBtn)
 
-    const negativeBtn = document.createElement('button')
-    negativeBtn.className = 'negative-btn'
-    negativeBtn.innerHTML = props.negBtnText
-    negativeBtn.addEventListener('click', () => {
-        props.negBtnFun()
-        dialog.hide()
-    })
-    footer.appendChild(negativeBtn)
+    if (props.negBtnText) {
+
+        const negativeBtn = document.createElement('button')
+        negativeBtn.className = 'negative-btn'
+        negativeBtn.innerHTML = props.negBtnText
+        negativeBtn.addEventListener('click', () => {
+            props.negBtnFun()
+            dialog.hide()
+        })
+        footer.appendChild(negativeBtn)
+        
+    }
 
     dialog.addEventListener('slAfterHide', () => {dialog = null})
 

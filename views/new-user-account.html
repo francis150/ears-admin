@@ -3,9 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.css">
+    <link rel="stylesheet" href="../styles/new-user-account.css">
     <title>Ears Admin App | New User Account</title>
 </head>
 <body>
-    <h1>Create new user</h1>
+
+    <sl-drawer class="nav-menu">
+    
+        <div slot="label" class="profile">
+            <sl-avatar id="current-user-image"></sl-avatar>
+            <div class="profile-texts">
+                <h2 id="current-user-name">Loading...</h2>
+                <span id="current-user-title">Loading...</span>
+            </div>
+        </div>
+    
+        <div class="group">
+            <h6 id="nav-realtime-monitor">Realtime Monitor</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-employees">Employees</h6>
+            <p id="nav-add-new-employee">Add New Employee</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-reports">Reports</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-user-accounts">User Accounts</h6>
+            <p id="nav-create-new-user-account">Create New User Account</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-history-log">History Log</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-settings">Settings</h6>
+        </div>
+    
+        <div class="group" slot="footer">
+            <h6>My Profile</h6>
+            <p>Switch User</p>
+            <p>Change Username</p>
+            <p>Change Password</p>
+        </div>
+    </sl-drawer>
+    <div class="loader">
+        <div class="loader-indicator">
+        </div>
+        <h1 id="loader-message">Wait a bit.</h1>
+    </div>
+
+
+    <header>
+        <a class="back-btn" href="#"><img src="../assets/icons/back-arrow-icon.png"> back</a>
+        <button id="menu-btn">Menu</button>
+    </header>
+
+    <main>
+        <h1>Create New User</h1>
+
+        <form action="#">
+
+            <div class="name-description">
+                <h2>Name & Description</h2>
+                <div class="user-image-wrapper">
+                    <input name="imgInput" type="file" hidden accept="image/*">
+                    <sl-avatar></sl-avatar>
+                    <button type="button">Change Image</button>
+                </div>
+            
+                <div class="two-col">
+                    <div class="input-element">
+                        <label>First Name</label>
+                        <input type="text" name="firstName">
+                        <small></small>
+                    </div>
+                    <div class="input-element">
+                        <label>Last Name</label>
+                        <input type="text" name="lastName">
+                        <small></small>
+                    </div>
+                </div>
+            
+                <div class="input-element">
+                    <label>Description</label>
+                    <input type="text" name="description">
+                    <small class="description-help-text">Put in the job title or designation.</small>
+                </div>
+            
+                <div class="buttons">
+                    <button class="positive-btn">Next</button>
+                </div>
+            </div>
+            
+            <div class="permissions">
+                <h2>Permission</h2>
+            
+                <div class="permissions-container">
+
+                    <div class="permission-group">
+                        <sl-switch name="realtime_monitor" class="main">Realtime Monitor
+                            <sl-tooltip content="Monitor employee roster for each branch in Realtime.">
+                                <sl-icon name="info-circle-fill"></sl-icon>
+                            </sl-tooltip>
+                        </sl-switch>
+                    </div>
+                    <div class="permission-group">
+                        <sl-switch name="employee_records" class="main">Employees
+                            <sl-tooltip content="Manage(add, modify, & deactivate) employee records and their shift schedules.">
+                                <sl-icon name="info-circle-fill"></sl-icon>
+                            </sl-tooltip>
+                        </sl-switch>
+                        <sl-switch name="add_new_employees" class="sub">Add New Employees</sl-switch>
+                        <sl-switch name="modify_employees" class="sub">Modify Employees Records</sl-switch>
+                        <sl-switch name="modify_employee_shifts" class="sub">Modify Employees Shift Schedules</sl-switch>
+                        <sl-switch name="deactivate_reactivate_employees" class="sub">Deactivate/Reactivate Employees</sl-switch>
+                    </div>
+                    <div class="permission-group">
+                        <sl-switch name="reports" class="main">Reports
+                            <sl-tooltip content="View and print reports in daily, weekly, monthly, and pay-period format.">
+                                <sl-icon name="info-circle-fill"></sl-icon>
+                            </sl-tooltip>
+                        </sl-switch>
+                        <sl-switch name="print_report_documents" class="sub">Print Report Documents</sl-switch>
+                    </div>
+                    <div class="permission-group">
+                        <sl-switch name="user_accounts" class="main">User Accounts
+                            <sl-tooltip content="Manage(add, modify, & deactivate) users accounts and user permissions.">
+                                <sl-icon name="info-circle-fill"></sl-icon>
+                            </sl-tooltip>
+                        </sl-switch>
+                        <sl-switch name="create_new_user_accounts" class="sub">Create New User Accounts</sl-switch>
+                        <sl-switch name="modify_user_info" class="sub">Modify User Information</sl-switch>
+                        <sl-switch name="modify_user_permissions" class="sub">Modify User Permissions</sl-switch>
+                        <sl-switch name="deactivate_reactivate_users" class="sub">Deactivate/Reactivate User Accounts</sl-switch>
+                    </div>
+                    <div class="permission-group">
+                        <sl-switch name="history_log" class="main">History Log
+                            <sl-tooltip content="View and trace user activities within the app.">
+                                <sl-icon name="info-circle-fill"></sl-icon>
+                            </sl-tooltip>
+                        </sl-switch>
+                    </div>
+                    <div class="permission-group">
+                        <sl-switch name="settings" class="main">Settings
+                            <sl-tooltip content="Modify the app's settings.">
+                                <sl-icon name="info-circle-fill"></sl-icon>
+                            </sl-tooltip>
+                        </sl-switch>
+                    </div>
+
+                </div>
+            
+                <div class="buttons">
+                    <small></small>
+                    <button type="button" class="negative-btn">Back</button>
+                    <button class="positive-btn">Next</button>
+                </div>
+            </div>
+
+            <div class="login-credentials">
+                <h2>Login Credentials</h2>
+
+                <div class="input-element">
+                    <label>Email</label>
+                    <input type="text" name="email">
+                    <small></small>
+                </div>
+
+                <div class="input-element">
+                    <label>Username</label>
+                    <input type="text" name="username">
+                    <small></small>
+                </div>
+
+                <div class="two-col">
+                    <div class="input-element">
+                        <label>Password</label>
+                        <input type="password" name="password">
+                        <small></small>
+                    </div>
+                    <div class="input-element">
+                        <label>Re-type Password</label>
+                        <input type="password" name="retypePassword">
+                        <small></small>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" class="negative-btn">Back</button>
+                    <input type="submit" class="positive-btn">  
+                </div>
+            </div>
+
+        </form>
+    </main>
+
+    <footer id="footer">
+        <div class="left">
+        </div>
+        <div class="right">
+            <p class="time-text"></p>
+        </div>
+    </footer>
+
+    <script type="module" src="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.esm.js"></script>
+
+    <script src="../scripts/new-user-account.js"></script>
+    
+    <script src="../scripts/_dialogbox-handles.js"></script>
+    <script src="../scripts/_menu-handles.js"></script>
+    <script src="../scripts/_status-bar-handles.js"></script>
 </body>
 </html>
