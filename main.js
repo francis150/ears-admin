@@ -131,8 +131,12 @@ ipcMain.on('nav-to-new-user', (evt, arg) => {
     mainWindow.loadURL(path.join('file://', __dirname, 'views/new-user-account.html'))
 })
 
-ipcMain.on('nav-to-edit-user', (evt, arg) => {
-    console.log(arg)
+ipcMain.on('nav-to-edit-user', (evt, subjectUser) => {
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/edit-user.html'))
+    mainWindow.webContents.once('did-finish-load', () => {
+        mainWindow.webContents.send('load-subject-user', subjectUser)
+    })
 })
 
 ipcMain.on('nav-to-history-log', (evt, arg) => {
@@ -285,4 +289,50 @@ ipcMain.on('add-new-user-result', (evt, mainTask) => {
     })
 })
 
+
+/* NOTE EDIT USER INFO */
+ipcMain.on('edit-user', (evt, updatedUserObject) => {
+
+    const updates = {
+        fname: updatedUserObject.fname,
+        lname: updatedUserObject.lname,
+        description: updatedUserObject.description,
+        permissions: updatedUserObject.permissions
+    }
+
+    firedb.ref(`users/${updatedUserObject.key}`).update(updates)
+    .then(() => {
+        evt.reply('add-new-user-task', { key: updatedUserObject.key })
+    })
+    .catch((err) => {
+        evt.reply('add-new-user-task', { error: err.message }) 
+    })
+})
+
+ipcMain.on('edit-user-result', (evt, mainTask) => {
+    // navigate to users
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/user-accounts.html'))
+    mainWindow.webContents.once('did-finish-load', () => {
+        
+        // if maintask.imageURL is available
+        if (mainTask.imageURL) {
+            
+            // update user in db
+            firedb.ref(`users/${mainTask.key}`).update({image_url: mainTask.imageURL})
+            .then(() => {
+                mainWindow.webContents.send('edit-user-result', mainTask)
+            })
+            .catch((err) => {
+                console.log(err.message)
+                mainTask.storageError = 'Failed to set user image.'
+                mainWindow.webContents.send('edit-user-result', mainTask)
+            })
+
+        } else {
+            mainWindow.webContents.send('edit-user-result', mainTask)
+        }
+
+    })
+})
 

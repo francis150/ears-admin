@@ -10,6 +10,33 @@ currentWindow.openDevTools()
 
 const form = document.querySelector('form')
 
+const updatedUserObject = { permissions: {} }
+
+// load subj user information
+ipcRenderer.on('load-subject-user', (evt, user) => {
+    updatedUserObject.key = user.key
+
+    document.querySelector('form .name-description sl-avatar').image = user.image_url
+    form.firstName.value = user.fname
+    form.lastName.value = user.lname
+    form.description.value = user.description
+
+    document.querySelector('form .permissions sl-switch[name=realtime_monitor]').checked = user.permissions.realtime_monitor
+    document.querySelector('form .permissions sl-switch[name=employee_records]').checked = user.permissions.employee_records
+    document.querySelector('form .permissions sl-switch[name=add_new_employees]').checked = user.permissions.add_new_employees
+    document.querySelector('form .permissions sl-switch[name=modify_employees]').checked = user.permissions.modify_employees
+    document.querySelector('form .permissions sl-switch[name=modify_employee_shifts]').checked = user.permissions.modify_employee_shifts
+    document.querySelector('form .permissions sl-switch[name=deactivate_reactivate_employees]').checked = user.permissions.deactivate_reactivate_employees
+    document.querySelector('form .permissions sl-switch[name=reports]').checked = user.permissions.reports
+    document.querySelector('form .permissions sl-switch[name=print_report_documents]').checked = user.permissions.print_report_documents
+    document.querySelector('form .permissions sl-switch[name=user_accounts]').checked = user.permissions.user_accounts
+    document.querySelector('form .permissions sl-switch[name=create_new_user_accounts]').checked = user.permissions.create_new_user_accounts
+    document.querySelector('form .permissions sl-switch[name=modify_user_info]').checked = user.permissions.modify_user_info
+    document.querySelector('form .permissions sl-switch[name=deactivate_reactivate_users]').checked = user.permissions.deactivate_reactivate_users
+    document.querySelector('form .permissions sl-switch[name=history_log]').checked = user.permissions.history_log
+    document.querySelector('form .permissions sl-switch[name=settings]').checked = user.permissions.settings
+})
+
 // main back button 
 document.querySelector('header .back-btn').addEventListener('click', () => {
     document.querySelector('.loader').style.height = '100vh'
@@ -34,7 +61,7 @@ document.querySelector('form .name-description .user-image-wrapper input').addEv
 document.querySelectorAll('form .permissions .permissions-container .permission-group .main').forEach(main => {
     const siblings = main.parentElement.childNodes
     main.addEventListener('sl-change', () => {
-        if(!main.checked) {
+        if (!main.checked) {
             siblings.forEach(sibling => {
                 sibling.checked = false
             })
@@ -57,7 +84,6 @@ document.querySelectorAll('form .permissions .permissions-container .permission-
 })
 
 
-
 // page tracker
 let pageOn = 1
 
@@ -68,15 +94,6 @@ document.querySelector('form .permissions .buttons .negative-btn').addEventListe
     pageOn = 1
 })
 
-// login credentials back btn
-document.querySelector('form .login-credentials .buttons .negative-btn').addEventListener('click', () => {
-    document.querySelector('form .login-credentials').style.display = 'none'
-    document.querySelector('form .permissions').style.display = 'block'
-    pageOn = 2
-})
-
-// next buttons and submit button handles
-const newUserObject = {permissions: {}}
 form.addEventListener('submit', (e) => {
     e.preventDefault()
 
@@ -86,11 +103,9 @@ form.addEventListener('submit', (e) => {
         document.querySelectorAll('form .name-description .input-element').forEach(input => {
             input.dataset.invalid = false
         })
-        
         document.querySelectorAll('form .name-description small').forEach(element => {
             element.innerHTML = ''
         });
-        
         document.querySelector('form .description-help-text').innerHTML = 'Put in the job title or designation.'
 
         //check page 1 validity
@@ -108,19 +123,17 @@ form.addEventListener('submit', (e) => {
             form.description.nextElementSibling.innerHTML = 'This field cant be empty.'
         } else {
             // set new user object properties
-            if (form.imgInput.files[0]) { newUserObject.imageFile = form.imgInput.files[0] }
-            newUserObject.fname = form.firstName.value
-            newUserObject.lname = form.lastName.value
-            newUserObject.description = form.description.value
+            if (form.imgInput.files[0]) { updatedUserObject.imageFile = form.imgInput.files[0] }
+            updatedUserObject.fname = form.firstName.value
+            updatedUserObject.lname = form.lastName.value
+            updatedUserObject.description = form.description.value
 
             //go page 2
             document.querySelector('form .name-description').style.display = 'none'
             document.querySelector('form .permissions').style.display = 'block'
             pageOn = 2
         }
-        
     } else if (pageOn === 2) {
-
         //check page 2 validity
         if (document.querySelectorAll('form .permissions .permissions-container sl-switch.main[checked]').length < 1) {
             document.querySelector('form .permissions .buttons small').innerHTML = 'At least one(1) permission group must be allowed.'
@@ -130,137 +143,73 @@ form.addEventListener('submit', (e) => {
 
             // set new user object properties
             document.querySelectorAll('form .permissions .permissions-container sl-switch').forEach(element => {
-                newUserObject.permissions[element.name] = element.checked
+                updatedUserObject.permissions[element.name] = element.checked
             })
 
-            //go page 3
-            document.querySelector('form .permissions').style.display = 'none'
-            document.querySelector('form .login-credentials').style.display = 'block'
-            pageOn = 3
-        }
-        
-    } else if (pageOn === 3) {
-
-        // clear validity
-        document.querySelectorAll('form .login-credentials .input-element').forEach(input => {
-            input.dataset.invalid = false
-        })
-
-        document.querySelectorAll('form .login-credentials small').forEach(element => {
-            element.innerHTML = ''
-        })
-
-        // check page 3 validity
-        if (form.email.value === '') {
-            form.email.select()
-            form.email.parentElement.dataset.invalid = true
-            form.email.nextElementSibling.innerHTML = 'This field cant be empty.'
-        } else if (!validateEmail(form.email.value)) {
-            form.email.select()
-            form.email.parentElement.dataset.invalid = true
-            form.email.nextElementSibling.innerHTML = 'Please enter a valid email.'
-        } else if (ipcRenderer.sendSync('check-email-availability', form.email.value)) {
-            form.email.select()
-            form.email.parentElement.dataset.invalid = true
-            form.email.nextElementSibling.innerHTML = 'Looks like this email is already taken.'
-        } else if (form.username.value === '') {
-            form.username.select()
-            form.username.parentElement.dataset.invalid = true
-            form.username.nextElementSibling.innerHTML = 'This field cant be empty.'
-        } else if (ipcRenderer.sendSync('check-username-availability', form.username.value)) {
-            form.username.select()
-            form.username.parentElement.dataset.invalid = true
-            form.username.nextElementSibling.innerHTML = 'Looks like this username is already taken.'
-        } else if (form.password.value === '') {
-            form.password.select()
-            form.password.parentElement.dataset.invalid = true
-            form.password.nextElementSibling.innerHTML = 'This field cant be empty.'
-        } else if (form.retypePassword.value === '') {
-            form.retypePassword.select()
-            form.retypePassword.parentElement.dataset.invalid = true
-            form.retypePassword.nextElementSibling.innerHTML = 'Please re-type your password here.'
-        } else if (form.password.value !== form.retypePassword.value) {
-            form.password.select()
-            form.password.parentElement.dataset.invalid = true
-            form.retypePassword.parentElement.dataset.invalid = true
-            form.password.nextElementSibling.innerHTML = 'Passwords does not match.'
-        } else {
-            // set new user object properties
-            newUserObject.email = form.email.value
-            newUserObject.username = form.username.value
-            newUserObject.password = form.password.value
-            
+            // final submit
             finalSubmit()
-
-
         }
     }
-
 })
 
-// final submit method
 function finalSubmit() {
-    document.querySelector('.loader').style.height = '100vh'
+    //document.querySelector('.loader').style.height = '100vh'
 
     const userObjectForSend = {
-        fname: newUserObject.fname,
-        lname: newUserObject.lname,
-        description: newUserObject.description,
-        permissions: newUserObject.permissions,
-        email: newUserObject.email,
-        username: newUserObject.username,
-        password: newUserObject.password,
-        is_active: false
+        key: updatedUserObject.key,
+        fname: updatedUserObject.fname,
+        lname: updatedUserObject.lname,
+        description: updatedUserObject.description,
+        permissions: updatedUserObject.permissions
     }
 
-    ipcRenderer.send('add-new-user', userObjectForSend)
-    
+    ipcRenderer.send('edit-user', userObjectForSend)
 }
 
 ipcRenderer.on('add-new-user-task', (evt, task) => {
+
     let mainTask = {}
     if (task.key) {
-
-        mainTask.dbResult = 'User account created successfully.'
+        
+        mainTask.dbResult = 'User account updated successfully.'
         mainTask.key = task.key
 
-        if (newUserObject.imageFile) {
-
-            //if an image file is set
-            const uploadTask = firestorage.ref(`user-images/${task.key}`).put(newUserObject.imageFile)
+        if (updatedUserObject.imageFile) {
+            
+            // if image is set
+            const uploadTask = firestorage.ref(`user-images/${task.key}`).put(updatedUserObject.imageFile)
             uploadTask.on('state_changed', (snapshot) => {
                 let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 document.querySelector('.loader h1').innerHTML = `Uploading Image (${Math.round(progress)}%)`
-            }, (err) => {
+            },(err) => {
 
                 console.log(err.message)
                 mainTask.storageError = 'Failed to upload user image.'
-                ipcRenderer.send('add-new-user-result', mainTask)
+                ipcRenderer.send('edit-user-result', mainTask)
 
             }, () => {
+
                 uploadTask.snapshot.ref.getDownloadURL()
                 .then((downloadURL) => {
                     mainTask.imageURL = downloadURL
-                    ipcRenderer.send('add-new-user-result', mainTask)
+                    ipcRenderer.send('edit-user-result', mainTask)
                 })
+
             })
 
         } else {
-            ipcRenderer.send('add-new-user-result', mainTask)
+            ipcRenderer.send('edit-user-result', mainTask)
         }
 
     } else {
         console.log(task.error)
         mainTask.dbError = 'Something went wrong while creating user accout.'
-        ipcRenderer.send('add-new-user-result', mainTask)
+        ipcRenderer.send('edit-user-result', mainTask)
     }
+
 })
 
-// validate email pattern
-function validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
+
 
 
 setTimeout(() => {

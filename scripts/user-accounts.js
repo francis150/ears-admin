@@ -185,14 +185,32 @@ function viewUser(user) {
     document.querySelector('#profile-add-new-employee-per').style.textDecoration = user.permissions.add_new_employees ? 'none' : 'line-through'
     document.querySelector('#profile-add-new-employee-per sl-icon').name = user.permissions.add_new_employees ? 'check' : 'x'
 
+    document.querySelector('#profile-modify-employee-record-per').style.textDecoration = user.permissions.modify_employees ? 'none' : 'line-through'
+    document.querySelector('#profile-modify-employee-record-per sl-icon').name = user.permissions.modify_employees ? 'check' : 'x'
+
+    document.querySelector('#profile-modify-employee-shift-schedule-per').style.textDecoration = user.permissions.modify_employee_shifts ? 'none' : 'line-through'
+    document.querySelector('#profile-modify-employee-shift-schedule-per sl-icon').name = user.permissions.modify_employee_shifts ? 'check' : 'x'
+
+    document.querySelector('#profile-deactivate-reactivate-employees-per').style.textDecoration = user.permissions.deactivate_reactivate_employees ? 'none' : 'line-through'
+    document.querySelector('#profile-deactivate-reactivate-employees-per sl-icon').name = user.permissions.deactivate_reactivate_employees ? 'check' : 'x'
+    
     document.querySelector('#profile-reports-per').style.textDecoration = user.permissions.reports ? 'none' : 'line-through'
     document.querySelector('#profile-reports-per sl-icon').name = user.permissions.reports ? 'check' : 'x'
+
+    document.querySelector('#profile-print-report-documents-per').style.textDecoration = user.permissions.print_report_documents ? 'none' : 'line-through'
+    document.querySelector('#profile-print-report-documents-per sl-icon').name = user.permissions.print_report_documents ? 'check' : 'x'
 
     document.querySelector('#profile-user-accounts-per').style.textDecoration = user.permissions.user_accounts ? 'none' : 'line-through'
     document.querySelector('#profile-user-accounts-per sl-icon').name = user.permissions.user_accounts ? 'check' : 'x'
 
     document.querySelector('#profile-create-new-user-per').style.textDecoration = user.permissions.create_new_user_accounts ? 'none' : 'line-through'
     document.querySelector('#profile-create-new-user-per sl-icon').name = user.permissions.create_new_user_accounts ? 'check' : 'x'
+
+    document.querySelector('#profile-modify-user-information-per').style.textDecoration = user.permissions.modify_user_info ? 'none' : 'line-through'
+    document.querySelector('#profile-modify-user-information-per sl-icon').name = user.permissions.modify_user_info ? 'check' : 'x'
+
+    document.querySelector('#profile-deactivate-reactivate-user-per').style.textDecoration = user.permissions.deactivate_reactivate_users ? 'none' : 'line-through'
+    document.querySelector('#profile-deactivate-reactivate-user-per sl-icon').name = user.permissions.deactivate_reactivate_users ? 'check' : 'x'
 
     document.querySelector('#profile-history-log-per').style.textDecoration = user.permissions.history_log ? 'none' : 'line-through'
     document.querySelector('#profile-history-log-per sl-icon').name = user.permissions.history_log ? 'check' : 'x'
@@ -327,6 +345,13 @@ ipcRenderer.on('add-new-user-result', (evt, arg) => {
     if (arg.dbError) { showAlert('fail', arg.dbError) }
     if (arg.storageError) { showAlert('fail', arg.storageError) }
 })
+
+ipcRenderer.on('edit-user-result', (evt, arg) => {
+    if (arg.dbResult) { showAlert('success', arg.dbResult) }
+    if (arg.dbError) { showAlert('fail', arg.dbError) }
+    if (arg.storageError) { showAlert('fail', arg.storageError) }
+})
+
 
 
 setTimeout(() => {

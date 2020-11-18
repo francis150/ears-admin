@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.css">
-    <link rel="stylesheet" href="../styles/new-user-account.css">
-    <title>Ears Admin App | New User Account</title>
+    <link rel="stylesheet" href="../styles/edit-user.css">
+    <title>Ears Admin App | Edit User</title>
 </head>
 <body>
 
@@ -52,15 +52,15 @@
         </div>
         <h1 id="loader-message">Wait a bit.</h1>
     </div>
-
-
+    
+    
     <header>
         <a class="back-btn" href="#"><img src="../assets/icons/back-arrow-icon.png"> back</a>
         <button id="menu-btn">Menu</button>
     </header>
 
     <main>
-        <h1>Create New User</h1>
+        <h1>Edit User</h1>
 
         <form action="#">
 
@@ -95,12 +95,12 @@
                     <button class="positive-btn">Next</button>
                 </div>
             </div>
-            
+
             <div class="permissions">
                 <h2>Permission</h2>
             
                 <div class="permissions-container">
-
+            
                     <div class="permission-group">
                         <sl-switch name="realtime_monitor" class="main">Realtime Monitor
                             <sl-tooltip content="Monitor employee roster for each branch in Realtime.">
@@ -151,50 +151,15 @@
                             </sl-tooltip>
                         </sl-switch>
                     </div>
-
+            
                 </div>
             
                 <div class="buttons">
                     <small></small>
                     <button type="button" class="negative-btn">Back</button>
-                    <button class="positive-btn">Next</button>
+                    <input type="submit" class="positive-btn">
                 </div>
             </div>
-
-            <div class="login-credentials">
-                <h2>Login Credentials</h2>
-
-                <div class="input-element">
-                    <label>Email</label>
-                    <input type="text" name="email">
-                    <small></small>
-                </div>
-
-                <div class="input-element">
-                    <label>Username</label>
-                    <input type="text" name="username">
-                    <small></small>
-                </div>
-
-                <div class="two-col">
-                    <div class="input-element">
-                        <label>Password</label>
-                        <input type="password" name="password">
-                        <small></small>
-                    </div>
-                    <div class="input-element">
-                        <label>Re-type Password</label>
-                        <input type="password" name="retypePassword">
-                        <small></small>
-                    </div>
-                </div>
-
-                <div class="buttons">
-                    <button type="button" class="negative-btn">Back</button>
-                    <input type="submit" class="positive-btn">  
-                </div>
-            </div>
-
         </form>
     </main>
 
@@ -207,8 +172,8 @@
     </footer>
 
     <script type="module" src="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.esm.js"></script>
-
-    <script src="../scripts/new-user-account.js"></script>
+    
+    <script src="../scripts/edit-user.js"></script>
     
     <script src="../scripts/_dialogbox-handles.js"></script>
     <script src="../scripts/_menu-handles.js"></script>

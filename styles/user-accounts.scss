@@ -363,6 +363,14 @@ sl-dialog{
 
             .accessible-functions {
                 margin-top: 40px;
+                height: 500px;
+                overflow-y: hidden;
+                padding-right: 10px;
+
+                &:hover {
+                    overflow-y: scroll;
+                    padding-right: 2px;
+                }
 
                 h5 {
                     font-family: semi-bold;
