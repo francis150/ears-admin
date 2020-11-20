@@ -1,0 +1,225 @@
+/* FONTS */
+@font-face {
+  src: url(../assets/fonts/Montserrat-Black.ttf);
+  font-family: black;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Bold.ttf);
+  font-family: bold;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-ExtraBold.ttf);
+  font-family: extra-bold;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-ExtraLight.ttf);
+  font-family: extra-light;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Light.ttf);
+  font-family: light;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Medium.ttf);
+  font-family: medium;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Regular.ttf);
+  font-family: regular;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-SemiBold.ttf);
+  font-family: semi-bold;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Thin.ttf);
+  font-family: thin;
+}
+
+/* COLORS */
+/* SCROLL BAR */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+  background: lightgray;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #363636;
+  opacity: 0.1;
+  border-radius: 5px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+h1 {
+  color: #363636;
+  font-family: bold;
+  font-size: 22px;
+  text-align: center;
+  margin: 20px;
+}
+
+form {
+  margin: 0 20px;
+  border-radius: 5px;
+  -webkit-box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+form h2 {
+  font-family: semi-bold;
+  font-size: 14px;
+  color: #363636;
+  margin-bottom: 10px;
+}
+
+form sl-color-picker::part(trigger) {
+  border-radius: 5px;
+}
+
+form sl-color-picker::part(swatches) {
+  display: none;
+}
+
+form .inputs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+form .inputs input {
+  height: 41px;
+  background: #f1f1f1;
+  border: 1px white solid;
+  border-radius: 5px;
+  padding: 0 10px;
+  font-family: semi-bold;
+  color: #363636;
+  font-size: 15px;
+  -webkit-transition: border-color .2s ease-in-out;
+  transition: border-color .2s ease-in-out;
+}
+
+form .inputs input:focus {
+  outline: none;
+  border-color: #726eff;
+}
+
+form .inputs button {
+  background: none;
+  border: none;
+  height: 25px;
+  padding-bottom: 5px;
+  border-bottom: 3px solid white;
+  cursor: pointer;
+  font-family: bold;
+  color: #726eff;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+form .inputs button:hover {
+  border-color: #726eff;
+}
+
+form .inputs button:focus {
+  outline: none;
+}
+
+form small {
+  font-family: semi-bold;
+  font-size: 11px;
+  color: #cc3448;
+  margin-top: 2px;
+  margin-left: 5px;
+}
+
+.list {
+  margin: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 5px;
+  height: 300px;
+  padding-right: 5px;
+  overflow-y: hidden;
+  cursor: pointer;
+}
+
+.list:hover {
+  overflow-y: auto;
+}
+
+.list .item {
+  background: #f1f1f1;
+  height: 35px;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 10px;
+  -webkit-transition: margin .2s ease-in-out;
+  transition: margin .2s ease-in-out;
+}
+
+.list .item .color {
+  width: 15px;
+  height: 15px;
+  background: lightcoral;
+  border-radius: 2px;
+  margin-right: 10px;
+}
+
+.list .item h2 {
+  font-family: medium;
+  font-size: 14px;
+  color: #363636;
+}
+
+.list .item sl-icon-button {
+  margin-left: auto;
+  -webkit-transition: .3s opacity ease-in-out;
+  transition: .3s opacity ease-in-out;
+  opacity: 0;
+}
+
+.list .item sl-icon-button:hover::part(base) {
+  color: #cc3448;
+}
+
+.list .item:hover {
+  margin: 5px 0;
+}
+
+.list .item:hover sl-icon-button {
+  opacity: 1;
+}
+/*# sourceMappingURL=manage-job-types.css.map */

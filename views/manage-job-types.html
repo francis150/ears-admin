@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.css">
+    <link rel="stylesheet" href="../styles/manage-job-types.css">
+    <title>Ears Admin App | Manage Job Types</title>
+</head>
+
+<body>
+
+    <h1>Manage Job Types</h1>
+    <form action="#">
+        <h2>Add new Job Type here...</h2>
+        <div class="inputs">
+            <sl-tooltip class="for-color-picker" content="Pick a Color">
+                <sl-color-picker opacity format="hex" size="small"></sl-color-picker>
+            </sl-tooltip>
+            <sl-tooltip class="for-name" content="Job Type Name">
+                <input type="text">
+            </sl-tooltip>
+            <button class="positive-btn">Add</button>
+        </div>
+        <small></small>
+    </form>
+
+    <div class="list">
+        <!-- <div class="item">
+            <div class="color"></div>
+            <h2>Designation 1</h2>
+            <sl-tooltip content="Remove">
+                <sl-icon-button name="trash"></sl-icon-button>
+            </sl-tooltip>
+        </div> -->
+    </div>
+
+    <script type="module" src="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.esm.js"></script>
+    <script src="../scripts/manage-job-types.js"></script>
+</body>
+
+</html>

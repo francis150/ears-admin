@@ -14,18 +14,18 @@ document.querySelector('form').addEventListener('submit', (e) => {
 
     if (color.value === '#ffffffff') {
         document.querySelector('form sl-tooltip.for-color-picker').open = true
-        helpText.innerHTML = 'Please choose a color for the new employee type.'
-    } else if (ipcRenderer.sendSync('employee-type-color-exists', color.value)) {
+        helpText.innerHTML = 'Please choose a color for the new job type.'
+    } else if (ipcRenderer.sendSync('job-type-color-exists', color.value)) {
         document.querySelector('form sl-tooltip.for-color-picker').open = true
         helpText.innerHTML = 'Looks like this color is already used.'
     } else if (name.value === '') {
         document.querySelector('form sl-tooltip.for-name').open = true
-        helpText.innerHTML = 'Please enter an Employee Type Name.'
-    } else if (ipcRenderer.sendSync('employee-type-name-exists', name.value)) {
+        helpText.innerHTML = 'Please enter an Job Type Name.'
+    } else if (ipcRenderer.sendSync('job-type-name-exists', name.value)) {
         document.querySelector('form sl-tooltip.for-name').open = true
-        helpText.innerHTML = 'Looks like this employee type already exists.'
+        helpText.innerHTML = 'Looks like this job type already exists.'
     } else {
-        if (ipcRenderer.sendSync('new-employee-type', { color: color.value, name: name.value })) {
+        if (ipcRenderer.sendSync('new-job-type', { color: color.value, name: name.value })) {
             document.querySelector('form').reset()
             color.value = '#ffffffff'
         } else {
@@ -34,9 +34,9 @@ document.querySelector('form').addEventListener('submit', (e) => {
     }
 })
 
-// request employee types list
-ipcRenderer.send('request-employee-types')
-ipcRenderer.on('respond-employee-types', (evt, arg) => {
+// request job types list
+ipcRenderer.send('request-job-types')
+ipcRenderer.on('respond-job-types', (evt, arg) => {
     const container = document.querySelector('.list')
     container.innerHTML = ''
 
@@ -62,12 +62,12 @@ ipcRenderer.on('respond-employee-types', (evt, arg) => {
         removeBtn.addEventListener('click', () => {
 
             document.querySelector('form small').innerHTML = ''
-            const employeesListed = ipcRenderer.sendSync('employee-type-employees-listed', type.key)
+            const employeesListed = ipcRenderer.sendSync('job-type-employees-listed', type.key)
 
             if (employeesListed > 0) {
-                document.querySelector('form small').innerHTML = `There are currently ${employeesListed} employee record(s) with this employee type. Please modify those records and try again.`
+                document.querySelector('form small').innerHTML = `There are currently ${employeesListed} employee record(s) with this job type. Please modify those records and try again.`
             } else {
-                ipcRenderer.send('remove-employee-type', type.key)
+                ipcRenderer.send('remove-job-type', type.key)
             }
 
         })
@@ -76,4 +76,5 @@ ipcRenderer.on('respond-employee-types', (evt, arg) => {
         container.appendChild(wrapper)
     })
 })
+
 

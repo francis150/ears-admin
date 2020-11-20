@@ -465,8 +465,73 @@ ipcMain.on('employee-type-employees-listed', (evt, arg) => {
 
 ipcMain.on('remove-employee-type', (evt, arg) => {
     firedb.ref(`employee_types/${arg}`).set(null)
-        .catch((err) => {
-            console.log(err.message)
-        })
+    .catch((err) => {
+        console.log(err.message)
+    })
 })
 
+
+/* NOTE MANAGE JOB TYPE */
+ipcMain.on('show-job-type-manager', () => {
+    let modalWindow = new BrowserWindow({
+        width: 400,
+        height: 600,
+        parent: mainWindow,
+        modal: true,
+        resizable: false,
+        webPreferences: {
+            nodeIntegration: true,
+            enableRemoteModule: true
+        }
+    })
+
+    modalWindow.loadURL(path.join('file://', __dirname, 'views/manage-job-types.html'))
+})
+
+ipcMain.on('job-type-color-exists', (evt, arg) => {
+    firedb.ref('job_types').orderByChild('color').equalTo(arg).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.exists()
+    })
+})
+
+ipcMain.on('job-type-name-exists', (evt, arg) => {
+    firedb.ref('job_types').orderByChild('name').equalTo(arg).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.exists()
+    })
+})
+
+ipcMain.on('new-job-type', (evt, arg) => {
+    const pushKey = firedb.ref('job_types').push().key
+    arg.key = pushKey
+
+    firedb.ref(`job_types/${pushKey}`).set(arg)
+    .then(() => {
+        evt.returnValue = true
+    })
+    .catch((err) => {
+        console.log(err.message)
+        evt.returnValue = false
+    })
+})
+
+ipcMain.on('request-job-types', (evt, arg) => {
+    firedb.ref('job_types').on('value', (snapshot) => {
+        evt.reply('respond-job-types', snapshot.val())
+    })
+})
+
+ipcMain.on('job-type-employees-listed', (evt, arg) => {
+    firedb.ref('employees').orderByChild('job_type').equalTo(arg).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.numChildren()
+    })
+})
+
+ipcMain.on('remove-job-type', (evt, arg) => {
+    firedb.ref(`job_types/${arg}`).set(null)
+    .catch((err) => {
+        console.log(err.message)
+    })
+})
