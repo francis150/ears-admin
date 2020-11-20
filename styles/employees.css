@@ -464,8 +464,7 @@ footer .right {
           box-sizing: border-box;
 }
 
-.users-page {
-  /* display: flex; */
+main {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -479,22 +478,13 @@ footer .right {
           justify-content: space-between;
 }
 
-.users-page .users-list {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+main .list {
   height: 530px;
   width: 606px;
   margin-top: 15px;
 }
 
-.users-page .users-list .search-and-add {
-  width: 606px;
-  height: 41px;
+main .header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -502,12 +492,9 @@ footer .right {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
 }
 
-.users-page .users-list .search-and-add .search {
+main .header .search {
   border-radius: 5px;
   z-index: 1;
   position: absolute;
@@ -523,12 +510,12 @@ footer .right {
   background: white;
 }
 
-.users-page .users-list .search-and-add .search:focus-within {
+main .header .search:focus-within {
   -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
           box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
 }
 
-.users-page .users-list .search-and-add .search input {
+main .header .search input {
   border-radius: 5px;
   font-size: 13px;
   font-family: semi-bold;
@@ -536,14 +523,14 @@ footer .right {
   background: #f1f1f1;
   color: #363636;
   border: none;
-  width: 350px;
+  width: 280px;
 }
 
-.users-page .users-list .search-and-add .search input:focus {
+main .header .search input:focus {
   outline: none;
 }
 
-.users-page .users-list .search-and-add .search a {
+main .header .search a {
   font-family: medium;
   font-size: 16px;
   color: #363636;
@@ -553,326 +540,49 @@ footer .right {
   text-decoration: none;
 }
 
-.users-page .users-list .search-and-add .search a:hover {
+main .header .search a:hover {
   background: #f1f1f1;
   cursor: pointer;
 }
 
-.users-page .users-list .search-and-add .search a:focus {
+main .header .search a:focus {
   outline: none;
   background: #f1f1f1;
   cursor: pointer;
 }
 
-.users-page .users-list .search-and-add sl-icon-button {
-  margin-left: auto;
-  margin-right: 10px;
+main .header .employee-counter {
+  cursor: pointer;
+}
+
+main .header .employee-counter .counter-icon {
   font-size: 1.3rem;
-  color: #cc3448;
+  color: #707070;
+  margin-left: 300px;
+  margin-top: 10px;
+}
+
+main .header .employee-counter .counter-value {
+  margin-top: 13px;
+  font-family: semi-bold;
+  font-size: 14px;
+  color: #363636;
+  margin-left: 10px;
+}
+
+main .header sl-icon-button {
+  font-size: 1.3rem;
   -webkit-transition: 0.3s all ease;
   transition: 0.3s all ease;
 }
 
-.users-page .users-list .search-and-add sl-icon-button:active {
+main .header sl-icon-button:active {
   -webkit-transform: scale(0.8);
           transform: scale(0.8);
 }
 
-.users-page .users-list .users-list-contents {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  height: 479px;
-  width: 606px;
-  margin-top: 20px;
-  overflow-y: hidden;
-}
-
-.users-page .users-list .users-list-contents:hover {
-  overflow-y: auto;
-}
-
-.users-page .users-list .users-list-contents .user {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  height: 75px;
-  background: #f1f1f1;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  padding: 13px 20px;
-  cursor: pointer;
-  -webkit-transition: 0.3s all ease;
-  transition: 0.3s all ease;
-}
-
-.users-page .users-list .users-list-contents .user:hover {
-  margin: 15px 0;
-}
-
-.users-page .users-list .users-list-contents .user:active {
-  -webkit-transform: scale(0.9);
-          transform: scale(0.9);
-}
-
-.users-page .users-list .users-list-contents .user .users-list-user-image {
-  margin: 0;
-}
-
-.users-page .users-list .users-list-contents .user .users-list-user-image::part(base) {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: white;
-}
-
-.users-page .users-list .users-list-contents .user .users-list-user-image::part(icon) {
-  font-size: 25px;
-  color: #707070;
-}
-
-.users-page .users-list .users-list-contents .user .texts {
-  margin-left: 15px;
-}
-
-.users-page .users-list .users-list-contents .user .texts .name {
-  font-family: semi-bold;
-  font-size: 21px;
-  color: #363636;
-  max-lines: 1;
-  white-space: nowrap;
-  width: 500px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.users-page .users-list .users-list-contents .user .texts .lower-text {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  margin-top: 5px;
-}
-
-.users-page .users-list .users-list-contents .user .texts .lower-text .description {
-  font-family: semi-bold;
-  font-size: 15px;
-  line-height: 17px;
-  letter-spacing: 0.2em;
-  opacity: 0.7;
-  text-transform: uppercase;
-  max-lines: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+main .header sl-dropdown {
   margin-right: 10px;
+  margin-left: auto;
 }
-
-.users-page .users-list .users-list-contents .user .texts .lower-text .badges {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-}
-
-.users-page .users-list .users-list-contents .user .texts .lower-text .badges sl-badge {
-  margin-right: 5px;
-}
-
-.users-page .users-list .users-list-contents .user .texts .lower-text .badges .badge-primary {
-  font-family: regular;
-}
-
-.users-page .users-list .users-list-contents .user .texts .lower-text .badges .badge-primary::part(base) {
-  background: #726eff;
-}
-
-.users-page .users-list .users-list-contents .user .texts .lower-text .badges .badge-danger {
-  font-family: regular;
-}
-
-.users-page .users-list .users-list-contents .user .texts .lower-text .badges .badge-danger::part(base) {
-  background: #cc3448;
-}
-
-.users-page .user-profile {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  height: 530px;
-  width: 514px;
-  background: #f1f1f1;
-  border-radius: 5px;
-  margin-top: 15px;
-}
-
-.users-page .user-profile .user-profile-content {
-  width: inherit;
-  height: inherit;
-  display: none;
-  /* display: flex; */
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  padding: 30px;
-}
-
-.users-page .user-profile .user-profile-content .top {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.users-page .user-profile .user-profile-content .top .profile-badges {
-  width: 130px;
-}
-
-.users-page .user-profile .user-profile-content .top .profile-badges sl-badge {
-  font-family: medium;
-}
-
-.users-page .user-profile .user-profile-content .top .profile-badges .danger-badge::part(base) {
-  background: #cc3448;
-}
-
-.users-page .user-profile .user-profile-content .top .profile-badges .primary-badge::part(base) {
-  background: #726eff;
-}
-
-.users-page .user-profile .user-profile-content .top sl-avatar::part(base) {
-  width: 115px;
-  height: 115px;
-  border-radius: 50%;
-  border: solid 3px #f1f1f1;
-  background: white;
-}
-
-.users-page .user-profile .user-profile-content .top sl-avatar::part(icon) {
-  font-size: 50px;
-  color: #707070;
-}
-
-.users-page .user-profile .user-profile-content .top .profile-options::part(base) {
-  width: 130px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: reverse;
-      -ms-flex-direction: row-reverse;
-          flex-direction: row-reverse;
-}
-
-.users-page .user-profile .user-profile-content .top .profile-options sl-icon {
-  margin-right: 10px;
-}
-
-.users-page .user-profile .user-profile-content .name-description-txt {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.users-page .user-profile .user-profile-content .name-description-txt h1 {
-  font-family: semi-bold;
-  font-size: 23px;
-  color: #363636;
-  margin-bottom: 5px;
-}
-
-.users-page .user-profile .user-profile-content .name-description-txt p {
-  text-transform: uppercase;
-  font-family: semi-bold;
-  font-size: 16px;
-  letter-spacing: 0.2em;
-  color: #363636;
-  opacity: 0.9;
-}
-
-.users-page .user-profile .user-profile-content .accessible-functions {
-  margin-top: 40px;
-  height: 500px;
-  overflow-y: hidden;
-  padding-right: 10px;
-}
-
-.users-page .user-profile .user-profile-content .accessible-functions:hover {
-  overflow-y: scroll;
-  padding-right: 2px;
-}
-
-.users-page .user-profile .user-profile-content .accessible-functions h5 {
-  font-family: semi-bold;
-  font-size: 16px;
-  opacity: 0.8;
-  color: #363636;
-}
-
-.users-page .user-profile .user-profile-content .accessible-functions .functionalities {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: auto auto;
-      grid-template-columns: auto auto;
-  margin-top: 20px;
-  row-gap: 15px;
-}
-
-.users-page .user-profile .user-profile-content .accessible-functions .functionalities .group h6 {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-family: bold;
-  font-size: 14px;
-  color: #726eff;
-}
-
-.users-page .user-profile .user-profile-content .accessible-functions .functionalities .group h6 sl-icon {
-  font-size: 21px;
-}
-
-.users-page .user-profile .user-profile-content .accessible-functions .functionalities .group p {
-  margin-top: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-family: regular;
-  font-size: 13px;
-  opacity: .8;
-  color: #363636;
-}
-
-.users-page .user-profile .user-profile-content .accessible-functions .functionalities .group p sl-icon {
-  font-size: 21px;
-}
-/*# sourceMappingURL=user-accounts.css.map */
+/*# sourceMappingURL=employees.css.map */

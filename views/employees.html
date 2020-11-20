@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.css">
+    <link rel="stylesheet" href="../styles/employees.css">
+    <title>Ears Admin App | Employees</title>
+</head>
+<body>
+
+    <sl-drawer class="nav-menu">
+    
+        <div slot="label" class="profile">
+            <sl-avatar id="current-user-image"></sl-avatar>
+            <div class="profile-texts">
+                <h2 id="current-user-name">Loading...</h2>
+                <span id="current-user-title">Loading...</span>
+            </div>
+        </div>
+    
+        <div class="group">
+            <h6 id="nav-realtime-monitor">Realtime Monitor</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-employees">Employees</h6>
+            <p id="nav-add-new-employee">Add New Employee</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-reports">Reports</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-user-accounts">User Accounts</h6>
+            <p id="nav-create-new-user-account">Create New User Account</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-history-log">History Log</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-settings">Settings</h6>
+        </div>
+    
+        <div class="group" slot="footer">
+            <h6>My Profile</h6>
+            <p>Switch User</p>
+            <p>Change Username</p>
+            <p>Change Password</p>
+        </div>
+    </sl-drawer>
+    <div class="loader">
+        <div class="loader-indicator">
+        </div>
+        <h1 id="loader-message">Wait a bit.</h1>
+    </div>
+    <div class="alert-wrapper"></div>
+    
+
+    <header>
+        <h1>Employees</h1>
+        <button id="menu-btn">Menu</button>
+    </header>
+
+    <main>
+        <div class="list">
+
+            <div class="header">
+
+                <div class="search">
+                    <input id="users-search" type="text" placeholder="Search">
+                    <!-- <a class="search-suggestion" href="#">suggestion 1</a>
+                    <a class="search-suggestion" href="#">suggestion 2</a>
+                    <a class="search-suggestion" href="#">suggestion 3</a> -->
+                </div>
+
+                <sl-tooltip class="employee-counter" content="Employees Listed">
+                    <sl-icon class="counter-icon" name="people-fill"></sl-icon>
+                    <p id="employee-list-counter" class="counter-value">0</p>
+                </sl-tooltip>
+
+                <sl-dropdown close-on-select="false" class="fulltime-designation-filter">
+                    <sl-tooltip slot="trigger" content="Filter">
+                        <sl-icon-button name="funnel"></sl-icon-button>
+                    </sl-tooltip>
+                    <sl-menu>
+                        <sl-menu-item checked>Regular</sl-menu-item>
+                        <sl-menu-item checked>Probationary</sl-menu-item>
+                        <sl-menu-divider></sl-menu-divider>
+                        <sl-menu-item checked>Full-time</sl-menu-item>
+                        <sl-menu-item checked>Part-time</sl-menu-item>
+                        <sl-menu-item checked>On-call</sl-menu-item>
+                        <sl-menu-divider></sl-menu-divider>
+                        <sl-menu-item>Deactivated</sl-menu-item>
+                    </sl-menu>
+                </sl-dropdown>
+
+                <sl-tooltip content="Add New User" id="new-user-btn">
+                    <sl-icon-button id="new-employee-btn" name="plus-circle"></sl-icon-button>
+                </sl-tooltip>
+
+            </div>
+
+            <div class="employee-list">
+
+            </div>
+
+        </div>
+        <div class="profile">
+
+        </div>
+    </main>
+
+    <footer id="footer">
+        <div class="left">
+        </div>
+        <div class="right">
+            <p class="time-text"></p>
+        </div>
+    </footer>
+
+    <script type="module" src="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.esm.js"></script>
+
+    <script src="../scripts/employee.js"></script>
+
+    <!-- Copy this in all html file - in exact same order -->
+    <script src="../scripts/_dialogbox-handles.js"></script>
+    <script src="../scripts/_alert-handles.js"></script>
+    <script src="../scripts/_menu-handles.js"></script>
+    <script src="../scripts/_status-bar-handles.js"></script>
+</body>
+</html>

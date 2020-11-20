@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.css">
+    <link rel="stylesheet" href="../styles/new-employee.css">
+    <title>Ears Admin App | New Employee</title>
+</head>
+<body>
+
+    <sl-drawer class="nav-menu">
+    
+        <div slot="label" class="profile">
+            <sl-avatar id="current-user-image"></sl-avatar>
+            <div class="profile-texts">
+                <h2 id="current-user-name">Loading...</h2>
+                <span id="current-user-title">Loading...</span>
+            </div>
+        </div>
+    
+        <div class="group">
+            <h6 id="nav-realtime-monitor">Realtime Monitor</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-employees">Employees</h6>
+            <p id="nav-add-new-employee">Add New Employee</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-reports">Reports</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-user-accounts">User Accounts</h6>
+            <p id="nav-create-new-user-account">Create New User Account</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-history-log">History Log</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-settings">Settings</h6>
+        </div>
+    
+        <div class="group" slot="footer">
+            <h6>My Profile</h6>
+            <p>Switch User</p>
+            <p>Change Username</p>
+            <p>Change Password</p>
+        </div>
+    </sl-drawer>
+    <div class="loader">
+        <div class="loader-indicator">
+        </div>
+        <h1 id="loader-message">Wait a bit.</h1>
+    </div>
+
+    
+
+    <header>
+        <a class="back-btn" href="#"><img src="../assets/icons/back-arrow-icon.png"> back</a>
+        <button id="menu-btn">Menu</button>
+    </header>
+
+    <main>
+        <h1>Add New Employee</h1>
+
+        <form action="#">
+
+            <div class="name-contact">
+
+                <h2>Name & Contact</h2>
+                <div class="user-image-wrapper">
+                    <input name="imgInput" type="file" hidden accept="image/*">
+                    <sl-avatar></sl-avatar>
+                    <button type="button">Change Image</button>
+                </div>
+                
+                <div class="two-col">
+                    <div class="input-element">
+                        <label>First Name</label>
+                        <input type="text" name="firstName">
+                        <small></small>
+                    </div>
+                    <div class="input-element">
+                        <label>Last Name</label>
+                        <input type="text" name="lastName">
+                        <small></small>
+                    </div>
+                </div>
+                
+                <div class="input-element">
+                    <label>Contact Number</label>
+                    <input type="text" name="contactNumber">
+                    <small></small>
+                </div>
+                
+                <div class="buttons">
+                    <button class="positive-btn">Next</button>
+                </div>
+
+            </div>
+
+            <div class="job-info">
+
+                <h2>Job Information</h2>
+
+                <div class="input-element">
+                    <label>Designation</label>
+                
+                    <sl-dropdown type="input">
+                        <input slot="trigger" readonly type="text" name="designation">
+                        <sl-menu data-for="designation">
+                            <div class="menu-items">
+                                <sl-menu-item type="normal" value='d01'>Designation 1</sl-menu-item>
+                                <sl-menu-item type="normal" value='d02'>Designation 2</sl-menu-item>
+                                <sl-menu-item type="normal" value='d03'>Designation 3</sl-menu-item>
+                            </div>
+                            <sl-menu-item type="manage" class="manage-designations">Manage Designations<sl-icon slot="prefix" name="sliders"></sl-icon>
+                            </sl-menu-item>
+                        </sl-menu>
+                    </sl-dropdown>
+                
+                    <small></small>
+                </div>
+                
+                <div class="two-col">
+
+                    <div class="input-element">
+                        <label>Job Type</label>
+
+                        <sl-dropdown type="input">
+                            <input slot="trigger" readonly type="text" name="jobType">
+                            <sl-menu data-for="jobType">
+                                <div class="menu-items">
+                                    <sl-menu-item type="normal" value="jt01">Job Type 1</sl-menu-item>
+                                    <sl-menu-item type="normal" value="jt02">Job Type 2</sl-menu-item>
+                                    <sl-menu-item type="normal" value="jt03">Job Type 3</sl-menu-item>
+                                </div>
+                                <sl-menu-item type="manage">Manage Job Types<sl-icon slot="prefix" name="sliders"></sl-icon></sl-menu-item>
+                            </sl-menu>
+                        </sl-dropdown>
+            
+                        <small></small>
+                    </div>
+                    
+                    
+                    <div class="input-element">
+                        <label>Employee Type</label>
+                    
+                        <sl-dropdown type="input">
+                            <input slot="trigger" readonly type="text" name="employeeType">
+                            <sl-menu data-for="employeeType">
+                                <div class="menu-items">
+                                    <sl-menu-item type="normal" value="et01">Employee Type 1</sl-menu-item>
+                                    <sl-menu-item type="normal" value="et02">Employee Type 2</sl-menu-item>
+                                    <sl-menu-item type="normal" value="et03">Employee Type 3</sl-menu-item>
+                                </div>
+                                <sl-menu-item type="manage">Manage Employee Types<sl-icon slot="prefix" name="sliders"></sl-icon>
+                                </sl-menu-item>
+                            </sl-menu>
+                        </sl-dropdown>
+                    
+                        <small></small>
+                    </div>
+
+                </div>
+
+                <div class="buttons">
+                    <button type="button" class="negative-btn">Back</button>
+                    <input type="submit" class="positive-btn">
+                </div>
+
+            </div>
+
+        </form>
+    </main>
+
+    <footer id="footer">
+        <div class="left">
+        </div>
+        <div class="right">
+            <p class="time-text"></p>
+        </div>
+    </footer>
+
+
+    <script type="module" src="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.esm.js"></script>
+
+    <script src="../scripts/new-employee.js"></script>
+    
+    <script src="../scripts/_dialogbox-handles.js"></script>
+    <script src="../scripts/_menu-handles.js"></script>
+    <script src="../scripts/_status-bar-handles.js"></script>
+</body>
+</html>

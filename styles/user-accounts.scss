@@ -14,73 +14,12 @@
     box-sizing: border-box;
 }
 
-sl-dialog{
-    font-family: regular;
-    color: $dark-grey;
-
-    &::part(title) {
-        font-family: Medium;
-        color: $dark-grey;
-    }
-
-    .yes-btn {
-        background: $purple;
-        font-size: 18px;
-        font-family: regular;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 50px;
-        transition: 0.3s transform ease;
-        cursor: pointer;
-
-        &:focus {
-            outline: none;
-        }
-
-        &:active {
-            transform: scale(0.9);
-        }
-    }
-
-    .no-btn {
-        margin-left: 10px;
-        background: $red;
-        font-size: 18px;
-        font-family: regular;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 31px;
-        transition: 0.3s transform ease;
-        cursor: pointer;
-
-        &:focus {
-            outline: none;
-        }
-
-        &:active {
-            transform: scale(0.9);
-        }
-    }
-}
-
 .users-page {
     /* display: flex; */
     display: flex;
     flex-direction: row;
     padding: 0 30px;
     justify-content: space-between;
-
-    .title {
-        position: fixed;
-        top: 30px;
-        left: 30px;
-        font-size: 40px;
-        font-family: semi-bold;
-        line-height: 65px;
-        color: $dark-grey;
-    }
 
     .users-list {
         display: flex;

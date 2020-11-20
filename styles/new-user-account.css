@@ -159,7 +159,7 @@ sl-drawer h6[data-disabled=true]:hover, sl-drawer p[data-disabled=true]:hover {
           flex-direction: column;
   position: absolute;
   width: 100%;
-  height: 100vh;
+  height: 0;
   background: rgba(255, 255, 255, 0.97);
   overflow: hidden;
   bottom: 0;
@@ -446,6 +446,22 @@ footer .right {
 .input-element[data-invalid=true] label {
   color: #cc3448;
   opacity: 1;
+}
+
+.input-element sl-dropdown input {
+  width: 100%;
+}
+
+.input-element sl-dropdown sl-menu sl-menu-item[type=manage]::part(base) {
+  opacity: .3;
+}
+
+.input-element sl-dropdown sl-menu sl-menu-item[type=manage]:hover::part(base) {
+  opacity: 1;
+}
+
+.input-element sl-dropdown sl-menu sl-menu-item[type=manage] sl-icon {
+  margin-right: 10px;
 }
 
 * {

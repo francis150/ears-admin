@@ -65,4 +65,28 @@
             opacity: 1;
         }
     }
+
+    sl-dropdown {
+
+        input {
+            width: 100%;
+        }
+
+        sl-menu {
+            sl-menu-item[type=manage]{
+                
+                &::part(base) {
+                    opacity: .3;
+                }
+
+                &:hover::part(base) {
+                    opacity: 1;
+                }
+
+                sl-icon {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
 }

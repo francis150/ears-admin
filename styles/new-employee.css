@@ -565,11 +565,11 @@ main form .buttons .negative-btn:hover {
   opacity: 1;
 }
 
-main form .name-description {
-  display: block;
+main form .name-contact {
+  display: none;
 }
 
-main form .name-description .user-image-wrapper {
+main form .name-contact .user-image-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -587,18 +587,18 @@ main form .name-description .user-image-wrapper {
   margin-bottom: 20px;
 }
 
-main form .name-description .user-image-wrapper sl-avatar::part(base) {
+main form .name-contact .user-image-wrapper sl-avatar::part(base) {
   width: 115px;
   height: 115px;
   background: #f1f1f1;
 }
 
-main form .name-description .user-image-wrapper sl-avatar::part(icon) {
+main form .name-contact .user-image-wrapper sl-avatar::part(icon) {
   color: #707070;
   font-size: 50px;
 }
 
-main form .name-description .user-image-wrapper button {
+main form .name-contact .user-image-wrapper button {
   background: none;
   border: none;
   border-bottom: 3px solid white;
@@ -612,106 +612,16 @@ main form .name-description .user-image-wrapper button {
   transition: .2s all ease-in-out;
 }
 
-main form .name-description .user-image-wrapper button:focus {
+main form .name-contact .user-image-wrapper button:focus {
   outline: none;
 }
 
-main form .name-description .user-image-wrapper button:hover {
+main form .name-contact .user-image-wrapper button:hover {
   border-color: #726eff;
   opacity: 1;
 }
 
-main form .permissions {
-  display: none;
+main form .job-info {
+  display: block;
 }
-
-main form .permissions .permissions-container {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: auto auto;
-      grid-template-columns: auto auto;
-  gap: 30px;
-}
-
-main form .permissions .permissions-container .permission-group {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-main form .permissions .permissions-container .permission-group sl-switch::part(thumb) {
-  border: #e1e1e1 1px solid;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-main form .permissions .permissions-container .permission-group sl-switch::part(control) {
-  border: none;
-}
-
-main form .permissions .permissions-container .permission-group sl-switch[checked]::part(control) {
-  background: #726eff;
-  border: none;
-}
-
-main form .permissions .permissions-container .permission-group sl-switch[checked]::part(thumb) {
-  border: 2px solid #726eff;
-}
-
-main form .permissions .permissions-container .permission-group sl-switch sl-tooltip::part(base) {
-  background: #363636;
-  font-family: regular;
-  padding: 10px;
-  line-height: 1.3rem;
-}
-
-main form .permissions .permissions-container .permission-group sl-switch sl-tooltip sl-icon {
-  font-size: 16px;
-  margin-left: 5px;
-}
-
-main form .permissions .permissions-container .permission-group .main::part(label) {
-  font-family: bold;
-  font-size: 14px;
-  color: #726eff;
-}
-
-main form .permissions .permissions-container .permission-group .sub {
-  margin-left: 10px;
-  margin-top: 10px;
-}
-
-main form .permissions .permissions-container .permission-group .sub::part(label) {
-  font-family: regular;
-  font-size: 13px;
-  color: #363636;
-}
-
-main form .permissions .permissions-container .permission-group .sub::part(control) {
-  height: 10px;
-}
-
-main form .permissions .permissions-container .permission-group .sub::part(thumb) {
-  height: 15px;
-  width: 15px;
-}
-
-main form .permissions .permissions-container .permission-group small {
-  font-family: semi-bold;
-  font-size: 11px;
-  color: #363636;
-  margin-top: 5px;
-  opacity: .5;
-}
-
-main form .permissions .buttons small {
-  margin-right: auto;
-  font-family: semi-bold;
-  font-size: 12px;
-  color: #cc3448;
-}
-/*# sourceMappingURL=edit-user.css.map */
+/*# sourceMappingURL=new-employee.css.map */

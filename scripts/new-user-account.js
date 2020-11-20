@@ -89,7 +89,7 @@ form.addEventListener('submit', (e) => {
         
         document.querySelectorAll('form .name-description small').forEach(element => {
             element.innerHTML = ''
-        });
+        })
         
         document.querySelector('form .description-help-text').innerHTML = 'Put in the job title or designation.'
 

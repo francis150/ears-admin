@@ -1,0 +1,115 @@
+@import "./partials/fonts";
+@import "./partials/colors";
+@import "./partials/scrollbar";
+@import "./partials/menu";
+@import "./partials/loader";
+@import "./partials/header";
+@import "./partials/footer";
+@import "./partials/alert-wrapper";
+@import "./partials/dialog-box";
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    padding: 0 30px;
+    justify-content: space-between;
+
+    .list {
+        height: 530px;
+        width: 606px;
+        margin-top: 15px;
+    }
+
+    .header {
+        display: flex;
+        flex-direction: row;
+
+        .search {
+            border-radius: 5px;
+            z-index: 1;
+            position: absolute;
+            transition: all .3s ease;
+            display: flex;
+            flex-direction: column;
+            background: white;
+
+            &:focus-within {
+                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.10);
+            }
+
+            input {
+                border-radius: 5px;
+                font-size: 13px;
+                font-family: semi-bold;
+                padding: 13px 20px;
+                background: $light-grey;
+                color: $dark-grey;
+                border: none;
+                width: 280px;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            a {
+                font-family: medium;
+                font-size: 16px;
+                color: $dark-grey;
+                padding: 13px 20px;
+                transition: background .4s ease;
+                text-decoration: none;
+
+                &:hover {
+                    background: $light-grey;
+                    cursor: pointer;
+                }
+
+                &:focus {
+                    outline: none;
+                    background: $light-grey;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .employee-counter {
+            cursor: pointer;
+
+            .counter-icon {
+                font-size: 1.3rem;
+                color: $icon-gray;
+                margin-left: 300px;
+                margin-top: 10px;
+            }
+
+            .counter-value {
+                margin-top: 13px;
+                font-family: semi-bold;
+                font-size: 14px;
+                color: $dark-grey;
+                margin-left: 10px;
+            }  
+        }
+
+        sl-icon-button {
+            font-size: 1.3rem;
+            transition: 0.3s all ease;
+
+            &:active {
+                transform: scale(0.8);
+            }
+        }
+
+        sl-dropdown {
+            margin-right: 10px;
+            margin-left: auto;
+        }
+    }
+}

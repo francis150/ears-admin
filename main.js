@@ -73,7 +73,7 @@ ipcMain.on('user-login', (evt, login) => {
                             }
                         })
 
-                        mainWindow.loadURL(path.join('file://', __dirname, 'views/user-accounts.html'))
+                        mainWindow.loadURL(path.join('file://', __dirname, 'views/new-employee.html'))
 
                         mainWindow.on('closed', () => {
                             firstWindow = null
@@ -110,11 +110,13 @@ ipcMain.on('nav-to-realtime-monitor', (evt, arg) => {
 })
 
 ipcMain.on('nav-to-employees', (evt, arg) => {
-    console.log('nav-to-employees')
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/employees.html'))
 })
 
 ipcMain.on('nav-to-new-employee', (evt, arg) => {
-    console.log('nav-to-new-employee')
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/new-employee.html'))
 })
 
 ipcMain.on('nav-to-reports', (evt, arg) => {
@@ -152,6 +154,22 @@ ipcMain.on('nav-back', () => {
     mainWindow.loadURL(backURL)
 })
 
+
+ipcMain.on('show-designation-manager', () => {
+    let modalWindow = new BrowserWindow({
+        width: 400,
+        height: 600,
+        parent: mainWindow,
+        modal: true,
+        resizable: false,
+        webPreferences: {
+            nodeIntegration: true,
+            enableRemoteModule: true
+        }
+    })
+
+    modalWindow.loadURL(path.join('file://', __dirname, 'views/manage-designations.html'))
+})
 
 /* NOTE USER ACCOUNTS */
 ipcMain.on('user-accounts-get-all-users', (evt) => {
@@ -336,3 +354,45 @@ ipcMain.on('edit-user-result', (evt, mainTask) => {
     })
 })
 
+
+/* NOTE MANAGE DESIGNATIONS */
+ipcMain.on('designation-color-exists', (evt, arg) => {
+    firedb.ref('employee_designations').orderByChild('color').equalTo(arg).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.exists()
+    })
+})
+
+ipcMain.on('designation-name-exists', (evt, arg) => {
+    firedb.ref('employee_designations').orderByChild('name').equalTo(arg).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.exists()
+    })
+})
+
+ipcMain.on('new-employee-designation', (evt, arg) => {
+    const pushKey = firedb.ref('employee_designations').push().key
+    arg.key = pushKey
+
+    firedb.ref(`employee_designations/${pushKey}`).set(arg)
+    .then(() => {
+        evt.returnValue = true
+    })
+    .catch((err) => {
+        console.log(err.message)
+        evt.returnValue = false
+    })
+})
+
+ipcMain.on('request-employee-designations', (evt, arg) => {
+    firedb.ref('employee_designations').on('value', (snapshot) => {
+        evt.reply('respond-employee-designations', snapshot.val())
+    })
+})
+
+ipcMain.on('remove-employee-designation', (evt, arg) => {
+    firedb.ref(`employee_designations/${arg}`).set(null)
+    .catch((err) => {
+        console.log(err.message)
+    })
+})
