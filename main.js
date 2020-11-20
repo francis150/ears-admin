@@ -155,22 +155,6 @@ ipcMain.on('nav-back', () => {
 })
 
 
-ipcMain.on('show-designation-manager', () => {
-    let modalWindow = new BrowserWindow({
-        width: 400,
-        height: 600,
-        parent: mainWindow,
-        modal: true,
-        resizable: false,
-        webPreferences: {
-            nodeIntegration: true,
-            enableRemoteModule: true
-        }
-    })
-
-    modalWindow.loadURL(path.join('file://', __dirname, 'views/manage-designations.html'))
-})
-
 /* NOTE USER ACCOUNTS */
 ipcMain.on('user-accounts-get-all-users', (evt) => {
     firedb.ref('/users').on('value', (snapshot) => {
@@ -356,6 +340,22 @@ ipcMain.on('edit-user-result', (evt, mainTask) => {
 
 
 /* NOTE MANAGE DESIGNATIONS */
+ipcMain.on('show-designation-manager', () => {
+    let modalWindow = new BrowserWindow({
+        width: 400,
+        height: 600,
+        parent: mainWindow,
+        modal: true,
+        resizable: false,
+        webPreferences: {
+            nodeIntegration: true,
+            enableRemoteModule: true
+        }
+    })
+
+    modalWindow.loadURL(path.join('file://', __dirname, 'views/manage-designations.html'))
+})
+
 ipcMain.on('designation-color-exists', (evt, arg) => {
     firedb.ref('employee_designations').orderByChild('color').equalTo(arg).once('value')
     .then((snapshot) => {
@@ -390,9 +390,83 @@ ipcMain.on('request-employee-designations', (evt, arg) => {
     })
 })
 
+ipcMain.on('designation-employees-listed', (evt, arg) => {
+    firedb.ref('employees').orderByChild('designation').equalTo(arg).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.numChildren()
+    })
+})
+
 ipcMain.on('remove-employee-designation', (evt, arg) => {
     firedb.ref(`employee_designations/${arg}`).set(null)
     .catch((err) => {
         console.log(err.message)
     })
 })
+
+
+/* NOTE MANAGE EMPLOYEE TYPE */
+ipcMain.on('show-employee-type-manager', () => {
+    let modalWindow = new BrowserWindow({
+        width: 400,
+        height: 600,
+        parent: mainWindow,
+        modal: true,
+        resizable: false,
+        webPreferences: {
+            nodeIntegration: true,
+            enableRemoteModule: true
+        }
+    })
+
+    modalWindow.loadURL(path.join('file://', __dirname, 'views/manage-employee-types.html'))
+})
+
+ipcMain.on('employee-type-color-exists', (evt, arg) => {
+    firedb.ref('employee_types').orderByChild('color').equalTo(arg).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.exists()
+    })
+})
+
+ipcMain.on('employee-type-name-exists', (evt, arg) => {
+    firedb.ref('employee_types').orderByChild('name').equalTo(arg).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.exists()
+    })
+})
+
+ipcMain.on('new-employee-type', (evt, arg) => {
+    const pushKey = firedb.ref('employee_types').push().key
+    arg.key = pushKey
+
+    firedb.ref(`employee_types/${pushKey}`).set(arg)
+    .then(() => {
+        evt.returnValue = true
+    })
+    .catch((err) => {
+        console.log(err.message)
+        evt.returnValue = false
+    })
+})
+
+ipcMain.on('request-employee-types', (evt, arg) => {
+    firedb.ref('employee_types').on('value', (snapshot) => {
+        evt.reply('respond-employee-types', snapshot.val())
+    })
+})
+
+ipcMain.on('employee-type-employees-listed', (evt, arg) => {
+    firedb.ref('employees').orderByChild('employee_type').equalTo(arg).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.numChildren()
+    })
+})
+
+ipcMain.on('remove-employee-type', (evt, arg) => {
+    firedb.ref(`employee_types/${arg}`).set(null)
+        .catch((err) => {
+            console.log(err.message)
+        })
+})
+

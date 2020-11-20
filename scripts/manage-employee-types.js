@@ -1,5 +1,5 @@
 const electron = require('electron')
-const {remote, ipcRenderer} = electron
+const { remote, ipcRenderer } = electron
 
 const currentWindow = remote.getCurrentWindow()
 currentWindow.openDevTools()
@@ -14,18 +14,18 @@ document.querySelector('form').addEventListener('submit', (e) => {
 
     if (color.value === '#ffffffff') {
         document.querySelector('form sl-tooltip.for-color-picker').open = true
-        helpText.innerHTML = 'Please choose a color for the new designation.'
-    } else if (ipcRenderer.sendSync('designation-color-exists', color.value)) {
+        helpText.innerHTML = 'Please choose a color for the new employee type.'
+    } else if (ipcRenderer.sendSync('employee-type-color-exists', color.value)) {
         document.querySelector('form sl-tooltip.for-color-picker').open = true
         helpText.innerHTML = 'Looks like this color is already used.'
     } else if (name.value === '') {
         document.querySelector('form sl-tooltip.for-name').open = true
-        helpText.innerHTML = 'Please enter a Designation Name.'
-    } else if (ipcRenderer.sendSync('designation-name-exists', name.value)) {
+        helpText.innerHTML = 'Please enter an Employee Type Name.'
+    } else if (ipcRenderer.sendSync('employee-type-name-exists', name.value)) {
         document.querySelector('form sl-tooltip.for-name').open = true
-        helpText.innerHTML = 'Looks like this designation already exists.'
+        helpText.innerHTML = 'Looks like this employee type already exists.'
     } else {
-        if (ipcRenderer.sendSync('new-employee-designation', { color: color.value, name: name.value })) {
+        if (ipcRenderer.sendSync('new-employee-type', { color: color.value, name: name.value })) {
             document.querySelector('form').reset()
             color.value = '#ffffffff'
         } else {
@@ -35,23 +35,22 @@ document.querySelector('form').addEventListener('submit', (e) => {
 })
 
 // request designations list
-ipcRenderer.send('request-employee-designations')
-ipcRenderer.on('respond-employee-designations', (evt, arg) => {
+ipcRenderer.send('request-employee-types')
+ipcRenderer.on('respond-employee-types', (evt, arg) => {
     const container = document.querySelector('.list')
     container.innerHTML = ''
 
-    Object.values(arg).forEach(designation => {
-        
+    Object.values(arg).forEach(type => {
         const wrapper = document.createElement('div')
         wrapper.className = 'item'
 
         const color = document.createElement('div')
         color.className = 'color'
-        color.style.background = designation.color
+        color.style.background = type.color
         wrapper.appendChild(color)
 
         const name = document.createElement('h2')
-        name.innerHTML = designation.name
+        name.innerHTML = type.name
         wrapper.appendChild(name)
 
         const tooltip = document.createElement('sl-tooltip')
@@ -63,20 +62,18 @@ ipcRenderer.on('respond-employee-designations', (evt, arg) => {
         removeBtn.addEventListener('click', () => {
 
             document.querySelector('form small').innerHTML = ''
-            const employeesListed = ipcRenderer.sendSync('designation-employees-listed', designation.key)
+            const employeesListed = ipcRenderer.sendSync('employee-type-employees-listed', type.key)
 
             if (employeesListed > 0) {
-                document.querySelector('form small').innerHTML = `There are currently ${employeesListed} employee record(s) with this designation. Please modify those records and try again.`
+                document.querySelector('form small').innerHTML = `There are currently ${employeesListed} employee record(s) with this employee type. Please modify those records and try again.`
             } else {
-                ipcRenderer.send('remove-employee-designation', designation.key)
+                ipcRenderer.send('remove-employee-type', type.key)
             }
-            
+
         })
         tooltip.appendChild(removeBtn)
 
         container.appendChild(wrapper)
-
     })
 })
-
 

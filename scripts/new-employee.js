@@ -41,6 +41,16 @@ document.querySelector('form sl-menu-item.manage-designations').addEventListener
     ipcRenderer.send('show-designation-manager')
 })
 
+// manage job types
+document.querySelector('form sl-menu-item.manage-job-types').addEventListener('click', () => {
+    ipcRenderer.send('show-job-type-manager')
+})
+
+// manage employee types
+document.querySelector('form sl-menu-item.manage-employee-types').addEventListener('click', () => {
+    ipcRenderer.send('show-employee-type-manager')
+})
+
 
 // page tracker
 let pageOn = 1
