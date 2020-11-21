@@ -3,6 +3,9 @@
 const electron = require('electron')
 const { remote, ipcRenderer } = electron
 
+const firebase = require('../firebase')
+firestorage = firebase.storage()
+
 const currentWindow = remote.getCurrentWindow()
 currentWindow.openDevTools()
 
@@ -36,14 +39,68 @@ document.querySelector('form .name-contact .user-image-wrapper input').addEventL
     document.querySelector('form .name-contact .user-image-wrapper sl-avatar').image = document.querySelector('form .name-contact .user-image-wrapper input').files[0].path
 })
 
+// request designations
+ipcRenderer.send('request-employee-designations')
+ipcRenderer.on('respond-employee-designations', (evt, arg) => {
+    const container = document.querySelector('form .job-info sl-menu[data-for=designation] .menu-items')
+    container.innerHTML = ''
+
+    Object.values(arg).forEach(designation => {
+        const item = document.createElement('sl-menu-item')
+        item.innerHTML = designation.name
+        item.addEventListener('click', () => {
+            document.querySelector(`form input[name=${container.parentElement.dataset.for}]`).value = designation.name
+            document.querySelector(`form input[name=${container.parentElement.dataset.for}]`).dataset.value = designation.key
+        })
+
+        container.appendChild(item)
+    })
+})
+
 // manage designations
 document.querySelector('form sl-menu-item.manage-designations').addEventListener('click', () => {
     ipcRenderer.send('show-designation-manager')
 })
 
+// request job types
+ipcRenderer.send('request-job-types')
+ipcRenderer.on('respond-job-types', (evt, arg) => {
+    const container = document.querySelector('form .job-info sl-menu[data-for=jobType] .menu-items')
+    container.innerHTML = ''
+
+    Object.values(arg).forEach(type => {
+        const item = document.createElement('sl-menu-item')
+        item.innerHTML = type.name
+        item.addEventListener('click', () => {
+            document.querySelector(`form input[name=${container.parentElement.dataset.for}]`).value = type.name
+            document.querySelector(`form input[name=${container.parentElement.dataset.for}]`).dataset.value = type.key
+        })
+
+        container.appendChild(item)
+    })
+})
+
 // manage job types
 document.querySelector('form sl-menu-item.manage-job-types').addEventListener('click', () => {
     ipcRenderer.send('show-job-type-manager')
+})
+
+// request employee types
+ipcRenderer.send('request-employee-types')
+ipcRenderer.on('respond-employee-types', (evt, arg) => {
+    const container = document.querySelector('form .job-info sl-menu[data-for=employeeType] .menu-items')
+    container.innerHTML = ''
+
+    Object.values(arg).forEach(type => {
+        const item = document.createElement('sl-menu-item')
+        item.innerHTML = type.name
+        item.addEventListener('click', () => {
+            document.querySelector(`form input[name=${container.parentElement.dataset.for}]`).value = type.name
+            document.querySelector(`form input[name=${container.parentElement.dataset.for}]`).dataset.value = type.key
+        })
+
+        container.appendChild(item)
+    })
 })
 
 // manage employee types
@@ -140,8 +197,55 @@ form.addEventListener('submit', (e) => {
 })
 
 function finalSubmit() {
-    console.log(newEmployee)
+    document.querySelector('.loader').style.height = '100vh'
+
+    const forSend = {
+        fname: newEmployee.fname,
+        lname: newEmployee.lname,
+        contact_number: newEmployee.contact_number,
+        designation: newEmployee.designation,
+        employee_type: newEmployee.employee_type,
+        job_type: newEmployee.job_type
+    }
+
+    ipcRenderer.send('add-new-employee', forSend)
 }
+
+ipcRenderer.on('add-new-employee-task', (evt, task) => {
+    let mainTask = {}
+    if (task.key) {
+        
+        mainTask.dbResult = 'Employee added successfully.'
+        mainTask.key = task.key
+
+        if (newEmployee.imageFile) {
+            
+            // if an image is set
+            const uploadTask = firestorage.ref(`employee-images/${task.key}`).put(newEmployee.imageFile)
+            uploadTask.on('state_changed', (snapshot) => {
+                let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                document.querySelector('.loader h1').innerHTML = `Uploading Image (${Math.round(progress)}%)`
+            }, (err) => {
+                console.log(err.message)
+                mainTask.storageError = 'Failed to upload user image.'
+                ipcRenderer.send('add-new-employee-result', mainTask)
+            }, () => {
+                uploadTask.snapshot.ref.getDownloadURL()
+                .then((downloadURL) => {
+                    mainTask.imageURL = downloadURL
+                    ipcRenderer.send('add-new-employee-result', mainTask)
+                })
+            })
+
+        } else {
+            ipcRenderer.send('add-new-employee-result', mainTask)
+        }
+
+    } else {
+        mainTask.dbError = 'Something went wrong while saving new employee.'
+        ipcRenderer.send('add-new-employee-result', mainTask)
+    }
+})
 
 setTimeout(() => {
     document.querySelector('.loader').style.height = '0'

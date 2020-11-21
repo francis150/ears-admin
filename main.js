@@ -339,6 +339,43 @@ ipcMain.on('edit-user-result', (evt, mainTask) => {
 })
 
 
+/* NOTE ADD NEW EMPLOYEE */
+ipcMain.on('add-new-employee', (evt, arg) => {
+    const pushKey = firedb.ref('employees').push().key
+    arg.key = pushKey
+
+    firedb.ref(`employees/${arg.key}`).set(arg)
+    .then(() => {
+        evt.reply('add-new-employee-task', {key: arg.key})
+    })
+    .catch((err) => {
+        console.log(err.message)
+        evt.reply('add-new-employee-task', {error: err.message})
+    })
+})
+
+ipcMain.on('add-new-employee-result', (evt, mainTask) => {
+    // navigate to users
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/employees.html'))
+    mainWindow.webContents.once('did-finish-load', () => {
+
+        // if mainTask.imageURL is available
+        if (mainTask.imageURL) {
+            firedb.ref(`employees/${mainTask.key}`).update({ image_url: mainTask.imageURL })
+            .then(() => {
+                mainWindow.webContents.send('add-new-employee-result', mainTask)
+            })
+            .catch((err) => {
+                console.log(err.message)
+                mainTask.storageError = 'Failed to set employee image.'
+                mainWindow.webContents.send('add-new-employee-result', mainTask)
+            })
+        }
+    })
+})
+
+
 /* NOTE MANAGE DESIGNATIONS */
 ipcMain.on('show-designation-manager', () => {
     let modalWindow = new BrowserWindow({

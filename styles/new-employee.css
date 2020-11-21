@@ -159,7 +159,7 @@ sl-drawer h6[data-disabled=true]:hover, sl-drawer p[data-disabled=true]:hover {
           flex-direction: column;
   position: absolute;
   width: 100%;
-  height: 0;
+  height: 100vh;
   background: rgba(255, 255, 255, 0.97);
   overflow: hidden;
   bottom: 0;
@@ -566,7 +566,7 @@ main form .buttons .negative-btn:hover {
 }
 
 main form .name-contact {
-  display: none;
+  display: block;
 }
 
 main form .name-contact .user-image-wrapper {
@@ -622,6 +622,6 @@ main form .name-contact .user-image-wrapper button:hover {
 }
 
 main form .job-info {
-  display: block;
+  display: none;
 }
 /*# sourceMappingURL=new-employee.css.map */

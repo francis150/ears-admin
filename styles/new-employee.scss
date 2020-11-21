@@ -88,7 +88,7 @@ main {
         }
 
         .name-contact {
-            display: none;
+            display: block;
 
             .user-image-wrapper{
                 display: flex;
@@ -136,7 +136,7 @@ main {
         }
 
         .job-info {
-            display: block;
+            display: none;
         }
     }
 }
