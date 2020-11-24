@@ -125,7 +125,7 @@
                 }
 
                 &:active {
-                    transform: scale(0.9);
+                    transform: scale(0.95);
                 }
 
                 .users-list-user-image {
@@ -273,8 +273,12 @@
                         flex-direction: row-reverse;
                     }
 
-                    sl-icon {
-                        margin-right: 10px;
+                    sl-menu-item {
+                        color: $dark-grey;
+                        
+                        sl-icon {
+                            margin-right: 10px;
+                        }
                     }
                 }
             }

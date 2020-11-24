@@ -5,6 +5,8 @@ const electron = require('electron')
 const { app, BrowserWindow, Menu, ipcMain } = electron
 const path = require('path')
 
+const moment = require('moment')
+
 const firebase = require('./firebase')
 const firedb = firebase.database()
 const fireauth = firebase.auth()
@@ -73,7 +75,7 @@ ipcMain.on('user-login', (evt, login) => {
                             }
                         })
 
-                        mainWindow.loadURL(path.join('file://', __dirname, 'views/new-employee.html'))
+                        mainWindow.loadURL(path.join('file://', __dirname, 'views/employees.html'))
 
                         mainWindow.on('closed', () => {
                             firstWindow = null
@@ -339,10 +341,66 @@ ipcMain.on('edit-user-result', (evt, mainTask) => {
 })
 
 
+/* NOTE EMPLOYEES */
+ipcMain.on('request-employees', (evt) => {
+    firedb.ref('employees').on('value', (snapshot) => {
+        evt.reply('respond-employees', {
+            employees: snapshot.val(),
+            count: snapshot.numChildren()
+        })
+    })
+})
+
+ipcMain.on('request-employees-search-suggestions', (evt, arg) => {
+    let searchText = arg.toLowerCase().split(' ')
+
+    firedb.ref(`/employees`).once('value')
+        .then((snapshot) => {
+
+
+            let index = 0
+            let result = {}
+
+            snapshot.forEach(user => {
+
+                const fulltext = `${user.val().fname.toLowerCase()} ${user.val().lname.toLowerCase()}`
+
+                let a = true
+                searchText.forEach(word => {
+                    if (word !== '') {
+                        if (!fulltext.includes(word)) {
+                            a = false
+                        }
+                    } else {
+                        return
+                    }
+                });
+
+                if (a) {
+                    result[user.key] = user.val()
+                }
+
+
+                index++
+                if (index === snapshot.numChildren()) {
+                    evt.reply('respond-employees-search-suggestions', { result: result })
+                }
+            })
+
+        }).catch((err) => {
+            evt.reply('respond-employees-search-suggestions', { error: err })
+            console.log(err.message)
+        })
+})
+
+
+
+
 /* NOTE ADD NEW EMPLOYEE */
 ipcMain.on('add-new-employee', (evt, arg) => {
     const pushKey = firedb.ref('employees').push().key
     arg.key = pushKey
+    arg.hired_on = moment().format('YYYY-MM-DD')
 
     firedb.ref(`employees/${arg.key}`).set(arg)
     .then(() => {
@@ -427,6 +485,20 @@ ipcMain.on('request-employee-designations', (evt, arg) => {
     })
 })
 
+ipcMain.on('get-employee-designation', (evt, arg) => {
+    firedb.ref(`employee_designations/${arg}`).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.val()
+    })
+})
+
+ipcMain.on('request-employee-designation', (evt, arg) => {
+    firedb.ref(`employee_designations/${arg}`).once('value')
+        .then((snapshot) => {
+            evt.reply('respond-employee-designation', snapshot.val())
+        })
+})
+
 ipcMain.on('designation-employees-listed', (evt, arg) => {
     firedb.ref('employees').orderByChild('designation').equalTo(arg).once('value')
     .then((snapshot) => {
@@ -493,6 +565,20 @@ ipcMain.on('request-employee-types', (evt, arg) => {
     })
 })
 
+ipcMain.on('get-employee-type', (evt, arg) => {
+    firedb.ref(`employee_types/${arg}`).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.val()
+    })
+})
+
+ipcMain.on('request-employee-type', (evt, arg) => {
+    firedb.ref(`employee_types/${arg}`).once('value')
+        .then((snapshot) => {
+            evt.reply('respond-employee-type', snapshot.val())
+        })
+})
+
 ipcMain.on('employee-type-employees-listed', (evt, arg) => {
     firedb.ref('employees').orderByChild('employee_type').equalTo(arg).once('value')
     .then((snapshot) => {
@@ -557,6 +643,20 @@ ipcMain.on('request-job-types', (evt, arg) => {
     firedb.ref('job_types').on('value', (snapshot) => {
         evt.reply('respond-job-types', snapshot.val())
     })
+})
+
+ipcMain.on('get-job-type', (evt, arg) => {
+    firedb.ref(`job_types/${arg}`).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.val()
+    })
+})
+
+ipcMain.on('request-job-type', (evt, arg) => {
+    firedb.ref(`job_types/${arg}`).once('value')
+        .then((snapshot) => {
+            evt.reply('respond-job-type', snapshot.val())
+        })
 })
 
 ipcMain.on('job-type-employees-listed', (evt, arg) => {

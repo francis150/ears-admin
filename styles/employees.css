@@ -159,7 +159,7 @@ sl-drawer h6[data-disabled=true]:hover, sl-drawer p[data-disabled=true]:hover {
           flex-direction: column;
   position: absolute;
   width: 100%;
-  height: 100vh;
+  height: 0;
   background: rgba(255, 255, 255, 0.97);
   overflow: hidden;
   bottom: 0;
@@ -484,7 +484,7 @@ main .list {
   margin-top: 15px;
 }
 
-main .header {
+main .list .header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -494,7 +494,7 @@ main .header {
           flex-direction: row;
 }
 
-main .header .search {
+main .list .header .search {
   border-radius: 5px;
   z-index: 1;
   position: absolute;
@@ -510,12 +510,12 @@ main .header .search {
   background: white;
 }
 
-main .header .search:focus-within {
+main .list .header .search:focus-within {
   -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
           box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
 }
 
-main .header .search input {
+main .list .header .search input {
   border-radius: 5px;
   font-size: 13px;
   font-family: semi-bold;
@@ -526,11 +526,11 @@ main .header .search input {
   width: 280px;
 }
 
-main .header .search input:focus {
+main .list .header .search input:focus {
   outline: none;
 }
 
-main .header .search a {
+main .list .header .search a {
   font-family: medium;
   font-size: 16px;
   color: #363636;
@@ -540,29 +540,29 @@ main .header .search a {
   text-decoration: none;
 }
 
-main .header .search a:hover {
+main .list .header .search a:hover {
   background: #f1f1f1;
   cursor: pointer;
 }
 
-main .header .search a:focus {
+main .list .header .search a:focus {
   outline: none;
   background: #f1f1f1;
   cursor: pointer;
 }
 
-main .header .employee-counter {
+main .list .header .employee-counter {
   cursor: pointer;
 }
 
-main .header .employee-counter .counter-icon {
+main .list .header .employee-counter .counter-icon {
   font-size: 1.3rem;
   color: #707070;
   margin-left: 300px;
   margin-top: 10px;
 }
 
-main .header .employee-counter .counter-value {
+main .list .header .employee-counter .counter-value {
   margin-top: 13px;
   font-family: semi-bold;
   font-size: 14px;
@@ -570,19 +570,303 @@ main .header .employee-counter .counter-value {
   margin-left: 10px;
 }
 
-main .header sl-icon-button {
+main .list .header sl-icon-button {
   font-size: 1.3rem;
   -webkit-transition: 0.3s all ease;
   transition: 0.3s all ease;
 }
 
-main .header sl-icon-button:active {
+main .list .header sl-icon-button:active {
   -webkit-transform: scale(0.8);
           transform: scale(0.8);
 }
 
-main .header sl-dropdown {
+main .list .header sl-dropdown {
   margin-right: 10px;
   margin-left: auto;
+}
+
+main .list .header sl-dropdown sl-menu::part(base) {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-height: 400px;
+}
+
+main .list .employee-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 479px;
+  width: 606px;
+  margin-top: 20px;
+  overflow-y: hidden;
+}
+
+main .list .employee-list:hover {
+  overflow-y: auto;
+}
+
+main .list .employee-list .employee {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 75px;
+  background: #f1f1f1;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 13px 20px;
+  -webkit-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+}
+
+main .list .employee-list .employee:hover {
+  margin: 15px 0;
+}
+
+main .list .employee-list .employee:active {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+}
+
+main .list .employee-list .employee sl-avatar::part(base) {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+}
+
+main .list .employee-list .employee sl-avatar::part(icon) {
+  font-size: 25px;
+  color: #707070;
+}
+
+main .list .employee-list .employee .texts-wrapper {
+  margin-left: 15px;
+}
+
+main .list .employee-list .employee .texts-wrapper h2 {
+  font-family: semi-bold;
+  font-size: 21px;
+  color: #363636;
+  max-lines: 1;
+  white-space: nowrap;
+  width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+main .list .employee-list .employee .texts-wrapper .badges-wrapper {
+  margin-top: 5px;
+}
+
+main .list .employee-list .employee .texts-wrapper .badges-wrapper span {
+  background: #363636;
+  padding: 2px 5px;
+  font-family: regular;
+  font-size: 10px;
+  color: white;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+
+main .profile {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 530px;
+  width: 514px;
+  background: #f1f1f1;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+main .profile .content {
+  width: 100%;
+  height: 100%;
+  /* display: flex; */
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 30px;
+}
+
+main .profile .content .top {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+main .profile .content .top .badges {
+  width: 30%;
+}
+
+main .profile .content .top .badges p {
+  background: #363636;
+  padding: 2px 5px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-family: regular;
+  font-size: 10px;
+  color: white;
+  border-radius: 3px;
+  margin-right: 5px;
+  margin-bottom: 2px;
+}
+
+main .profile .content .top sl-avatar::part(base) {
+  width: 115px;
+  height: 115px;
+  border-radius: 50%;
+  border: solid 3px #f1f1f1;
+  background: white;
+}
+
+main .profile .content .top sl-avatar::part(icon) {
+  font-size: 50px;
+  color: #707070;
+}
+
+main .profile .content .top .options {
+  width: 30%;
+}
+
+main .profile .content .top .options::part(base) {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+main .profile .content .top .options sl-menu-item {
+  color: #363636;
+}
+
+main .profile .content .top .options sl-menu-item sl-icon {
+  margin-right: 10px;
+}
+
+main .profile .content .info {
+  margin-top: 10px;
+  text-align: center;
+}
+
+main .profile .content .info h2 {
+  font-family: semi-bold;
+  color: #363636;
+  font-size: 23px;
+  margin-bottom: 5px;
+}
+
+main .profile .content .info p {
+  text-transform: uppercase;
+  font-family: semi-bold;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  color: #363636;
+  opacity: 0.9;
+}
+
+main .profile .content .info .more-info {
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 30px;
+}
+
+main .profile .content .info .more-info span {
+  font-family: regular;
+  font-size: 15px;
+  color: #363636;
+  opacity: .9;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+main .profile .content .info .more-info span sl-icon {
+  margin-right: 10px;
+}
+
+main .profile .content .performance {
+  margin-top: 40px;
+}
+
+main .profile .content .performance h5 {
+  font-family: semi-bold;
+  font-size: 16px;
+  opacity: 0.8;
+  color: #363636;
+  margin-bottom: 10px;
+}
+
+main .profile .content .performance .attendance, main .profile .content .performance .timeliness {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 10px;
+}
+
+main .profile .content .performance .attendance sl-progress-ring::part(label), main .profile .content .performance .timeliness sl-progress-ring::part(label) {
+  font-family: regular;
+  font-size: 12px;
+  color: #363636;
+}
+
+main .profile .content .performance .attendance .texts, main .profile .content .performance .timeliness .texts {
+  margin-left: 5px;
+}
+
+main .profile .content .performance .attendance .texts h2, main .profile .content .performance .timeliness .texts h2 {
+  font-family: regular;
+  font-size: 18px;
+  color: #363636;
+  margin-bottom: 5px;
+}
+
+main .profile .content .performance .attendance .texts p, main .profile .content .performance .timeliness .texts p {
+  font-family: semi-bold;
+  font-size: 12px;
+  opacity: .8;
+}
+
+main .profile .content .performance .attendance .texts p .absences, main .profile .content .performance .attendance .texts p .lates, main .profile .content .performance .attendance .texts p .early-outs, main .profile .content .performance .timeliness .texts p .absences, main .profile .content .performance .timeliness .texts p .lates, main .profile .content .performance .timeliness .texts p .early-outs {
+  color: #cc3448;
 }
 /*# sourceMappingURL=employees.css.map */

@@ -10,7 +10,7 @@ currentWindow.openDevTools()
 
 const form = document.querySelector('form')
 
-// main back button 
+// main back button
 document.querySelector('header .back-btn').addEventListener('click', () => {
     document.querySelector('.loader').style.height = '100vh'
     setTimeout(() => {

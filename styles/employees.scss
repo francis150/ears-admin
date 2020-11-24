@@ -24,92 +24,336 @@ main {
         height: 530px;
         width: 606px;
         margin-top: 15px;
-    }
 
-    .header {
-        display: flex;
-        flex-direction: row;
+        .header {
+            display: flex;
+            flex-direction: row;
 
-        .search {
-            border-radius: 5px;
-            z-index: 1;
-            position: absolute;
-            transition: all .3s ease;
+            .search {
+                border-radius: 5px;
+                z-index: 1;
+                position: absolute;
+                transition: all .3s ease;
+                display: flex;
+                flex-direction: column;
+                background: white;
+
+                &:focus-within {
+                    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.10);
+                }
+
+                input {
+                    border-radius: 5px;
+                    font-size: 13px;
+                    font-family: semi-bold;
+                    padding: 13px 20px;
+                    background: $light-grey;
+                    color: $dark-grey;
+                    border: none;
+                    width: 280px;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+
+                a {
+                    font-family: medium;
+                    font-size: 16px;
+                    color: $dark-grey;
+                    padding: 13px 20px;
+                    transition: background .4s ease;
+                    text-decoration: none;
+
+                    &:hover {
+                        background: $light-grey;
+                        cursor: pointer;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        background: $light-grey;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .employee-counter {
+                cursor: pointer;
+
+                .counter-icon {
+                    font-size: 1.3rem;
+                    color: $icon-gray;
+                    margin-left: 300px;
+                    margin-top: 10px;
+                }
+
+                .counter-value {
+                    margin-top: 13px;
+                    font-family: semi-bold;
+                    font-size: 14px;
+                    color: $dark-grey;
+                    margin-left: 10px;
+                }  
+            }
+
+            sl-icon-button {
+                font-size: 1.3rem;
+                transition: 0.3s all ease;
+
+                &:active {
+                    transform: scale(0.8);
+                }
+            }
+
+            sl-dropdown {
+                margin-right: 10px;
+                margin-left: auto;
+                
+                sl-menu {
+                    &::part(base) {
+                        width: max-content;
+                        max-height: 400px;
+                    }
+                }
+            }
+        }
+
+        .employee-list {
             display: flex;
             flex-direction: column;
-            background: white;
+            height: 479px;
+            width: 606px;
+            margin-top: 20px;
+            overflow-y: hidden;
 
-            &:focus-within {
-                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.10);
+            &:hover {
+                overflow-y: auto;
             }
 
-            input {
-                border-radius: 5px;
-                font-size: 13px;
-                font-family: semi-bold;
-                padding: 13px 20px;
+            .employee {
+                display: flex;
+                height: 75px;
                 background: $light-grey;
-                color: $dark-grey;
-                border: none;
-                width: 280px;
-
-                &:focus {
-                    outline: none;
-                }
-            }
-
-            a {
-                font-family: medium;
-                font-size: 16px;
-                color: $dark-grey;
+                border-radius: 5px;
+                margin-bottom: 5px;
+                cursor: pointer;
+                align-items: center;
                 padding: 13px 20px;
-                transition: background .4s ease;
-                text-decoration: none;
+                transition: 0.3s all ease;
 
                 &:hover {
-                    background: $light-grey;
-                    cursor: pointer;
+                    margin: 15px 0;
                 }
 
-                &:focus {
-                    outline: none;
-                    background: $light-grey;
-                    cursor: pointer;
+                &:active {
+                    transform: scale(0.95);
+                }
+               
+                sl-avatar {
+                    &::part(base){
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        background: white;
+                    }
+
+                    &::part(icon) {
+                        font-size: 25px;
+                        color: $icon-gray;
+                    }
+                }
+
+                .texts-wrapper {
+                    margin-left: 15px;
+
+                    h2 {
+                        font-family: semi-bold;
+                        font-size: 21px;
+                        color: $dark-grey;
+                        max-lines: 1;
+                        white-space: nowrap; 
+                        width: 500px; 
+                        overflow: hidden;
+                        text-overflow: ellipsis; 
+                    }
+
+                    .badges-wrapper {
+                        margin-top: 5px;
+
+                        span {
+                            background: $dark-grey;
+                            padding: 2px 5px;
+                            font-family: regular;
+                            font-size: 10px;
+                            color: white;
+                            border-radius: 3px;
+                            margin-right: 5px;
+                        }
+                    }
                 }
             }
         }
+    }
 
-        .employee-counter {
-            cursor: pointer;
+    .profile {
+        display: flex;
+        flex-direction: column;
+        height: 530px;
+        width: 514px;
+        background: $light-grey;
+        border-radius: 5px;
+        margin-top: 15px;
 
-            .counter-icon {
-                font-size: 1.3rem;
-                color: $icon-gray;
-                margin-left: 300px;
+        .content {
+            width: 100%;
+            height: 100%;
+            /* display: flex; */
+            display: none;
+            flex-direction: column;
+            padding: 30px;
+
+            .top {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                .badges {
+                    width: 30%;
+
+                    p {
+                        background: $dark-grey;
+                        padding: 2px 5px;
+                        width: fit-content;
+                        font-family: regular;
+                        font-size: 10px;
+                        color: white;
+                        border-radius: 3px;
+                        margin-right: 5px;
+                        margin-bottom: 2px;
+                    }
+                }
+
+                sl-avatar {
+                    &::part(base){
+                        width: 115px;
+                        height: 115px;
+                        border-radius: 50%;
+                        border: solid 3px $light-grey;
+                        background: white;
+                    }
+
+                    &::part(icon) {
+                        font-size: 50px;
+                        color: $icon-gray;
+                    }
+                }
+
+                .options {
+                    width: 30%;
+                    &::part(base) {
+                        display: flex;
+                        flex-direction: row-reverse;
+                    }
+
+                    sl-menu-item {
+                        color: $dark-grey;
+                        
+                        sl-icon {
+                            margin-right: 10px;
+                        }
+                    }
+                }
+            }
+
+            .info{
                 margin-top: 10px;
+                text-align: center;
+
+                h2 {
+                    font-family: semi-bold;
+                    color: $dark-grey;
+                    font-size: 23px;
+                    margin-bottom: 5px;
+                }
+
+                p {
+                    text-transform: uppercase;
+                    font-family: semi-bold;
+                    font-size: 16px;
+                    letter-spacing: 0.2em;
+                    color: $dark-grey;
+                    opacity: 0.9;
+                }
+
+                .more-info {
+                    margin-top: 20px;
+                    display: flex;
+                    justify-content: center;
+                    gap: 30px;
+
+                    span {
+                        font-family: regular;
+                        font-size: 15px;
+                        color: $dark-grey;
+                        opacity: .9;
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+
+                        sl-icon {
+                            margin-right: 10px;
+                        }
+                    }
+                }
             }
 
-            .counter-value {
-                margin-top: 13px;
-                font-family: semi-bold;
-                font-size: 14px;
-                color: $dark-grey;
-                margin-left: 10px;
-            }  
-        }
+            .performance {
+                margin-top: 40px;
 
-        sl-icon-button {
-            font-size: 1.3rem;
-            transition: 0.3s all ease;
+                h5 {
+                    font-family: semi-bold;
+                    font-size: 16px;
+                    opacity: 0.8;
+                    color: $dark-grey;
+                    margin-bottom: 10px;
+                }
 
-            &:active {
-                transform: scale(0.8);
+                .attendance, .timeliness {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 10px;
+
+                    sl-progress-ring {
+                        &::part(label) {
+                            font-family: regular;
+                            font-size: 12px;
+                            color: $dark-grey;
+                        }
+                    }
+
+                    .texts {
+                        margin-left: 5px;
+
+                        h2 {
+                            font-family: regular;
+                            font-size: 18px;
+                            color: $dark-grey;
+                            margin-bottom: 5px;
+                        }
+
+                        p {
+                            font-family: semi-bold;
+                            font-size: 12px;
+                            opacity: .8;
+
+                            .absences, .lates, .early-outs {
+                                color: $red;
+                            }
+                        }
+                    }
+                }
             }
-        }
-
-        sl-dropdown {
-            margin-right: 10px;
-            margin-left: auto;
         }
     }
 }

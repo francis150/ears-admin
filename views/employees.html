@@ -66,7 +66,7 @@
             <div class="header">
 
                 <div class="search">
-                    <input id="users-search" type="text" placeholder="Search">
+                    <input type="text" placeholder="Search">
                     <!-- <a class="search-suggestion" href="#">suggestion 1</a>
                     <a class="search-suggestion" href="#">suggestion 2</a>
                     <a class="search-suggestion" href="#">suggestion 3</a> -->
@@ -74,38 +74,117 @@
 
                 <sl-tooltip class="employee-counter" content="Employees Listed">
                     <sl-icon class="counter-icon" name="people-fill"></sl-icon>
-                    <p id="employee-list-counter" class="counter-value">0</p>
+                    <p class="counter-value">0</p>
                 </sl-tooltip>
 
-                <sl-dropdown close-on-select="false" class="fulltime-designation-filter">
+                <sl-dropdown close-on-select="false" class="filter">
                     <sl-tooltip slot="trigger" content="Filter">
                         <sl-icon-button name="funnel"></sl-icon-button>
                     </sl-tooltip>
                     <sl-menu>
-                        <sl-menu-item checked>Regular</sl-menu-item>
-                        <sl-menu-item checked>Probationary</sl-menu-item>
+                        <sl-menu-label>Employee Type</sl-menu-label>
+                        <div class="employee-type-filter">
+                            <!-- <sl-menu-item checked>Regular</sl-menu-item>
+                            <sl-menu-item checked>Probationary</sl-menu-item> -->
+                        </div>
                         <sl-menu-divider></sl-menu-divider>
-                        <sl-menu-item checked>Full-time</sl-menu-item>
-                        <sl-menu-item checked>Part-time</sl-menu-item>
-                        <sl-menu-item checked>On-call</sl-menu-item>
+                        <sl-menu-label>Job Type</sl-menu-label>
+                        <div class="job-type-filter">
+                            <!-- <sl-menu-item checked>Full-time</sl-menu-item>
+                            <sl-menu-item checked>Part-time</sl-menu-item>
+                            <sl-menu-item checked>On-call</sl-menu-item> -->
+                        </div>
                         <sl-menu-divider></sl-menu-divider>
-                        <sl-menu-item>Deactivated</sl-menu-item>
+                        <sl-menu-item class="deactivated-filter">Deactivated</sl-menu-item>
                     </sl-menu>
                 </sl-dropdown>
 
-                <sl-tooltip content="Add New User" id="new-user-btn">
+                <sl-tooltip content="Add New Employee">
                     <sl-icon-button id="new-employee-btn" name="plus-circle"></sl-icon-button>
                 </sl-tooltip>
 
             </div>
 
             <div class="employee-list">
-
+                
+                <!-- <div class="employee">
+                    <sl-avatar></sl-avatar>
+                    <div class="texts-wrapper">
+                        <h2>Dela Victoria, Francis Ian</h2>
+                        <div class="badges-wrapper">
+                            <span>Employee Type</span>
+                            <span>Job Type</span>
+                            <span>Deactivated</span>
+                        </div>
+                    </div>
+                </div> -->
+                
             </div>
 
         </div>
         <div class="profile">
+            <div class="content">
 
+                <div class="top">
+                    <div class="badges">
+                        <span>Deactivated</span>
+                        <span>Regular</span>
+                        <span>On-call</span>
+                    </div>
+                    <sl-avatar></sl-avatar>
+                    <sl-dropdown class="options">
+                        <sl-tooltip slot="trigger" content="Options">
+                            <sl-icon-button style="font-size: 1.2em;" name="three-dots-vertical"></sl-icon-button>
+                        </sl-tooltip>
+                        <sl-menu>
+                            <sl-menu-item><sl-icon slot="prefix" name="calendar-week"></sl-icon>Shift Schedule</sl-menu-item>
+                            <sl-menu-item><sl-icon slot="prefix" name="hourglass-split"></sl-icon>Activity Log</sl-menu-item>
+                            <sl-menu-item><sl-icon slot="prefix" name="calendar3-range"></sl-icon>Schedule a Leave</sl-menu-item>
+                            <sl-menu-divider></sl-menu-divider>
+                            <sl-menu-item><sl-icon slot="prefix" name="pencil"></sl-icon>Edit</sl-menu-item>
+                            <sl-menu-item class="deactivate-btn"><sl-icon slot="prefix" name="slash-circle"></sl-icon>Deactivate</sl-menu-item>
+                            <sl-menu-item class="reactivate-btn">Re-activate <sl-icon slot="prefix" name="check-circle"></sl-icon></sl-menu-item>
+                        </sl-menu>
+                    </sl-dropdown>
+                </div>
+                <div class="info">
+                    <h2></h2>
+                    <p>...</p>
+
+                    <div class="more-info">
+                        <sl-tooltip content="Contact Number">
+                            <span class="contact-number">
+                                <!-- <sl-icon name="telephone"></sl-icon>09123841248 -->
+                            </span>
+                        </sl-tooltip>
+                        <sl-tooltip content="Tenure">
+                            <span class="tenure">
+                                <!-- <sl-icon name="clock"></sl-icon>1Year 2Months -->
+                            </span>
+                        </sl-tooltip>
+                    </div>
+                </div>
+                <div class="performance">
+                    <h5>Performance</h5>
+
+                    <div class="attendance">
+                        <sl-progress-ring percentage="50" size="65">100%</sl-progress-ring>
+                        <div class="texts">
+                            <h2>Attendance</h2>
+                            <p><span class="absences">18 Absences</span> • <span class="work-days">365 Work Days</span></p>
+                        </div>
+                    </div>
+
+                    <div class="timeliness">
+                        <sl-progress-ring percentage="50" size="65">100%</sl-progress-ring>
+                        <div class="texts">
+                            <h2>Timeliness</h2>
+                            <p><span class="lates">18 Lates</span> • <span class="early-outs">8 Early-outs</span> • <span class="work-days">365 Work Days</span></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </main>
 
