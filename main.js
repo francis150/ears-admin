@@ -8,6 +8,7 @@ const path = require('path')
 const moment = require('moment')
 
 const firebase = require('./firebase')
+const main = require('electron-reload')
 const firedb = firebase.database()
 const fireauth = firebase.auth()
 
@@ -119,6 +120,14 @@ ipcMain.on('nav-to-employees', (evt, arg) => {
 ipcMain.on('nav-to-new-employee', (evt, arg) => {
     backURL = mainWindow.webContents.getURL()
     mainWindow.loadURL(path.join('file://', __dirname, 'views/new-employee.html'))
+})
+
+ipcMain.on('nav-to-edit-employee', (evt, arg) => {
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/edit-employee.html'))
+    mainWindow.webContents.once('did-finish-load', () => {
+        mainWindow.webContents.send('load-subject-employee', arg)
+    })
 })
 
 ipcMain.on('nav-to-reports', (evt, arg) => {
@@ -394,8 +403,6 @@ ipcMain.on('request-employees-search-suggestions', (evt, arg) => {
 })
 
 
-
-
 /* NOTE ADD NEW EMPLOYEE */
 ipcMain.on('add-new-employee', (evt, arg) => {
     const pushKey = firedb.ref('employees').push().key
@@ -429,7 +436,44 @@ ipcMain.on('add-new-employee-result', (evt, mainTask) => {
                 mainTask.storageError = 'Failed to set employee image.'
                 mainWindow.webContents.send('add-new-employee-result', mainTask)
             })
+        } else {
+            mainWindow.webContents.send('add-new-employee-result', mainTask)
         }
+    })
+})
+
+
+/* NOTE EDIT EMPLOYEE */
+ipcMain.on('edit-employee', (evt, arg) => {
+    firedb.ref(`employees/${arg.key}`).update(arg.updates)
+    .then(() => {
+        evt.reply('edit-employee-task', { key: arg.key })
+    })
+    .catch((err) => {
+        evt.reply('edit-employee-task', { error: err.message })
+    })
+})
+
+ipcMain.on('edit-employee-result', (evt, mainTask) => {
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/employees.html'))
+    mainWindow.webContents.once('did-finish-load', () => {
+
+        // if maintask.imageURL is available
+        if (mainTask.imageURL) {
+            firedb.ref(`employees/${mainTask.key}`).update({ image_url: mainTask.imageURL })
+            .then(() => {
+                mainWindow.webContents.send('edit-employee-result', mainTask)
+            })
+            .catch((err) => {
+                console.log(err.message)
+                mainTask.storageError = 'Failed to update employee image.'
+                mainWindow.webContents.send('edit-employee-result', mainTask)
+            })
+        } else {
+            mainWindow.webContents.send('edit-employee-result', mainTask)
+        }
+
     })
 })
 

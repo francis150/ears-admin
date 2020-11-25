@@ -1,0 +1,627 @@
+/* FONTS */
+@font-face {
+  src: url(../assets/fonts/Montserrat-Black.ttf);
+  font-family: black;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Bold.ttf);
+  font-family: bold;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-ExtraBold.ttf);
+  font-family: extra-bold;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-ExtraLight.ttf);
+  font-family: extra-light;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Light.ttf);
+  font-family: light;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Medium.ttf);
+  font-family: medium;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Regular.ttf);
+  font-family: regular;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-SemiBold.ttf);
+  font-family: semi-bold;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat-Thin.ttf);
+  font-family: thin;
+}
+
+/* COLORS */
+/* SCROLL BAR */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+  background: lightgray;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #363636;
+  opacity: 0.1;
+  border-radius: 5px;
+}
+
+sl-drawer .profile {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+sl-drawer .profile sl-avatar::part(base) {
+  border: solid 3px #726eff;
+  width: 42px;
+  height: 42px;
+}
+
+sl-drawer .profile .profile-texts {
+  margin-left: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+sl-drawer .profile .profile-texts h2 {
+  font-family: bold;
+  font-size: 16px;
+  color: #363636;
+}
+
+sl-drawer .profile .profile-texts span {
+  font-family: semi-bold;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: #363636;
+  text-transform: uppercase;
+}
+
+sl-drawer .group {
+  margin-bottom: 15px;
+}
+
+sl-drawer .group h6 {
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-family: bold;
+  font-size: 16px;
+  color: #726eff;
+  border-bottom: 3px solid white;
+  padding-bottom: 5px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  -webkit-transition: .2s border-color ease-in-out;
+  transition: .2s border-color ease-in-out;
+}
+
+sl-drawer .group h6:hover {
+  border-color: #726eff;
+}
+
+sl-drawer .group p {
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-family: regular;
+  font-size: 14px;
+  color: #363636;
+  border-bottom: 3px solid white;
+  padding-bottom: 5px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  -webkit-transition: .2s border-color ease-in-out;
+  transition: .2s border-color ease-in-out;
+}
+
+sl-drawer .group p:hover {
+  border-color: #707070;
+}
+
+sl-drawer h6[data-disabled=true], sl-drawer p[data-disabled=true] {
+  opacity: .6;
+  text-decoration: line-through;
+  cursor: no-drop;
+  pointer-events: none;
+}
+
+sl-drawer h6[data-disabled=true]:hover, sl-drawer p[data-disabled=true]:hover {
+  border-color: white;
+}
+
+.loader {
+  z-index: 5;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: absolute;
+  width: 100%;
+  height: 0;
+  background: rgba(255, 255, 255, 0.97);
+  overflow: hidden;
+  bottom: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: height .4s ease-in;
+  transition: height .4s ease-in;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.loader h1 {
+  font-family: bold;
+  color: #363636;
+  margin-top: 20px;
+  font-size: 18px;
+  opacity: .9;
+}
+
+.loader .loader-indicator {
+  background: #726eff;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  -webkit-animation: loading .5s ease infinite;
+          animation: loading .5s ease infinite;
+}
+
+@-webkit-keyframes loading {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 1;
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes loading {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 1;
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 0;
+  }
+}
+
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding: 40px 30px 20px 30px;
+}
+
+header .back-btn {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  text-decoration: none;
+  color: #363636;
+  text-transform: uppercase;
+  font-family: bold;
+  font-size: 21px;
+  line-height: 28px;
+  letter-spacing: 0.05em;
+  padding-bottom: 5px;
+  border-bottom: 3px solid white;
+  -webkit-transition: .2s border-color ease-in-out;
+  transition: .2s border-color ease-in-out;
+}
+
+header .back-btn:hover {
+  border-color: #363636;
+}
+
+header h1 {
+  color: #363636;
+  font-family: semi-bold;
+  font-size: 32px;
+}
+
+header button {
+  background: none;
+  border: none;
+  font-family: bold;
+  font-size: 21px;
+  color: #726eff;
+  margin-left: auto;
+  padding-bottom: 5px;
+  border-bottom: 3px solid white;
+  cursor: pointer;
+  text-transform: uppercase;
+  -webkit-transition: .2s border-color ease-in-out;
+  transition: .2s border-color ease-in-out;
+}
+
+header button:hover {
+  border-color: #726eff;
+}
+
+header button:focus {
+  outline: none;
+}
+
+footer {
+  position: absolute;
+  width: 100vw;
+  height: 20px;
+  bottom: 0;
+  background: #726eff;
+  z-index: 10;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 1.5px 10px;
+  -webkit-transition: background 0.5s ease-in-out;
+  transition: background 0.5s ease-in-out;
+}
+
+footer p {
+  font-size: 12px;
+  color: white;
+  font-family: medium;
+  margin: 0 6px;
+  cursor: default;
+}
+
+footer sl-icon {
+  color: white;
+  margin: 0 6px;
+  font-family: medium;
+}
+
+footer div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+}
+
+footer .right {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+.dialog-box::part(title) {
+  font-family: semi-bold;
+  color: #363636;
+}
+
+.dialog-box::part(body) {
+  font-family: regular;
+}
+
+.dialog-box .buttons button {
+  background: none;
+  border: none;
+  padding-bottom: 5px;
+  border-bottom: 3px solid white;
+  cursor: pointer;
+  font-family: bold;
+  margin: 0 10px;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+.dialog-box .buttons button:focus {
+  outline: none;
+}
+
+.dialog-box .buttons .positive-btn {
+  color: #726eff;
+}
+
+.dialog-box .buttons .positive-btn:hover {
+  border-color: #726eff;
+}
+
+.dialog-box .buttons .negative-btn {
+  color: #363636;
+  opacity: .5;
+}
+
+.dialog-box .buttons .negative-btn:hover {
+  border-color: #363636;
+  opacity: 1;
+}
+
+.input-element {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.input-element label {
+  font-family: semi-bold;
+  color: #363636;
+  font-size: 12px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  opacity: .7;
+  -webkit-transition: opacity .2s ease-in-out;
+  transition: opacity .2s ease-in-out;
+}
+
+.input-element input {
+  height: 41px;
+  background: #f1f1f1;
+  border: 1px white solid;
+  border-radius: 5px;
+  padding: 0 10px;
+  font-family: semi-bold;
+  color: #363636;
+  font-size: 15px;
+  -webkit-transition: border-color .2s ease-in-out;
+  transition: border-color .2s ease-in-out;
+}
+
+.input-element small {
+  font-family: semi-bold;
+  font-size: 11px;
+  color: #363636;
+  margin-top: 2px;
+  margin-left: 5px;
+  opacity: .5;
+}
+
+.input-element:focus-within label {
+  opacity: 1;
+  color: #726eff;
+}
+
+.input-element:focus-within small {
+  opacity: 1;
+  color: #726eff;
+}
+
+.input-element:focus-within input {
+  outline: none;
+  border-color: #726eff;
+}
+
+.input-element[data-invalid=true] input {
+  border-color: #cc3448;
+}
+
+.input-element[data-invalid=true] small {
+  color: #cc3448;
+  opacity: 1;
+}
+
+.input-element[data-invalid=true] label {
+  color: #cc3448;
+  opacity: 1;
+}
+
+.input-element sl-dropdown input {
+  width: 100%;
+}
+
+.input-element sl-dropdown sl-menu sl-menu-item[type=manage]::part(base) {
+  opacity: .3;
+}
+
+.input-element sl-dropdown sl-menu sl-menu-item[type=manage]:hover::part(base) {
+  opacity: 1;
+}
+
+.input-element sl-dropdown sl-menu sl-menu-item[type=manage] sl-icon {
+  margin-right: 10px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+main {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+main h1 {
+  color: #363636;
+  font-family: semi-bold;
+  font-size: 32px;
+}
+
+main form {
+  margin: 20px 0;
+  width: 588px;
+  max-height: 500px;
+  border-radius: 5px;
+  -webkit-box-shadow: 4px 4px 15px 3px rgba(0, 0, 0, 0.25);
+          box-shadow: 4px 4px 15px 3px rgba(0, 0, 0, 0.25);
+  padding: 20px 30px;
+}
+
+main form h2 {
+  font-family: semi-bold;
+  font-size: 18px;
+  color: #363636;
+  margin-bottom: 20px;
+}
+
+main form .two-col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 10px;
+}
+
+main form .buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin-top: 30px;
+}
+
+main form .buttons button, main form .buttons input {
+  background: none;
+  border: none;
+  padding-bottom: 5px;
+  border-bottom: 3px solid white;
+  cursor: pointer;
+  font-family: bold;
+  margin: 0 10px;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+main form .buttons button:focus, main form .buttons input:focus {
+  outline: none;
+}
+
+main form .buttons .positive-btn {
+  color: #726eff;
+}
+
+main form .buttons .positive-btn:hover {
+  border-color: #726eff;
+}
+
+main form .buttons .negative-btn {
+  color: #363636;
+  opacity: .5;
+}
+
+main form .buttons .negative-btn:hover {
+  border-color: #363636;
+  opacity: 1;
+}
+
+main form .name-contact {
+  display: block;
+}
+
+main form .name-contact .image-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+main form .name-contact .image-wrapper sl-avatar::part(base) {
+  width: 115px;
+  height: 115px;
+  background: #f1f1f1;
+}
+
+main form .name-contact .image-wrapper sl-avatar::part(icon) {
+  color: #707070;
+  font-size: 50px;
+}
+
+main form .name-contact .image-wrapper button {
+  background: none;
+  border: none;
+  border-bottom: 3px solid white;
+  padding-bottom: 5px;
+  font-family: semi-bold;
+  color: #363636;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: .7;
+  -webkit-transition: .2s all ease-in-out;
+  transition: .2s all ease-in-out;
+}
+
+main form .name-contact .image-wrapper button:focus {
+  outline: none;
+}
+
+main form .name-contact .image-wrapper button:hover {
+  border-color: #726eff;
+  opacity: 1;
+}
+
+main form .job-info {
+  display: none;
+}
+/*# sourceMappingURL=edit-employee.css.map */

@@ -1,5 +1,4 @@
 
-
 const electron = require('electron')
 const { remote, ipcRenderer } = electron
 
@@ -10,14 +9,7 @@ const currentWindow = remote.getCurrentWindow()
 currentWindow.openDevTools()
 
 const form = document.querySelector('main form')
-
-// dropdown input handles
-document.querySelectorAll('sl-dropdown[type=input] sl-menu sl-menu-item[type=normal]').forEach(element => {
-    element.addEventListener('click', () => {
-        document.querySelector(`main form input[name=${element.parentElement.parentElement.dataset.for}]`).value = element.innerHTML
-        document.querySelector(`main form input[name=${element.parentElement.parentElement.dataset.for}]`).dataset.value = element.value
-    })
-})
+const updatedEmployee = {}
 
 // main back button 
 document.querySelector('header .back-btn').addEventListener('click', () => {
@@ -29,14 +21,39 @@ document.querySelector('header .back-btn').addEventListener('click', () => {
     }, 1000);
 })
 
+// receive & load subject user
+ipcRenderer.once('load-subject-employee', (evt, employee) => {
+
+    updatedEmployee.key = employee.key
+
+    document.querySelector('form .name-contact .image-wrapper sl-avatar').image = employee.image_url
+    document.querySelector('form .name-contact .image-wrapper input').value = ''
+
+    form.firstName.value = employee.fname
+    form.lastName.value = employee.lname
+    form.contactNumber.value = employee.contact_number
+
+    const designation = ipcRenderer.sendSync('get-employee-designation', employee.designation)
+    form.designation.dataset.value = designation.key
+    form.designation.value = designation.name
+
+    const employeeType = ipcRenderer.sendSync('get-employee-type', employee.employee_type)
+    form.employeeType.dataset.value = employeeType.key
+    form.employeeType.value = employeeType.name
+
+    const jobType = ipcRenderer.sendSync('get-job-type', employee.job_type)
+    form.jobType.dataset.value = jobType.key
+    form.jobType.value = jobType.name
+})
+
 // Choose image diloag
-document.querySelector('form .name-contact .user-image-wrapper button').addEventListener('click', () => {
-    document.querySelector('form .name-contact .user-image-wrapper input').click()
+document.querySelector('form .name-contact .image-wrapper button').addEventListener('click', () => {
+    document.querySelector('form .name-contact .image-wrapper input').click()
 })
 
 // Preview chosen image
-document.querySelector('form .name-contact .user-image-wrapper input').addEventListener('change', () => {
-    document.querySelector('form .name-contact .user-image-wrapper sl-avatar').image = document.querySelector('form .name-contact .user-image-wrapper input').files[0].path
+document.querySelector('form .name-contact .image-wrapper input').addEventListener('change', () => {
+    document.querySelector('form .name-contact .image-wrapper sl-avatar').image = document.querySelector('form .name-contact .image-wrapper input').files[0].path
 })
 
 // request designations
@@ -108,7 +125,6 @@ document.querySelector('form sl-menu-item.manage-employee-types').addEventListen
     ipcRenderer.send('show-employee-type-manager')
 })
 
-
 // page tracker
 let pageOn = 1
 
@@ -119,12 +135,11 @@ document.querySelector('form .job-info .buttons .negative-btn').addEventListener
     document.querySelector('form .name-contact').style.display = 'block'
 })
 
-// next / submit buttons handles
-const newEmployee = {}
+// form submited
 form.addEventListener('submit', (e) => {
     e.preventDefault()
 
-    if(pageOn === 1) {
+    if (pageOn === 1) {
 
         // clear validity
         document.querySelectorAll('form .name-contact .input-element').forEach(input => {
@@ -153,16 +168,17 @@ form.addEventListener('submit', (e) => {
             form.contactNumber.nextElementSibling.innerHTML = 'Please enter a valid phone number.'
         } else {
             // collect data
-            if (form.imgInput.files[0]) { newEmployee.imageFile = form.imgInput.files[0] }
-            newEmployee.fname = form.firstName.value
-            newEmployee.lname = form.lastName.value
-            newEmployee.contact_number = form.contactNumber.value
+            if (form.imgInput.files[0]) { updatedEmployee.imageFile = form.imgInput.files[0] }
+            updatedEmployee.fname = form.firstName.value
+            updatedEmployee.lname = form.lastName.value
+            updatedEmployee.contact_number = form.contactNumber.value
 
             // go to page 2
             document.querySelector('form .name-contact').style.display = 'none'
             document.querySelector('form .job-info').style.display = 'block'
             pageOn = 2
         }
+
     } else if (pageOn === 2) {
         // clear validity
         document.querySelectorAll('form .job-info .input-element').forEach(input => {
@@ -187,9 +203,9 @@ form.addEventListener('submit', (e) => {
             form.employeeType.nextElementSibling.innerHTML = 'This field cant be empty.'
         } else {
             // collect data
-            newEmployee.designation = form.designation.dataset.value
-            newEmployee.job_type = form.jobType.dataset.value
-            newEmployee.employee_type = form.employeeType.dataset.value
+            updatedEmployee.designation = form.designation.dataset.value
+            updatedEmployee.job_type = form.jobType.dataset.value
+            updatedEmployee.employee_type = form.employeeType.dataset.value
 
             finalSubmit()
         }
@@ -200,50 +216,53 @@ function finalSubmit() {
     document.querySelector('.loader').style.height = '100vh'
 
     const forSend = {
-        fname: newEmployee.fname,
-        lname: newEmployee.lname,
-        contact_number: newEmployee.contact_number,
-        designation: newEmployee.designation,
-        employee_type: newEmployee.employee_type,
-        job_type: newEmployee.job_type
+        fname: updatedEmployee.fname,
+        lname: updatedEmployee.lname,
+        contact_number: updatedEmployee.contact_number,
+        designation: updatedEmployee.designation,
+        employee_type: updatedEmployee.employee_type,
+        job_type: updatedEmployee.job_type
     }
 
-    ipcRenderer.send('add-new-employee', forSend)
+    ipcRenderer.send('edit-employee', {
+        updates: forSend,
+        key: updatedEmployee.key
+    })
 }
 
-ipcRenderer.on('add-new-employee-task', (evt, task) => {
+ipcRenderer.on('edit-employee-task', (evt, task) => {
     let mainTask = {}
     if (task.key) {
         
-        mainTask.dbResult = 'Employee added successfully.'
+        mainTask.dbResult = 'Employee updated successfully.'
         mainTask.key = task.key
 
-        if (newEmployee.imageFile) {
+        if (updatedEmployee.imageFile) {
             
-            // if an image is set
-            const uploadTask = firestorage.ref(`employee-images/${task.key}`).put(newEmployee.imageFile)
+            // if image is set
+            const uploadTask = firestorage.ref(`employee-images/${task.key}`).put(updatedEmployee.imageFile)
             uploadTask.on('state_changed', (snapshot) => {
                 let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 document.querySelector('.loader h1').innerHTML = `Uploading Image (${Math.round(progress)}%)`
             }, (err) => {
                 console.log(err.message)
-                mainTask.storageError = 'Failed to upload employee image.'
-                ipcRenderer.send('add-new-employee-result', mainTask)
+                mainTask.storageError = 'Failed to update employee image.'
+                ipcRenderer.send('edit-employee-result', mainTask)
             }, () => {
                 uploadTask.snapshot.ref.getDownloadURL()
                 .then((downloadURL) => {
                     mainTask.imageURL = downloadURL
-                    ipcRenderer.send('add-new-employee-result', mainTask)
+                    ipcRenderer.send('edit-employee-result', mainTask)
                 })
             })
 
         } else {
-            ipcRenderer.send('add-new-employee-result', mainTask)
+            ipcRenderer.send('edit-employee-result', mainTask)
         }
 
     } else {
-        mainTask.dbError = 'Something went wrong while saving new employee.'
-        ipcRenderer.send('add-new-employee-result', mainTask)
+        mainTask.dbError = 'Something went wrong while updating employee.'
+        ipcRenderer.send('edit-employee-result', mainTask)
     }
 })
 

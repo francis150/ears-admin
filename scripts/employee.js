@@ -65,7 +65,9 @@ ipcRenderer.on('respond-employees', (evt, arg) => {
 })
 
 // view employee profile
+let viewedEmployee
 function viewEmployee(employee) {
+    viewedEmployee = employee
     document.querySelector('.profile .content').style.display = 'flex'
 
     const badgesDiv = document.querySelector('.profile .content .top .badges')
@@ -209,6 +211,29 @@ document.getElementById('new-employee-btn').addEventListener('click', () => {
     }
 })
 
+// edit employee
+document.querySelector('.profile .content .top .options sl-menu .edit-btn').addEventListener('click', (evt, arg) => {
+    if (remote.getGlobal('sharedObj').user.permissions.modify_employees) {
+
+        document.querySelector('.loader').style.height = '100vh'
+        setTimeout(() => {
+
+            ipcRenderer.send('nav-to-edit-employee', viewedEmployee)
+
+        }, 1000);
+
+    } else {
+        showDialog({
+            title: 'Restricted Access',
+            message: 'Seems like you dont have the permission for this option.',
+            posBtnText: 'Okay',
+            posBtnFun: function () {
+                /* none */
+            }
+        })
+    }
+})
+
 // load employee type filter
 ipcRenderer.send('request-employee-types')
 ipcRenderer.on('respond-employee-types', (evt, arg) => {
@@ -249,6 +274,13 @@ document.querySelector('.list .header .filter sl-menu .deactivated-filter').addE
 
 // when employee is added
 ipcRenderer.on('add-new-employee-result', (evt, arg) => {
+    if (arg.dbResult) { showAlert('success', arg.dbResult) }
+    if (arg.dbError) { showAlert('fail', arg.dbError) }
+    if (arg.storageError) { showAlert('fail', arg.storageError) }
+})
+
+// when employee is updated
+ipcRenderer.on('edit-employee-result', (evt, arg) => {
     if (arg.dbResult) { showAlert('success', arg.dbResult) }
     if (arg.dbError) { showAlert('fail', arg.dbError) }
     if (arg.storageError) { showAlert('fail', arg.storageError) }
