@@ -20,7 +20,7 @@ ipcRenderer.on('respond-employee-types', (evt, arg) => {
         item.value = type.key
         item.addEventListener('click', () => {
             item.checked = !item.checked
-            ipcRenderer.send('get-employees')
+            ipcRenderer.send('request-employees')
         })
         container.appendChild(item)
     })
@@ -39,7 +39,7 @@ ipcRenderer.on('respond-job-types', (evt, arg) => {
         item.value = type.key
         item.addEventListener('click', () => {
             item.checked = !item.checked
-            ipcRenderer.send('get-employees')
+            ipcRenderer.send('request-employees')
         })
         container.appendChild(item)
     })
@@ -48,81 +48,13 @@ ipcRenderer.on('respond-job-types', (evt, arg) => {
 // deactivated filter   
 document.querySelector('.list .header .filter sl-menu .deactivated-filter').addEventListener('click', (e) => {
     e.target.checked = !e.target.checked
-    ipcRenderer.send('get-employees')
+    ipcRenderer.send('request-employees')
 })
 
 // load employees
+let firstLoad = true
 ipcRenderer.send('request-employees')
-// default
 ipcRenderer.on('respond-employees', (evt, arg) => {
-    const container = document.querySelector('.list .employee-list')
-    container.innerHTML = ''
-
-    // counter
-    const counter = document.querySelector('.list .header .counter-value')
-    counter.innerHTML = 0
-
-    Object.values(arg).forEach(employee => {
-
-        // filtering
-        const filters = !employee.deactivated_by || (employee.deactivated_by && document.querySelector('.list .header .filter sl-menu .deactivated-filter').checked)
-
-        if (filters) {
-
-            // counter
-            counter.innerHTML = `${parseInt(counter.innerHTML) + 1}`.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-
-            const mainDiv = document.createElement('div')
-            mainDiv.className = 'employee'
-
-            mainDiv.addEventListener('click', () => {
-                viewEmployee(employee)
-            })
-
-            const avatar = document.createElement('sl-avatar')
-            avatar.image = employee.image_url
-            mainDiv.appendChild(avatar)
-
-            const textDiv = document.createElement('div')
-            textDiv.className = 'texts-wrapper'
-            mainDiv.appendChild(textDiv)
-
-            const name = document.createElement('h2')
-            name.innerHTML = `${employee.lname}, ${employee.fname}`
-            textDiv.appendChild(name)
-
-            const badgesDiv = document.createElement('div')
-            badgesDiv.className = 'badges-wrapper'
-            textDiv.appendChild(badgesDiv)
-
-            // get employee type
-            const employeeType = ipcRenderer.sendSync('get-employee-type', employee.employee_type)
-            const employeeTypeBadge = document.createElement('span')
-            employeeTypeBadge.innerHTML = employeeType.name
-            employeeTypeBadge.style.background = employeeType.color
-            badgesDiv.appendChild(employeeTypeBadge)
-
-            // get job type
-            const jobType = ipcRenderer.sendSync('get-job-type', employee.job_type)
-            const jobTypeBadge = document.createElement('span')
-            jobTypeBadge.innerHTML = jobType.name
-            jobTypeBadge.style.background = jobType.color
-            badgesDiv.appendChild(jobTypeBadge)
-
-            if (employee.deactivated_by) {
-                const deactivatedBadge = document.createElement('span')
-                deactivatedBadge.innerHTML = 'Deactivated'
-                deactivatedBadge.style.background = '#cc3448'
-                badgesDiv.appendChild(deactivatedBadge)
-            }
-
-            container.appendChild(mainDiv)
-
-        }
-    })
-})
-// filtered
-ipcRenderer.on('reply-employees', (evt, arg) => {
     const container = document.querySelector('.list .employee-list')
     container.innerHTML = ''
 
@@ -133,12 +65,14 @@ ipcRenderer.on('reply-employees', (evt, arg) => {
     Object.values(arg).forEach(employee => {
         
         // filtering
-        const filters = document.querySelector(`.list .header .filter sl-menu .employee-type-filter sl-menu-item[value=${employee.employee_type}]`).checked &&
+        const filters = firstLoad 
+        ? !employee.deactivated_by || (employee.deactivated_by && document.querySelector('.list .header .filter sl-menu .deactivated-filter').checked) 
+        : document.querySelector(`.list .header .filter sl-menu .employee-type-filter sl-menu-item[value=${employee.employee_type}]`).checked &&
             document.querySelector(`.list .header .filter sl-menu .job-type-filter sl-menu-item[value=${employee.job_type}]`).checked &&
             (!employee.deactivated_by || (employee.deactivated_by && document.querySelector('.list .header .filter sl-menu .deactivated-filter').checked))
 
         if (filters) {
-
+            firstLoad = false
             // increment counter
             counter.innerHTML = `${parseInt(counter.innerHTML) + 1}`.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
@@ -349,6 +283,90 @@ document.querySelector('.profile .content .top .options sl-menu .edit-btn').addE
             ipcRenderer.send('nav-to-edit-employee', viewedEmployee)
 
         }, 1000);
+
+    } else {
+        showDialog({
+            title: 'Restricted Access',
+            message: 'Seems like you dont have the permission for this option.',
+            posBtnText: 'Okay',
+            posBtnFun: function () {
+                /* none */
+            }
+        })
+    }
+})
+
+// deactivate employee
+document.querySelector('.profile .content .top .options sl-menu .deactivate-btn').addEventListener('click', (e) => {
+    if (remote.getGlobal('sharedObj').user.permissions.deactivate_reactivate_employees) {
+        
+        if (!e.target.disabled) {
+            
+            showDialog({
+                title: 'Confirm Employee Deactivation',
+                message: 'Are you sure you want to deactivate this employee?',
+                posBtnText: 'Confirm',
+                posBtnFun: function () {
+
+                    const task = ipcRenderer.sendSync('deactivate-employee', viewedEmployee.key)
+
+                    if (task.result) {
+                        showAlert('warning', 'Employee Deactivated')
+                    } else {
+                        showAlert('fail', 'Something went wrong while Deactivating Employee.')
+                        console.log(task.error)
+                    }
+
+                },
+                negBtnText: 'Cancel',
+                negBtnFun: function () {
+
+                }
+            })
+
+        }
+
+    } else {
+        showDialog({
+            title: 'Restricted Access',
+            message: 'Seems like you dont have the permission for this option.',
+            posBtnText: 'Okay',
+            posBtnFun: function () {
+                /* none */
+            }
+        })
+    }
+})
+
+// reactivate employee
+document.querySelector('.profile .content .top .options sl-menu .reactivate-btn').addEventListener('click', (e) => {
+    if (remote.getGlobal('sharedObj').user.permissions.deactivate_reactivate_employees) {
+
+        if (!e.target.disabled) {
+
+            showDialog({
+                title: 'Confirm Employee Reactivation',
+                message: 'Are you sure you want to reactivate this employee?',
+                posBtnText: 'Confirm',
+                posBtnFun: function () {
+
+                    const task = ipcRenderer.sendSync('reactivate-employee', viewedEmployee.key)
+
+                    if (task.result) {
+                        showAlert('success', 'Employee Reactivated')
+                    } else {
+                        showAlert('fail', 'Something went wrong while Reactivating Employee.')
+                        console.log(task.error)
+                    }
+
+                },
+                negBtnText: 'Cancel',
+                negBtnFun: function () {
+
+                }
+            })
+
+        }
 
     } else {
         showDialog({

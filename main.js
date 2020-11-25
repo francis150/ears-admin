@@ -352,14 +352,12 @@ ipcMain.on('edit-user-result', (evt, mainTask) => {
 
 /* NOTE EMPLOYEES */
 ipcMain.on('request-employees', (evt) => {
-    firedb.ref('employees').once('value', (snapshot) => {
-        evt.reply('respond-employees', snapshot.val())
-    })
-})
+    const ref = firedb.ref('employees')
 
-ipcMain.on('get-employees', (evt) => {
-    firedb.ref('employees').on('value', (snapshot) => {
-        evt.reply('reply-employees', snapshot.val())
+    ref.off('value')
+
+    ref.on('value', (snapshot) => {
+        evt.reply('respond-employees', snapshot.val())
     })
 })
 
@@ -403,6 +401,30 @@ ipcMain.on('request-employees-search-suggestions', (evt, arg) => {
             evt.reply('respond-employees-search-suggestions', { error: err })
             console.log(err.message)
         })
+})
+
+ipcMain.on('deactivate-employee', (evt, arg) => {
+
+    firedb.ref(`/employees/${arg}`).update({ deactivated_by: sharedObj.user.key })
+    .then(() => {
+        evt.returnValue = { result: true }
+    })
+    .catch(err => {
+        evt.returnValue = { error: err.message }
+    })
+
+})
+
+ipcMain.on('reactivate-employee', (evt, arg) => {
+
+    firedb.ref(`/employees/${arg}/deactivated_by`).remove()
+    .then(() => {
+        evt.returnValue = { result: true }
+    })
+    .catch(err => {
+        evt.returnValue = { error: err.message }
+    })
+
 })
 
 
