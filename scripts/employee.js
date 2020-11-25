@@ -6,61 +6,189 @@ const _moment = require('moment')
 const currentWindow = remote.getCurrentWindow()
 currentWindow.openDevTools()
 
+// load employee type filter
+ipcRenderer.send('request-employee-types')
+ipcRenderer.on('respond-employee-types', (evt, arg) => {
+    const container = document.querySelector('.list .header .filter sl-menu .employee-type-filter')
+    container.innerHTML = ''
+
+    Object.values(arg).forEach(type => {
+
+        const item = document.createElement('sl-menu-item')
+        item.checked = true
+        item.innerHTML = type.name
+        item.value = type.key
+        item.addEventListener('click', () => {
+            item.checked = !item.checked
+            ipcRenderer.send('get-employees')
+        })
+        container.appendChild(item)
+    })
+})
+
+// load job type filter
+ipcRenderer.send('request-job-types')
+ipcRenderer.on('respond-job-types', (evt, arg) => {
+    const container = document.querySelector('.list .header .filter sl-menu .job-type-filter')
+    container.innerHTML = ''
+
+    Object.values(arg).forEach(type => {
+        const item = document.createElement('sl-menu-item')
+        item.checked = true
+        item.innerHTML = type.name
+        item.value = type.key
+        item.addEventListener('click', () => {
+            item.checked = !item.checked
+            ipcRenderer.send('get-employees')
+        })
+        container.appendChild(item)
+    })
+})
+
+// deactivated filter   
+document.querySelector('.list .header .filter sl-menu .deactivated-filter').addEventListener('click', (e) => {
+    e.target.checked = !e.target.checked
+    ipcRenderer.send('get-employees')
+})
+
 // load employees
 ipcRenderer.send('request-employees')
+// default
 ipcRenderer.on('respond-employees', (evt, arg) => {
     const container = document.querySelector('.list .employee-list')
     container.innerHTML = ''
 
-    document.querySelector('.list .header .counter-value').innerHTML = arg.count
-    
-    Object.values(arg.employees).forEach(employee => {
-        
-        const mainDiv = document.createElement('div')
-        mainDiv.className = 'employee'
+    // counter
+    const counter = document.querySelector('.list .header .counter-value')
+    counter.innerHTML = 0
 
-        mainDiv.addEventListener('click', () => {
-            viewEmployee(employee)
-        })
+    Object.values(arg).forEach(employee => {
 
-        const avatar = document.createElement('sl-avatar')
-        avatar.image = employee.image_url
-        mainDiv.appendChild(avatar)
+        // filtering
+        const filters = !employee.deactivated_by || (employee.deactivated_by && document.querySelector('.list .header .filter sl-menu .deactivated-filter').checked)
 
-        const textDiv = document.createElement('div')
-        textDiv.className = 'texts-wrapper'
-        mainDiv.appendChild(textDiv)
+        if (filters) {
 
-        const name = document.createElement('h2')
-        name.innerHTML = `${employee.lname}, ${employee.fname}`
-        textDiv.appendChild(name)
+            // counter
+            counter.innerHTML = `${parseInt(counter.innerHTML) + 1}`.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
-        const badgesDiv = document.createElement('div')
-        badgesDiv.className = 'badges-wrapper'
-        textDiv.appendChild(badgesDiv)
+            const mainDiv = document.createElement('div')
+            mainDiv.className = 'employee'
 
-        // get employee type
-        const employeeType = ipcRenderer.sendSync('get-employee-type', employee.employee_type)
-        const employeeTypeBadge = document.createElement('span')
-        employeeTypeBadge.innerHTML = employeeType.name
-        employeeTypeBadge.style.background = employeeType.color
-        badgesDiv.appendChild(employeeTypeBadge)
+            mainDiv.addEventListener('click', () => {
+                viewEmployee(employee)
+            })
 
-        // get job type
-        const jobType = ipcRenderer.sendSync('get-job-type', employee.job_type)
-        const jobTypeBadge = document.createElement('span')
-        jobTypeBadge.innerHTML = jobType.name
-        jobTypeBadge.style.background = jobType.color
-        badgesDiv.appendChild(jobTypeBadge)
+            const avatar = document.createElement('sl-avatar')
+            avatar.image = employee.image_url
+            mainDiv.appendChild(avatar)
 
-        if (employee.deactivated_by) {
-            const deactivatedBadge = document.createElement('span')
-            deactivatedBadge.innerHTML = 'Deactivated'
-            deactivatedBadge.style.background = '#cc3448'
-            badgesDiv.appendChild(deactivatedBadge)
+            const textDiv = document.createElement('div')
+            textDiv.className = 'texts-wrapper'
+            mainDiv.appendChild(textDiv)
+
+            const name = document.createElement('h2')
+            name.innerHTML = `${employee.lname}, ${employee.fname}`
+            textDiv.appendChild(name)
+
+            const badgesDiv = document.createElement('div')
+            badgesDiv.className = 'badges-wrapper'
+            textDiv.appendChild(badgesDiv)
+
+            // get employee type
+            const employeeType = ipcRenderer.sendSync('get-employee-type', employee.employee_type)
+            const employeeTypeBadge = document.createElement('span')
+            employeeTypeBadge.innerHTML = employeeType.name
+            employeeTypeBadge.style.background = employeeType.color
+            badgesDiv.appendChild(employeeTypeBadge)
+
+            // get job type
+            const jobType = ipcRenderer.sendSync('get-job-type', employee.job_type)
+            const jobTypeBadge = document.createElement('span')
+            jobTypeBadge.innerHTML = jobType.name
+            jobTypeBadge.style.background = jobType.color
+            badgesDiv.appendChild(jobTypeBadge)
+
+            if (employee.deactivated_by) {
+                const deactivatedBadge = document.createElement('span')
+                deactivatedBadge.innerHTML = 'Deactivated'
+                deactivatedBadge.style.background = '#cc3448'
+                badgesDiv.appendChild(deactivatedBadge)
+            }
+
+            container.appendChild(mainDiv)
+
         }
+    })
+})
+// filtered
+ipcRenderer.on('reply-employees', (evt, arg) => {
+    const container = document.querySelector('.list .employee-list')
+    container.innerHTML = ''
 
-        container.appendChild(mainDiv)
+    // counter
+    const counter = document.querySelector('.list .header .counter-value')
+    counter.innerHTML = 0
+    
+    Object.values(arg).forEach(employee => {
+        
+        // filtering
+        const filters = document.querySelector(`.list .header .filter sl-menu .employee-type-filter sl-menu-item[value=${employee.employee_type}]`).checked &&
+            document.querySelector(`.list .header .filter sl-menu .job-type-filter sl-menu-item[value=${employee.job_type}]`).checked &&
+            (!employee.deactivated_by || (employee.deactivated_by && document.querySelector('.list .header .filter sl-menu .deactivated-filter').checked))
+
+        if (filters) {
+
+            // increment counter
+            counter.innerHTML = `${parseInt(counter.innerHTML) + 1}`.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+
+            const mainDiv = document.createElement('div')
+            mainDiv.className = 'employee'
+
+            mainDiv.addEventListener('click', () => {
+                viewEmployee(employee)
+            })
+
+            const avatar = document.createElement('sl-avatar')
+            avatar.image = employee.image_url
+            mainDiv.appendChild(avatar)
+
+            const textDiv = document.createElement('div')
+            textDiv.className = 'texts-wrapper'
+            mainDiv.appendChild(textDiv)
+
+            const name = document.createElement('h2')
+            name.innerHTML = `${employee.lname}, ${employee.fname}`
+            textDiv.appendChild(name)
+
+            const badgesDiv = document.createElement('div')
+            badgesDiv.className = 'badges-wrapper'
+            textDiv.appendChild(badgesDiv)
+
+            // get employee type
+            const employeeType = ipcRenderer.sendSync('get-employee-type', employee.employee_type)
+            const employeeTypeBadge = document.createElement('span')
+            employeeTypeBadge.innerHTML = employeeType.name
+            employeeTypeBadge.style.background = employeeType.color
+            badgesDiv.appendChild(employeeTypeBadge)
+
+            // get job type
+            const jobType = ipcRenderer.sendSync('get-job-type', employee.job_type)
+            const jobTypeBadge = document.createElement('span')
+            jobTypeBadge.innerHTML = jobType.name
+            jobTypeBadge.style.background = jobType.color
+            badgesDiv.appendChild(jobTypeBadge)
+
+            if (employee.deactivated_by) {
+                const deactivatedBadge = document.createElement('span')
+                deactivatedBadge.innerHTML = 'Deactivated'
+                deactivatedBadge.style.background = '#cc3448'
+                badgesDiv.appendChild(deactivatedBadge)
+            }
+
+            container.appendChild(mainDiv)
+
+        }
     })
 })
 
@@ -232,44 +360,6 @@ document.querySelector('.profile .content .top .options sl-menu .edit-btn').addE
             }
         })
     }
-})
-
-// load employee type filter
-ipcRenderer.send('request-employee-types')
-ipcRenderer.on('respond-employee-types', (evt, arg) => {
-    const container = document.querySelector('.list .header .filter sl-menu .employee-type-filter')
-    container.innerHTML = ''
-
-    Object.values(arg).forEach(type => {
-
-        const item = document.createElement('sl-menu-item')
-        item.checked = true
-        item.innerHTML = type.name
-        item.value = type.key
-        item.addEventListener('click', () => { item.checked = !item.checked })
-        container.appendChild(item)
-    })
-})
-
-// load job type filter
-ipcRenderer.send('request-job-types')
-ipcRenderer.on('respond-job-types', (evt, arg) => {
-    const container = document.querySelector('.list .header .filter sl-menu .job-type-filter')
-    container.innerHTML = ''
-
-    Object.values(arg).forEach(type => {
-        const item = document.createElement('sl-menu-item')
-        item.checked = true
-        item.innerHTML = type.name
-        item.value = type.key
-        item.addEventListener('click', () => { item.checked = !item.checked })
-        container.appendChild(item)
-    })
-})
-
-// deactivated filter
-document.querySelector('.list .header .filter sl-menu .deactivated-filter').addEventListener('click', (e) => {
-    e.target.checked = !e.target.checked
 })
 
 // when employee is added

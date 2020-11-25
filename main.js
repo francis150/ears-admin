@@ -352,11 +352,14 @@ ipcMain.on('edit-user-result', (evt, mainTask) => {
 
 /* NOTE EMPLOYEES */
 ipcMain.on('request-employees', (evt) => {
+    firedb.ref('employees').once('value', (snapshot) => {
+        evt.reply('respond-employees', snapshot.val())
+    })
+})
+
+ipcMain.on('get-employees', (evt) => {
     firedb.ref('employees').on('value', (snapshot) => {
-        evt.reply('respond-employees', {
-            employees: snapshot.val(),
-            count: snapshot.numChildren()
-        })
+        evt.reply('reply-employees', snapshot.val())
     })
 })
 
