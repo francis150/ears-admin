@@ -8,7 +8,6 @@ const path = require('path')
 const moment = require('moment')
 
 const firebase = require('./firebase')
-const main = require('electron-reload')
 const firedb = firebase.database()
 const fireauth = firebase.auth()
 
@@ -125,6 +124,14 @@ ipcMain.on('nav-to-new-employee', (evt, arg) => {
 ipcMain.on('nav-to-edit-employee', (evt, arg) => {
     backURL = mainWindow.webContents.getURL()
     mainWindow.loadURL(path.join('file://', __dirname, 'views/edit-employee.html'))
+    mainWindow.webContents.once('did-finish-load', () => {
+        mainWindow.webContents.send('load-subject-employee', arg)
+    })
+})
+
+ipcMain.on('nav-to-employee-shifts', (evt, arg) => {
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/employee-shifts.html'))
     mainWindow.webContents.once('did-finish-load', () => {
         mainWindow.webContents.send('load-subject-employee', arg)
     })
@@ -361,6 +368,12 @@ ipcMain.on('request-employees', (evt) => {
     })
 })
 
+ipcMain.on('request-employee', (evt, arg) => {
+    firedb.ref(`employees/${arg}`).on('value', (snapshot) => {
+        evt.reply('respond-employee', snapshot.val())
+    })
+})
+
 ipcMain.on('request-employees-search-suggestions', (evt, arg) => {
     let searchText = arg.toLowerCase().split(' ')
 
@@ -517,6 +530,10 @@ ipcMain.on('show-designation-manager', () => {
         }
     })
 
+    modalWindow.on('closed', () => {
+        modalWindow = null
+    })
+
     modalWindow.loadURL(path.join('file://', __dirname, 'views/manage-designations.html'))
 })
 
@@ -595,6 +612,10 @@ ipcMain.on('show-employee-type-manager', () => {
             nodeIntegration: true,
             enableRemoteModule: true
         }
+    })
+
+    modalWindow.on('closed', () => {
+        modalWindow = null
     })
 
     modalWindow.loadURL(path.join('file://', __dirname, 'views/manage-employee-types.html'))
@@ -677,6 +698,10 @@ ipcMain.on('show-job-type-manager', () => {
         }
     })
 
+    modalWindow.on('closed', () => {
+        modalWindow = null
+    })
+
     modalWindow.loadURL(path.join('file://', __dirname, 'views/manage-job-types.html'))
 })
 
@@ -737,6 +762,95 @@ ipcMain.on('job-type-employees-listed', (evt, arg) => {
 
 ipcMain.on('remove-job-type', (evt, arg) => {
     firedb.ref(`job_types/${arg}`).set(null)
+    .catch((err) => {
+        console.log(err.message)
+    })
+})
+
+
+/* NOTE MANAGE BRANCHES */
+ipcMain.on('show-branch-manager', (evt, arg) => {
+    let modalWindow = new BrowserWindow({
+        width: 400,
+        height: 700,
+        parent: mainWindow,
+        modal: true,
+        resizable: false,
+        webPreferences: {
+            nodeIntegration: true,
+            enableRemoteModule: true
+        }
+    })
+
+    modalWindow.on('closed', () => {
+        modalWindow = null
+    })
+
+    modalWindow.loadURL(path.join('file://', __dirname, 'views/manage-branches.html'))
+})
+
+ipcMain.on('branch-name-exists', (evt, arg) => {
+    firedb.ref('branches').orderByChild('name').equalTo(arg).once('value')
+    .then((snapshot) => {
+        evt.returnValue = snapshot.exists()
+    })
+})
+
+ipcMain.on('new-branch', (evt, arg) => {
+    const pushKey = firedb.ref('branches').push().key
+    arg.key = pushKey
+
+    firedb.ref(`branches/${pushKey}`).set(arg)
+    .then(() => {
+        evt.returnValue = true
+    })
+    .catch((err) => {
+        console.log(err.message)
+        evt.returnValue = false
+    })
+})
+
+ipcMain.on('request-branches', (evt) => {
+    firedb.ref('branches').on('value', (snapshot) => {
+        evt.reply('respond-branches', snapshot.val())
+    })
+})
+
+ipcMain.on('branch-shifts-listed', (evt, key) => {
+    let count = 0
+    firedb.ref('employees').once('value')
+    .then((snapshot) => {
+        snapshot.forEach(employee => {
+            employee.child('shifts').forEach(day => {
+                Object.values(day.val()).forEach(shift => {
+                    if (shift.branch_key === key) { count++ }
+                })
+            })
+        })
+        evt.returnValue = count
+    })
+})
+
+ipcMain.on('remove-shifts-under-branch', (evt, arg) => {
+    firedb.ref('employees').once('value')
+    .then((snapshot) => {
+        snapshot.forEach(employee => {
+            employee.child('shifts').forEach(day => {
+                day.ref.orderByChild('branch_key').equalTo(arg).once('value').then((snapshot) => {
+                    snapshot.forEach(shift => {
+                        shift.ref.set(null)
+                        .catch((err) => {
+                            console.log(err.message)
+                        })
+                    })
+                })
+            })
+        })
+    })
+})
+
+ipcMain.on('remove-branch', (evt, arg) => {
+    firedb.ref(`branches/${arg}`).set(null)
     .catch((err) => {
         console.log(err.message)
     })

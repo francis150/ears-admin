@@ -1,0 +1,118 @@
+@import "./partials/fonts";
+@import "./partials/colors";
+@import "./partials/scrollbar";
+@import "./partials/input";
+@import "./partials/dialog-box";
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: $dark-grey;
+    font-family: bold;
+    font-size: 22px;
+    text-align: center;
+    margin: 20px;
+}
+
+form {
+    margin: 0 20px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.20);
+    padding: 20px;
+
+    h2 {
+        font-family: semi-bold;
+        font-size: 14px;
+        color: $dark-grey;
+        margin-bottom: 10px;
+    }
+
+    .buttons {
+        display: flex;
+
+        button {
+            margin-left: auto;
+            margin-right: 20px;
+            background: none;
+            border: none;
+            height: 25px;
+            padding-bottom: 5px;
+            border-bottom: 3px solid white;
+            cursor: pointer;
+            font-family: bold;
+            color: $purple;
+            transition: all .2s ease-in-out;
+
+            &:hover {
+                border-color: $purple;
+            }
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+}
+
+.list {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 280px;
+    padding-right: 5px;
+    overflow-y: hidden;
+
+    &:hover {
+        overflow-y: auto;
+    }
+
+    .branch {
+        background: $light-grey;
+        border-radius: 5px;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: .2s margin ease-in-out;
+
+        .info {
+            h2 {
+                font-family: bold;
+                font-size: 16px;
+                color: $dark-grey;
+            }
+
+            p {
+                font-family: medium;
+                font-size: 14px;
+                color: $dark-grey;
+                opacity: .7;
+            }
+        }
+
+        sl-icon-button {
+            margin-left: auto;
+            transition: .2s opacity ease-in-out;
+            opacity: 0;
+
+            &:hover {
+                &::part(base) {
+                    color: $red;
+                }
+            }
+        }
+
+        &:hover {
+            margin: 5px 0;
+            sl-icon-button {
+                opacity: 1;
+            }
+        }
+    }
+}

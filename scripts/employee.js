@@ -6,54 +6,16 @@ const _moment = require('moment')
 const currentWindow = remote.getCurrentWindow()
 currentWindow.openDevTools()
 
-// load employee type filter
-ipcRenderer.send('request-employee-types')
-ipcRenderer.on('respond-employee-types', (evt, arg) => {
-    const container = document.querySelector('.list .header .filter sl-menu .employee-type-filter')
-    container.innerHTML = ''
-
-    Object.values(arg).forEach(type => {
-
-        const item = document.createElement('sl-menu-item')
-        item.checked = true
-        item.innerHTML = type.name
-        item.value = type.key
-        item.addEventListener('click', () => {
-            item.checked = !item.checked
-            ipcRenderer.send('request-employees')
-        })
-        container.appendChild(item)
-    })
-})
-
-// load job type filter
-ipcRenderer.send('request-job-types')
-ipcRenderer.on('respond-job-types', (evt, arg) => {
-    const container = document.querySelector('.list .header .filter sl-menu .job-type-filter')
-    container.innerHTML = ''
-
-    Object.values(arg).forEach(type => {
-        const item = document.createElement('sl-menu-item')
-        item.checked = true
-        item.innerHTML = type.name
-        item.value = type.key
-        item.addEventListener('click', () => {
-            item.checked = !item.checked
-            ipcRenderer.send('request-employees')
-        })
-        container.appendChild(item)
-    })
-})
-
-// deactivated filter   
-document.querySelector('.list .header .filter sl-menu .deactivated-filter').addEventListener('click', (e) => {
-    e.target.checked = !e.target.checked
-    ipcRenderer.send('request-employees')
-})
+// request employees list when filters are all loaded
+let filtersLoaded = 0
+function filterLoaded() {
+    filtersLoaded++
+    if (filtersLoaded === 2) {
+        ipcRenderer.send('request-employees')
+    }
+}
 
 // load employees
-let firstLoad = true
-ipcRenderer.send('request-employees')
 ipcRenderer.on('respond-employees', (evt, arg) => {
     const container = document.querySelector('.list .employee-list')
     container.innerHTML = ''
@@ -61,18 +23,16 @@ ipcRenderer.on('respond-employees', (evt, arg) => {
     // counter
     const counter = document.querySelector('.list .header .counter-value')
     counter.innerHTML = 0
-    
+
     Object.values(arg).forEach(employee => {
-        
+
         // filtering
-        const filters = firstLoad 
-        ? !employee.deactivated_by || (employee.deactivated_by && document.querySelector('.list .header .filter sl-menu .deactivated-filter').checked) 
-        : document.querySelector(`.list .header .filter sl-menu .employee-type-filter sl-menu-item[value=${employee.employee_type}]`).checked &&
+        const filters = document.querySelector(`.list .header .filter sl-menu .employee-type-filter sl-menu-item[value=${employee.employee_type}]`).checked &&
             document.querySelector(`.list .header .filter sl-menu .job-type-filter sl-menu-item[value=${employee.job_type}]`).checked &&
             (!employee.deactivated_by || (employee.deactivated_by && document.querySelector('.list .header .filter sl-menu .deactivated-filter').checked))
 
         if (filters) {
-            firstLoad = false
+
             // increment counter
             counter.innerHTML = `${parseInt(counter.innerHTML) + 1}`.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
@@ -124,6 +84,53 @@ ipcRenderer.on('respond-employees', (evt, arg) => {
 
         }
     })
+})
+
+// load employee type filter
+ipcRenderer.send('request-employee-types')
+ipcRenderer.on('respond-employee-types', (evt, arg) => {
+    const container = document.querySelector('.list .header .filter sl-menu .employee-type-filter')
+    container.innerHTML = ''
+
+    Object.values(arg).forEach(type => {
+
+        const item = document.createElement('sl-menu-item')
+        item.checked = true
+        item.innerHTML = type.name
+        item.value = type.key
+        item.addEventListener('click', () => {
+            item.checked = !item.checked
+            ipcRenderer.send('request-employees')
+        })
+        container.appendChild(item)
+    })
+    filterLoaded()
+})
+
+// load job type filter
+ipcRenderer.send('request-job-types')
+ipcRenderer.on('respond-job-types', (evt, arg) => {
+    const container = document.querySelector('.list .header .filter sl-menu .job-type-filter')
+    container.innerHTML = ''
+
+    Object.values(arg).forEach(type => {
+        const item = document.createElement('sl-menu-item')
+        item.checked = true
+        item.innerHTML = type.name
+        item.value = type.key
+        item.addEventListener('click', () => {
+            item.checked = !item.checked
+            ipcRenderer.send('request-employees')
+        })
+        container.appendChild(item)
+    })
+    filterLoaded()
+})
+
+// deactivated filter   
+document.querySelector('.list .header .filter sl-menu .deactivated-filter').addEventListener('click', (e) => {
+    e.target.checked = !e.target.checked
+    ipcRenderer.send('request-employees')
 })
 
 // view employee profile
@@ -281,6 +288,29 @@ document.querySelector('.profile .content .top .options sl-menu .edit-btn').addE
         setTimeout(() => {
 
             ipcRenderer.send('nav-to-edit-employee', viewedEmployee)
+
+        }, 1000);
+
+    } else {
+        showDialog({
+            title: 'Restricted Access',
+            message: 'Seems like you dont have the permission for this option.',
+            posBtnText: 'Okay',
+            posBtnFun: function () {
+                /* none */
+            }
+        })
+    }
+})
+
+// modify shift schedule
+document.querySelector('.profile .content .top .options sl-menu .shift-schedule-btn').addEventListener('click', () => {
+    if (remote.getGlobal('sharedObj').user.permissions.modify_employee_shifts) {
+
+        document.querySelector('.loader').style.height = '100vh'
+        setTimeout(() => {
+
+            ipcRenderer.send('nav-to-employee-shifts', viewedEmployee.key)
 
         }, 1000);
 

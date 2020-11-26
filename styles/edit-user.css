@@ -406,6 +406,7 @@ footer .right {
   font-family: semi-bold;
   color: #363636;
   font-size: 15px;
+  width: 100%;
   -webkit-transition: border-color .2s ease-in-out;
   transition: border-color .2s ease-in-out;
 }

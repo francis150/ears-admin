@@ -1,0 +1,261 @@
+@import "./partials/fonts";
+@import "./partials/colors";
+@import "./partials/scrollbar";
+@import "./partials/menu";
+@import "./partials/loader";
+@import "./partials/header";
+@import "./partials/footer";
+@import "./partials/dialog-box";
+@import "./partials/input";
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+sl-dialog {
+    &::part(title) {
+        font-family: semi-bold;
+        color: $dark-grey;
+    }
+
+    form {
+        .two-col {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+    }
+
+    .buttons {
+        display: flex;
+
+        button {
+            background: none;
+            border: none;
+            padding-bottom: 5px;
+            border-bottom: 3px solid white;
+            cursor: pointer;
+            font-family: bold;
+            margin: 0 10px;
+            transition: all .2s ease-in-out;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .delete-btn {
+            color: $red;
+
+            &:hover {
+                border-color: $red;
+            }
+        }
+
+        .save-btn {
+            margin-left: auto;
+            color: $purple;
+            &:hover {
+                border-color: $purple;
+            }
+        }
+
+        .reset-btn {
+            color: $dark-grey;
+            opacity: .5;
+            &:hover {
+                border-color: $dark-grey;
+                opacity: 1;
+            }
+        }
+    }
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    h1 {
+        color: $dark-grey;
+        font-family: semi-bold;
+        font-size: 32px;
+    }
+
+    .profile {
+        display: flex;
+        flex-direction: column;
+        width: 514px;
+        background: $light-grey;
+        padding: 20px;
+        border-radius: 5px;
+
+        .top {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .badges {
+                width: 30%;
+
+                p {
+                    background: $dark-grey;
+                    padding: 2px 5px;
+                    width: fit-content;
+                    font-family: regular;
+                    font-size: 10px;
+                    color: white;
+                    border-radius: 3px;
+                    margin-right: 5px;
+                    margin-bottom: 2px;
+                }
+            }
+
+            sl-avatar {
+                &::part(base){
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    border: solid 3px $light-grey;
+                    background: white;
+                }
+
+                &::part(icon) {
+                    font-size: 50px;
+                    color: $icon-gray;
+                }
+            }
+
+            .options {
+                width: 30%;
+                display: flex;
+                flex-direction: row-reverse;
+            }
+        }
+
+        .info {
+            margin-top: 10px;
+            text-align: center;
+
+            h2 {
+                font-family: semi-bold;
+                color: $dark-grey;
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+
+            p {
+                text-transform: uppercase;
+                font-family: semi-bold;
+                font-size: 14px;
+                letter-spacing: 0.2em;
+                color: $dark-grey;
+                opacity: 0.9;
+            }
+        }
+    }
+
+    .shifts{
+        justify-content: space-between;
+        display: flex;
+        gap: 20px;
+        width: 95%;
+        height: 35vh;
+        overflow-x: hidden;
+
+        &:hover {
+            overflow-x: auto;
+        }
+
+        .day {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border-radius: 5px;
+            .head {
+                
+                border-radius: 3px;
+                padding: 5px;
+                display: flex;
+                width: 190px;
+                align-items: center;
+                transition: background-color .2s ease-in-out;
+
+                &:hover {
+                    background: $light-grey;
+
+                    sl-icon-button {
+                        opacity: .4;
+                    }
+                }
+
+                label {
+                    font-family: semi-bold;
+                    font-size: 14px;
+                    color: $icon-gray;
+                    cursor: pointer;
+                }
+
+                sl-icon-button {
+                    margin-left: auto;
+                    font-size: 20px;
+                    transition: opacity .2s ease-in-out;
+                    opacity: 0;
+
+                    &:hover {
+                        color: $icon-gray;
+                        opacity: 1;
+                    }
+
+                    &::part(base) {
+                        height: 15px;
+                    }
+                }
+            }
+
+            .shifts-wrapper {
+                margin-top: 10px;
+                height: 100%;
+                overflow: hidden;
+
+                &:hover {
+                    overflow: auto;
+                }
+
+                .shift {
+                    background-color: $light-grey;
+                    border-radius: 5px;
+                    text-align: center;
+                    padding: 10px 0;
+                    cursor: pointer;
+                    margin-bottom: 10px;
+
+                    &:hover {
+                        background-color: $light-grey2;
+                    }
+
+                    h6 {
+                        font-family: regular;
+                        font-size: 12px;
+                        color: $dark-grey;
+                        margin-bottom: 5px;
+                        pointer-events: none;
+                        opacity: .8;
+                    }
+
+                    p {
+                        font-family: semi-bold;
+                        font-size: 14px;
+                        color: $dark-grey;
+                        pointer-events: none;
+                    }
+                }
+            }
+        }
+    }
+}

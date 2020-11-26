@@ -21,7 +21,7 @@ document.querySelector('header .back-btn').addEventListener('click', () => {
     }, 1000);
 })
 
-// receive & load subject user
+// receive & load subject employee
 ipcRenderer.once('load-subject-employee', (evt, employee) => {
 
     updatedEmployee.key = employee.key

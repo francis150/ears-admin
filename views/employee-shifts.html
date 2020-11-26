@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.css">
+    <link rel="stylesheet" href="../styles/employee-shifts.css">
+    <title>Ears Admin App | Employee Shifts</title>
+</head>
+<body>
+    <sl-drawer class="nav-menu">
+    
+        <div slot="label" class="profile">
+            <sl-avatar id="current-user-image"></sl-avatar>
+            <div class="profile-texts">
+                <h2 id="current-user-name">Loading...</h2>
+                <span id="current-user-title">Loading...</span>
+            </div>
+        </div>
+    
+        <div class="group">
+            <h6 id="nav-realtime-monitor">Realtime Monitor</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-employees">Employees</h6>
+            <p id="nav-add-new-employee">Add New Employee</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-reports">Reports</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-user-accounts">User Accounts</h6>
+            <p id="nav-create-new-user-account">Create New User Account</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-history-log">History Log</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-settings">Settings</h6>
+        </div>
+    
+        <div class="group" slot="footer">
+            <h6>My Profile</h6>
+            <p>Switch User</p>
+            <p>Change Username</p>
+            <p>Change Password</p>
+        </div>
+    </sl-drawer>
+    <div class="loader">
+        <div class="loader-indicator">
+        </div>
+        <h1 id="loader-message">Wait a bit.</h1>
+    </div>
+    
+    <sl-dialog label="Shift Detail" class="shift-detail">
+        <form action="#">
+            
+            <div class="input-element">
+                <label>Branch</label>
+            
+                <sl-dropdown hoist type="input">
+                    <input slot="trigger" readonly type="text" name="designation">
+                    <sl-menu data-for="designation">
+                        <div class="menu-items">
+                            <sl-menu-item type="normal" value='d01'>Branch 1</sl-menu-item>
+                            <sl-menu-item type="normal" value='d02'>Branch 2</sl-menu-item>
+                            <sl-menu-item type="normal" value='d03'>Branch 3</sl-menu-item>
+                        </div>
+                        <sl-menu-item type="manage" class="manage-designations">Manage Designations<sl-icon slot="prefix"
+                                name="sliders"></sl-icon>
+                        </sl-menu-item>
+                    </sl-menu>
+                </sl-dropdown>
+            
+                <small></small>
+            </div>
+
+            <div class="two-col">
+                
+                <div class="input-element">
+                    <label>From</label>
+                    <input type="time" name="contactNumber">
+                    <small></small>
+                </div>
+
+                <div class="input-element">
+                    <label>To</label>
+                    <input type="time" name="contactNumber">
+                    <small></small>
+                </div>
+
+            </div>
+
+        </form>
+        <div class="buttons" slot="footer">
+            <button class="delete-btn">Delete</button>
+            <button class="save-btn">Save</button>
+            <button class="reset-btn">Reset</button>
+        </div>
+    </sl-dialog>
+
+    <sl-dialog label="Add a Shift" class="add-shift">
+        <form action="#">
+    
+            <div class="input-element">
+                <label>Branch</label>
+    
+                <sl-dropdown hoist type="input">
+                    <input slot="trigger" readonly type="text" name="designation">
+                    <sl-menu data-for="branch">
+                        <div class="menu-items">
+                            <!-- <sl-menu-item type="normal" value='d01'>Branch 1</sl-menu-item>
+                            <sl-menu-item type="normal" value='d02'>Branch 2</sl-menu-item>
+                            <sl-menu-item type="normal" value='d03'>Branch 3</sl-menu-item> -->
+                        </div>
+                        <sl-menu-item type="manage" class="manage-branches-btn">Manage Branches
+                            <sl-icon slot="prefix" name="sliders"></sl-icon>
+                        </sl-menu-item>
+                    </sl-menu>
+                </sl-dropdown>
+    
+                <small></small>
+            </div>
+    
+            <div class="two-col">
+    
+                <div class="input-element">
+                    <label>From</label>
+                    <input type="time" name="contactNumber">
+                    <small></small>
+                </div>
+    
+                <div class="input-element">
+                    <label>To</label>
+                    <input type="time" name="contactNumber">
+                    <small></small>
+                </div>
+    
+            </div>
+    
+            <div class="buttons" slot="footer">
+                <button class="save-btn">Add</button>
+                <button type="button" class="reset-btn">Clear</button>
+            </div>
+
+        </form>
+        
+    </sl-dialog>
+    
+    <header>
+        <a class="back-btn" href="#"><img src="../assets/icons/back-arrow-icon.png"> back</a>
+        <button id="menu-btn">Menu</button>
+    </header>
+
+    <main>
+        <h1>Shift Schedule</h1>
+
+        <div class="profile">
+
+            <div class="top">
+                <div class="badges">
+                    <!-- <span>Deactivated</span>
+                    <span>Regular</span>
+                    <span>On-call</span> -->
+                </div>
+                <sl-avatar></sl-avatar>
+                <div class="options">
+                    <sl-tooltip content="Print">
+                        <sl-icon-button style="font-size: 1.2em;" name="printer"></sl-icon-button>
+                    </sl-tooltip>
+                </div>
+                
+            </div>
+
+            <div class="info">
+                <h2>...</h2>
+                <p>...</p>
+            </div>
+            
+        </div>
+
+        <div class="shifts">
+            
+            <div class="day monday">
+                <div class="head">
+                    <label>Mon • <span>0hrs</span></label>
+                    <sl-tooltip content="Add Shift">
+                        <sl-icon-button data-for="monday" name="plus"></sl-icon-button>
+                    </sl-tooltip>
+                </div>
+                
+                <div class="shifts-wrapper">
+                    <!-- <div class="shift">
+                        <h6>Branch 1</h6>
+                        <p>09:00 AM - 05:00 PM</p>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="day tuesday">
+                <div class="head">
+                    <label>Tue • <span>0hrs</span></label>
+                    <sl-tooltip content="Add Shift">
+                        <sl-icon-button data-for="tuesday" name="plus"></sl-icon-button>
+                    </sl-tooltip>
+                </div>
+            
+                <div class="shifts-wrapper">
+                </div>
+            </div>
+
+            <div class="day wednesday">
+                <div class="head">
+                    <label>Wed • <span>0hrs</span></label>
+                    <sl-tooltip content="Add Shift">
+                        <sl-icon-button data-for="wednesday" name="plus"></sl-icon-button>
+                    </sl-tooltip>
+                </div>
+            
+                <div class="shifts-wrapper">
+                </div>
+            </div>
+
+            <div class="day thursday">
+                <div class="head">
+                    <label>Thu • <span>0hrs</span></label>
+                    <sl-tooltip content="Add Shift">
+                        <sl-icon-button data-for="thursday" name="plus"></sl-icon-button>
+                    </sl-tooltip>
+                </div>
+            
+                <div class="shifts-wrapper">
+                </div>
+            </div>
+
+            <div class="day friday">
+                <div class="head">
+                    <label>Fri • <span>0hrs</span></label>
+                    <sl-tooltip content="Add Shift">
+                        <sl-icon-button data-for="friday" name="plus"></sl-icon-button>
+                    </sl-tooltip>
+                </div>
+            
+                <div class="shifts-wrapper">
+                </div>
+            </div>
+
+            <div class="day saturday">
+                <div class="head">
+                    <label>Sat • <span>0hrs</span></label>
+                    <sl-tooltip content="Add Shift">
+                        <sl-icon-button data-for="saturday" name="plus"></sl-icon-button>
+                    </sl-tooltip>
+                </div>
+            
+                <div class="shifts-wrapper">
+                </div>
+            </div>
+
+            <div class="day sunday">
+                <div class="head">
+                    <label>Sun • <span>0hrs</span></label>
+                    <sl-tooltip content="Add Shift">
+                        <sl-icon-button data-for="sunday" name="plus"></sl-icon-button>
+                    </sl-tooltip>
+                </div>
+            
+                <div class="shifts-wrapper">
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer id="footer">
+        <div class="left">
+        </div>
+        <div class="right">
+            <p class="time-text"></p>
+        </div>
+    </footer>
+
+    <script type="module" src="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.esm.js"></script>
+    
+    <script src="../scripts/employee-shifts.js"></script>
+    
+    <script src="../scripts/_dialogbox-handles.js"></script>
+    <script src="../scripts/_menu-handles.js"></script>
+    <script src="../scripts/_status-bar-handles.js"></script>
+</body>
+</html>
