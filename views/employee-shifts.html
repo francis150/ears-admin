@@ -51,6 +51,7 @@
         </div>
         <h1 id="loader-message">Wait a bit.</h1>
     </div>
+    <div class="alert-wrapper"></div>
     
     <sl-dialog label="Shift Detail" class="shift-detail">
         <form action="#">
@@ -59,14 +60,14 @@
                 <label>Branch</label>
             
                 <sl-dropdown hoist type="input">
-                    <input slot="trigger" readonly type="text" name="designation">
-                    <sl-menu data-for="designation">
+                    <input slot="trigger" readonly type="text" name="branch">
+                    <sl-menu data-for="branch">
                         <div class="menu-items">
-                            <sl-menu-item type="normal" value='d01'>Branch 1</sl-menu-item>
+                            <!-- <sl-menu-item type="normal" value='d01'>Branch 1</sl-menu-item>
                             <sl-menu-item type="normal" value='d02'>Branch 2</sl-menu-item>
-                            <sl-menu-item type="normal" value='d03'>Branch 3</sl-menu-item>
+                            <sl-menu-item type="normal" value='d03'>Branch 3</sl-menu-item> -->
                         </div>
-                        <sl-menu-item type="manage" class="manage-designations">Manage Designations<sl-icon slot="prefix"
+                        <sl-menu-item type="manage" class="manage-branches-btn">Manage Designations<sl-icon slot="prefix"
                                 name="sliders"></sl-icon>
                         </sl-menu-item>
                     </sl-menu>
@@ -79,24 +80,25 @@
                 
                 <div class="input-element">
                     <label>From</label>
-                    <input type="time" name="contactNumber">
+                    <input type="time" name="from">
                     <small></small>
                 </div>
 
                 <div class="input-element">
                     <label>To</label>
-                    <input type="time" name="contactNumber">
+                    <input type="time" name="to">
                     <small></small>
                 </div>
 
             </div>
 
+            <div class="buttons" slot="footer">
+                <button type="button" class="delete-btn">Delete</button>
+                <button type="submit" class="save-btn">Save</button>
+                <button type="button" class="reset-btn">Reset</button>
+            </div>
+
         </form>
-        <div class="buttons" slot="footer">
-            <button class="delete-btn">Delete</button>
-            <button class="save-btn">Save</button>
-            <button class="reset-btn">Reset</button>
-        </div>
     </sl-dialog>
 
     <sl-dialog label="Add a Shift" class="add-shift">
@@ -106,7 +108,7 @@
                 <label>Branch</label>
     
                 <sl-dropdown hoist type="input">
-                    <input slot="trigger" readonly type="text" name="designation">
+                    <input slot="trigger" readonly type="text" name="branch">
                     <sl-menu data-for="branch">
                         <div class="menu-items">
                             <!-- <sl-menu-item type="normal" value='d01'>Branch 1</sl-menu-item>
@@ -126,13 +128,13 @@
     
                 <div class="input-element">
                     <label>From</label>
-                    <input type="time" name="contactNumber">
+                    <input type="time" name="from">
                     <small></small>
                 </div>
     
                 <div class="input-element">
                     <label>To</label>
-                    <input type="time" name="contactNumber">
+                    <input type="time" name="to">
                     <small></small>
                 </div>
     
@@ -140,7 +142,7 @@
     
             <div class="buttons" slot="footer">
                 <button class="save-btn">Add</button>
-                <button type="button" class="reset-btn">Clear</button>
+                <button type="reset" class="reset-btn">Clear</button>
             </div>
 
         </form>
@@ -285,6 +287,7 @@
     <script src="../scripts/employee-shifts.js"></script>
     
     <script src="../scripts/_dialogbox-handles.js"></script>
+    <script src="../scripts/_alert-handles.js"></script>
     <script src="../scripts/_menu-handles.js"></script>
     <script src="../scripts/_status-bar-handles.js"></script>
 </body>

@@ -516,6 +516,44 @@ ipcMain.on('edit-employee-result', (evt, mainTask) => {
 })
 
 
+/* NOTE EMPLOYEE SHIFTS */
+ipcMain.on('add-shift', (evt, arg) => {
+    const pushKey = firedb.ref(`employees/${arg.employeeKEY}/shifts/${arg.day}`).push().key
+    arg.shift.key = pushKey
+
+    firedb.ref(`employees/${arg.employeeKEY}/shifts/${arg.day}/${arg.shift.key}`).set(arg.shift)
+    .then(() => {
+        evt.reply('add-shift-result', true)
+    })
+    .catch((err) => {
+        console.log(err.message)
+        evt.reply('add-shift-result', false)
+    })
+})
+
+ipcMain.on('remove-shift', (evt, arg) => {
+    firedb.ref(`employees`).child(arg).set(null)
+    .then(() => {
+        evt.reply('remove-shift-result', true)
+    })
+    .catch((err) => {
+        console.log(err.message)
+        evt.reply('remove-shift-result', false)
+    })
+})
+
+ipcMain.on('edit-shift', (evt, arg) => {
+    firedb.ref('employees').child(arg.path).update(arg.updates)
+    .then(() => {
+        evt.reply('edit-shift-result', true)
+    })
+    .catch((err) => {
+        console.log(err.message)
+        evt.reply('edit-shift-result', false)
+    })
+})
+
+
 /* NOTE MANAGE DESIGNATIONS */
 ipcMain.on('show-designation-manager', () => {
     let modalWindow = new BrowserWindow({
