@@ -69,7 +69,7 @@ ipcRenderer.on('respond-employee', (evt, employee) => {
                 item.className = 'shift'
                 item.innerHTML = `<h6>${shift.branch_name}</h6><p>${_moment(shift.from, 'HH:mm').format('hh:mm a')} - ${_moment(shift.to, 'HH:mm').format('hh:mm a')}</p>`
 
-                item.addEventListener('click', () => { viewShift({day: 'monday', details: shift}) })
+                item.addEventListener('click', () => { viewShift(shift) })
 
                 mondayContainer.appendChild(item)
 
@@ -89,7 +89,7 @@ ipcRenderer.on('respond-employee', (evt, employee) => {
                 const item = document.createElement('div')
                 item.className = 'shift'
                 item.innerHTML = `<h6>${shift.branch_name}</h6><p>${_moment(shift.from, 'HH:mm').format('hh:mm a')} - ${_moment(shift.to, 'HH:mm').format('hh:mm a')}</p>`
-                item.addEventListener('click', () => { viewShift({ day: 'tuesday', details: shift }) })
+                item.addEventListener('click', () => { viewShift(shift) })
                 tuesdayContainer.appendChild(item)
 
                 const tenure = _moment.duration(_moment(shift.to, 'HH:mm').diff(_moment(shift.from, 'HH:mm')))
@@ -108,7 +108,7 @@ ipcRenderer.on('respond-employee', (evt, employee) => {
                 const item = document.createElement('div')
                 item.className = 'shift'
                 item.innerHTML = `<h6>${shift.branch_name}</h6><p>${_moment(shift.from, 'HH:mm').format('hh:mm a')} - ${_moment(shift.to, 'HH:mm').format('hh:mm a')}</p>`
-                item.addEventListener('click', () => { viewShift({ day: 'wednesday', details: shift }) })
+                item.addEventListener('click', () => { viewShift(shift) })
                 wednesdayContainer.appendChild(item)
 
                 const tenure = _moment.duration(_moment(shift.to, 'HH:mm').diff(_moment(shift.from, 'HH:mm')))
@@ -127,7 +127,7 @@ ipcRenderer.on('respond-employee', (evt, employee) => {
                 const item = document.createElement('div')
                 item.className = 'shift'
                 item.innerHTML = `<h6>${shift.branch_name}</h6><p>${_moment(shift.from, 'HH:mm').format('hh:mm a')} - ${_moment(shift.to, 'HH:mm').format('hh:mm a')}</p>`
-                item.addEventListener('click', () => { viewShift({ day: 'thursday', details: shift }) })
+                item.addEventListener('click', () => { viewShift(shift) })
                 thursdayContainer.appendChild(item)
 
                 const tenure = _moment.duration(_moment(shift.to, 'HH:mm').diff(_moment(shift.from, 'HH:mm')))
@@ -146,7 +146,7 @@ ipcRenderer.on('respond-employee', (evt, employee) => {
                 const item = document.createElement('div')
                 item.className = 'shift'
                 item.innerHTML = `<h6>${shift.branch_name}</h6><p>${_moment(shift.from, 'HH:mm').format('hh:mm a')} - ${_moment(shift.to, 'HH:mm').format('hh:mm a')}</p>`
-                item.addEventListener('click', () => { viewShift({ day: 'friday', details: shift }) })
+                item.addEventListener('click', () => { viewShift(shift) })
                 fridayContainer.appendChild(item)
 
                 const tenure = _moment.duration(_moment(shift.to, 'HH:mm').diff(_moment(shift.from, 'HH:mm')))
@@ -165,7 +165,7 @@ ipcRenderer.on('respond-employee', (evt, employee) => {
                 const item = document.createElement('div')
                 item.className = 'shift'
                 item.innerHTML = `<h6>${shift.branch_name}</h6><p>${_moment(shift.from, 'HH:mm').format('hh:mm a')} - ${_moment(shift.to, 'HH:mm').format('hh:mm a')}</p>`
-                item.addEventListener('click', () => { viewShift({ day: 'saturday', details: shift }) })
+                item.addEventListener('click', () => { viewShift(shift) })
                 saturdayContainer.appendChild(item)
 
                 const tenure = _moment.duration(_moment(shift.to, 'HH:mm').diff(_moment(shift.from, 'HH:mm')))
@@ -184,7 +184,7 @@ ipcRenderer.on('respond-employee', (evt, employee) => {
                 const item = document.createElement('div')
                 item.className = 'shift'
                 item.innerHTML = `<h6>${shift.branch_name}</h6><p>${_moment(shift.from, 'HH:mm').format('hh:mm a')} - ${_moment(shift.to, 'HH:mm').format('hh:mm a')}</p>`
-                item.addEventListener('click', () => { viewShift({ day: 'sunday', details: shift }) })
+                item.addEventListener('click', () => { viewShift(shift) })
                 sundayContainer.appendChild(item)
 
                 const tenure = _moment.duration(_moment(shift.to, 'HH:mm').diff(_moment(shift.from, 'HH:mm')))
@@ -204,10 +204,10 @@ function viewShift(shift) {
     const form = document.querySelector('sl-dialog.shift-detail form')
     const dialog = document.querySelector('sl-dialog.shift-detail')
 
-    form.branch.value = shift.details.branch_name
-    form.branch.dataset.value = shift.details.branch_key
-    form.from.value = shift.details.from
-    form.to.value = shift.details.to
+    form.branch.value = shift.branch_name
+    form.branch.dataset.value = shift.branch_key
+    form.from.value = shift.from
+    form.to.value = shift.to
 
     dialog.show()
 }
@@ -289,8 +289,8 @@ addForm.addEventListener('submit', (e) => {
         
         const forPush = {
             employeeKEY: employeeKey,
-            day: e.target.parentElement.dataset.for,
             shift : {
+                day: e.target.parentElement.dataset.for,
                 branch_key: addForm.branch.dataset.value,
                 branch_name: addForm.branch.value,
                 from: addForm.from.value,
@@ -325,7 +325,7 @@ document.querySelector('sl-dialog.shift-detail form .buttons .delete-btn').addEv
         message: `Are you sure you want to delete this shift?`,
         posBtnText: 'Delete',
         posBtnFun: function () {
-            ipcRenderer.send('remove-shift', `${employeeKey}/shifts/${viewedShift.day}/${viewedShift.details.key}`)
+            ipcRenderer.send('remove-shift', `${employeeKey}/shifts/${viewedShift.day}/${viewedShift.key}`)
         },
         negBtnText: 'Cancel',
         negBtnFun: function () {
@@ -354,7 +354,7 @@ document.querySelector('sl-dialog.shift-detail form').addEventListener('submit',
         posBtnText: 'Confirm',
         posBtnFun: function () {
             const arg = {
-                path: `${employeeKey}/shifts/${viewedShift.day}/${viewedShift.details.key}`,
+                path: `${employeeKey}/shifts/${viewedShift.day}/${viewedShift.key}`,
                 updates: {
                     branch_key: form.branch.dataset.value,
                     branch_name: form.branch.value,

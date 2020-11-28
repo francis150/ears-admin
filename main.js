@@ -518,10 +518,10 @@ ipcMain.on('edit-employee-result', (evt, mainTask) => {
 
 /* NOTE EMPLOYEE SHIFTS */
 ipcMain.on('add-shift', (evt, arg) => {
-    const pushKey = firedb.ref(`employees/${arg.employeeKEY}/shifts/${arg.day}`).push().key
+    const pushKey = firedb.ref(`employees/${arg.employeeKEY}/shifts/${arg.shift.day}`).push().key
     arg.shift.key = pushKey
 
-    firedb.ref(`employees/${arg.employeeKEY}/shifts/${arg.day}/${arg.shift.key}`).set(arg.shift)
+    firedb.ref(`employees/${arg.employeeKEY}/shifts/${arg.shift.day}/${arg.shift.key}`).set(arg.shift)
     .then(() => {
         evt.reply('add-shift-result', true)
     })
