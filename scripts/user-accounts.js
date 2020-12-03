@@ -194,6 +194,9 @@ function viewUser(user) {
     document.querySelector('#profile-deactivate-reactivate-employees-per').style.textDecoration = user.permissions.deactivate_reactivate_employees ? 'none' : 'line-through'
     document.querySelector('#profile-deactivate-reactivate-employees-per sl-icon').name = user.permissions.deactivate_reactivate_employees ? 'check' : 'x'
     
+    document.querySelector('#profile-attendance-app-per').style.textDecoration = user.permissions.attendance_app ? 'none' : 'line-through'
+    document.querySelector('#profile-attendance-app-per sl-icon').name = user.permissions.attendance_app ? 'check' : 'x'
+
     document.querySelector('#profile-reports-per').style.textDecoration = user.permissions.reports ? 'none' : 'line-through'
     document.querySelector('#profile-reports-per sl-icon').name = user.permissions.reports ? 'check' : 'x'
 

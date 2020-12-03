@@ -14,6 +14,172 @@
     box-sizing: border-box;
 }
 
+.id-dialog {
+    --width: 560px;
+
+    &::part(title) {
+        font-family: semi-bold;
+        color: $dark-grey;
+    }
+
+    .id-card{
+        display: flex;
+        gap: 5px;
+        justify-content: space-between;
+
+        .front {
+            background: $dark-grey;
+            border-radius: 5px;
+            height: 387px;
+            width: 252px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            box-shadow: 1px 1px 4px 3px rgba(0, 0, 0, 0.25);
+
+            sl-avatar {
+                margin-top: 60px;
+                &::part(base){
+                    width: 115px;
+                    height: 115px;
+                    border-radius: 50%;
+                    background: $icon-gray;
+                }
+
+                &::part(icon) {
+                    font-size: 50px;
+                    color: white;
+                }
+            }
+
+            h2 {
+                font-family: semi-bold;
+                color: white;
+                font-size: 18px;
+                margin-bottom: 5px;
+                margin-top: 10px;
+            }
+
+            p {
+                text-transform: uppercase;
+                font-family: semi-bold;
+                font-size: 12px;
+                letter-spacing: 0.2em;
+                color: white;
+                opacity: 0.9;
+            }
+
+            h6 {
+                margin-top: auto;
+                margin-bottom: 10px;
+                text-transform: uppercase;
+                font-family: semi-bold;
+                font-size: 14px;
+                color: white;
+            }
+
+            .yellow {
+                position: absolute;
+                background: $yellow;
+                height: 30px;
+                width: 70%;
+                top: 250px;
+                left: 0;
+                border-radius: 0 50px 50px 0;
+            }
+        }
+
+        .back {
+            background: white;
+            box-shadow: 1px 1px 4px 3px rgba(0, 0, 0, 0.25);
+            border-radius: 5px;
+            height: 387px;
+            width: 252px;
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            align-items: center;
+
+            canvas {
+                background: $light-grey;
+                width: 100px;
+                height: 100px;
+                margin-top: 40px;
+            }
+
+            h2 {
+                font-family: regular;
+                font-size: 14px;
+                color: $dark-grey;
+            }
+
+            p {
+                font-family: regular;
+                font-size: 14px;
+                color: $dark-grey;
+                opacity: .8;
+                margin-top: 10px;
+
+                b {
+                    font-family: bold;
+                }
+            }
+
+            h6 {
+                margin-top: auto;
+                margin-bottom: 10px;
+                text-transform: uppercase;
+                font-family: semi-bold;
+                font-size: 14px;
+                color: $dark-grey;
+            }
+
+            .yellow {
+                position: absolute;
+                background: $yellow;
+                height: 30px;
+                width: 70%;
+                top: 250px;
+                right: 0;
+                border-radius: 50px 0 0 50px;
+            }
+        }
+    }
+
+    .buttons {
+        button {
+            background: none;
+            border: none;
+            padding-bottom: 5px;
+            border-bottom: 3px solid white;
+            cursor: pointer;
+            font-family: bold;
+            margin: 0 10px;
+            transition: all .2s ease-in-out;
+
+            &:focus {
+                outline: none;
+            }
+        }
+        
+        .print-btn {
+            color: $dark-grey;
+            display: flex;
+            margin-left: auto;
+            align-items: center;
+
+            sl-icon {
+                margin-right: 5px;
+            }
+
+            &:hover {
+                border-color: $dark-grey;
+            }
+        }
+    }
+}
+
 main {
     display: flex;
     flex-direction: row;

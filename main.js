@@ -75,7 +75,7 @@ ipcMain.on('user-login', (evt, login) => {
                             }
                         })
 
-                        mainWindow.loadURL(path.join('file://', __dirname, 'views/employees.html'))
+                        mainWindow.loadURL(path.join('file://', __dirname, 'views/user-accounts.html'))
 
                         mainWindow.on('closed', () => {
                             firstWindow = null
@@ -369,8 +369,13 @@ ipcMain.on('request-employees', (evt) => {
 })
 
 ipcMain.on('request-employee', (evt, arg) => {
-    firedb.ref(`employees/${arg}`).on('value', (snapshot) => {
+    const ref = firedb.ref(`employees/${arg}`)
+    ref.on('value', (snapshot) => {
         evt.reply('respond-employee', snapshot.val())
+
+        mainWindow.webContents.once('did-navigate-in-page', () => {
+            ref.off('value')
+        })
     })
 })
 

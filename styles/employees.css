@@ -464,6 +464,196 @@ footer .right {
           box-sizing: border-box;
 }
 
+.id-dialog {
+  --width: 560px;
+}
+
+.id-dialog::part(title) {
+  font-family: semi-bold;
+  color: #363636;
+}
+
+.id-dialog .id-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 5px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.id-dialog .id-card .front {
+  background: #363636;
+  border-radius: 5px;
+  height: 387px;
+  width: 252px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  -webkit-box-shadow: 1px 1px 4px 3px rgba(0, 0, 0, 0.25);
+          box-shadow: 1px 1px 4px 3px rgba(0, 0, 0, 0.25);
+}
+
+.id-dialog .id-card .front sl-avatar {
+  margin-top: 60px;
+}
+
+.id-dialog .id-card .front sl-avatar::part(base) {
+  width: 115px;
+  height: 115px;
+  border-radius: 50%;
+  background: #707070;
+}
+
+.id-dialog .id-card .front sl-avatar::part(icon) {
+  font-size: 50px;
+  color: white;
+}
+
+.id-dialog .id-card .front h2 {
+  font-family: semi-bold;
+  color: white;
+  font-size: 18px;
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+.id-dialog .id-card .front p {
+  text-transform: uppercase;
+  font-family: semi-bold;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: white;
+  opacity: 0.9;
+}
+
+.id-dialog .id-card .front h6 {
+  margin-top: auto;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-family: semi-bold;
+  font-size: 14px;
+  color: white;
+}
+
+.id-dialog .id-card .front .yellow {
+  position: absolute;
+  background: #FFF739;
+  height: 30px;
+  width: 70%;
+  top: 250px;
+  left: 0;
+  border-radius: 0 50px 50px 0;
+}
+
+.id-dialog .id-card .back {
+  background: white;
+  -webkit-box-shadow: 1px 1px 4px 3px rgba(0, 0, 0, 0.25);
+          box-shadow: 1px 1px 4px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  height: 387px;
+  width: 252px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.id-dialog .id-card .back canvas {
+  background: #f1f1f1;
+  width: 100px;
+  height: 100px;
+  margin-top: 40px;
+}
+
+.id-dialog .id-card .back h2 {
+  font-family: regular;
+  font-size: 14px;
+  color: #363636;
+}
+
+.id-dialog .id-card .back p {
+  font-family: regular;
+  font-size: 14px;
+  color: #363636;
+  opacity: .8;
+  margin-top: 10px;
+}
+
+.id-dialog .id-card .back p b {
+  font-family: bold;
+}
+
+.id-dialog .id-card .back h6 {
+  margin-top: auto;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-family: semi-bold;
+  font-size: 14px;
+  color: #363636;
+}
+
+.id-dialog .id-card .back .yellow {
+  position: absolute;
+  background: #FFF739;
+  height: 30px;
+  width: 70%;
+  top: 250px;
+  right: 0;
+  border-radius: 50px 0 0 50px;
+}
+
+.id-dialog .buttons button {
+  background: none;
+  border: none;
+  padding-bottom: 5px;
+  border-bottom: 3px solid white;
+  cursor: pointer;
+  font-family: bold;
+  margin: 0 10px;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+.id-dialog .buttons button:focus {
+  outline: none;
+}
+
+.id-dialog .buttons .print-btn {
+  color: #363636;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: auto;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.id-dialog .buttons .print-btn sl-icon {
+  margin-right: 5px;
+}
+
+.id-dialog .buttons .print-btn:hover {
+  border-color: #363636;
+}
+
 main {
   display: -webkit-box;
   display: -ms-flexbox;

@@ -60,6 +60,28 @@
         <button id="menu-btn">Menu</button>
     </header>
 
+    <sl-dialog label="Identification Card" class="id-dialog">
+        <div class="id-card">
+            <div class="front">
+                <sl-avatar></sl-avatar>
+                <h2></h2>
+                <p>...</p>
+                <h6>Employee ID Card</h6>
+                <div class="yellow"></div>
+            </div>
+            <div class="back">
+                <canvas class="qr-code"></canvas>
+                <h2>E.A.R.S.</h2>
+                <p></p>
+                <h6>Employee ID Card</h6>
+                <div class="yellow"></div>
+            </div>
+        </div>
+        <div class="buttons" slot="footer">
+            <button class="print-btn"><sl-icon name="printer"></sl-icon>Print</button>
+        </div>
+    </sl-dialog>
+
     <main>
         <div class="list">
 
@@ -140,6 +162,7 @@
                             <sl-menu-item class="shift-schedule-btn"><sl-icon slot="prefix" name="calendar-week"></sl-icon>Shift Schedule</sl-menu-item>
                             <sl-menu-item><sl-icon slot="prefix" name="hourglass-split"></sl-icon>Activity Log</sl-menu-item>
                             <sl-menu-item><sl-icon slot="prefix" name="calendar3-range"></sl-icon>Schedule a Leave</sl-menu-item>
+                            <sl-menu-item class="view-id-btn"><sl-icon slot="prefix" name="person-square"></sl-icon>View ID</sl-menu-item>
                             <sl-menu-divider></sl-menu-divider>
                             <sl-menu-item class="edit-btn"><sl-icon slot="prefix" name="pencil"></sl-icon>Edit</sl-menu-item>
                             <sl-menu-item class="deactivate-btn"><sl-icon slot="prefix" name="slash-circle"></sl-icon>Deactivate</sl-menu-item>

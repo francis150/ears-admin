@@ -2,6 +2,7 @@ const electron = require('electron')
 const { remote, ipcRenderer } = electron
 
 const _moment = require('moment')
+const qrcode = require('qrcode')
 
 const currentWindow = remote.getCurrentWindow()
 currentWindow.openDevTools()
@@ -408,6 +409,36 @@ document.querySelector('.profile .content .top .options sl-menu .reactivate-btn'
             }
         })
     }
+})
+
+// view id dialog
+document.querySelector('.profile .top .options sl-menu .view-id-btn').addEventListener('click', () => {
+    document.querySelector('sl-dialog.id-dialog .front sl-avatar').image = viewedEmployee.image_url
+    document.querySelector('sl-dialog.id-dialog .front h2').innerHTML = `${viewedEmployee.lname}, ${viewedEmployee.fname}`
+    ipcRenderer.send('request-employee-designation', viewedEmployee.designation)
+    ipcRenderer.once('respond-employee-designation', (evt, arg) => {
+        document.querySelector('sl-dialog.id-dialog .front p').innerHTML = arg.name
+    })
+    
+    qrcode.toCanvas(document.querySelector('sl-dialog.id-dialog .back .qr-code'), `employees/${viewedEmployee.key}`, (err) => {
+        if (err) {
+            console.log(err.message)
+        }
+    })
+    document.querySelector('sl-dialog.id-dialog .back p').innerHTML = `<b>Phone</b> ${viewedEmployee.contact_number}`
+
+    document.querySelector('sl-dialog.id-dialog').show()
+})
+
+// clear id dialog on hide
+document.querySelector('sl-dialog.id-dialog').addEventListener('sl-after-hide', () => {
+    document.querySelector('sl-dialog.id-dialog .front sl-avatar').image = ''
+    document.querySelector('sl-dialog.id-dialog .front h2').innerHTML = ''
+    document.querySelector('sl-dialog.id-dialog .front p').innerHTML = '...'
+
+    const canvas = document.querySelector('sl-dialog.id-dialog .back .qr-code')
+    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+    document.querySelector('sl-dialog.id-dialog .back p').innerHTML = ''
 })
 
 // when employee is added
