@@ -159,7 +159,7 @@ sl-drawer h6[data-disabled=true]:hover, sl-drawer p[data-disabled=true]:hover {
           flex-direction: column;
   position: absolute;
   width: 100%;
-  height: 0;
+  height: 100vh;
   background: rgba(255, 255, 255, 0.97);
   overflow: hidden;
   bottom: 0;
@@ -632,6 +632,9 @@ main form .permissions .permissions-container {
   -ms-grid-columns: auto auto;
       grid-template-columns: auto auto;
   gap: 30px;
+  overflow-y: scroll;
+  height: 300px;
+  padding-right: 10px;
 }
 
 main form .permissions .permissions-container .permission-group {

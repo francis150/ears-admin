@@ -35,6 +35,43 @@ ipcRenderer.on('load-subject-user', (evt, user) => {
     document.querySelector('form .permissions sl-switch[name=deactivate_reactivate_users]').checked = user.permissions.deactivate_reactivate_users
     document.querySelector('form .permissions sl-switch[name=history_log]').checked = user.permissions.history_log
     document.querySelector('form .permissions sl-switch[name=settings]').checked = user.permissions.settings
+    document.querySelector('form .permissions sl-switch[name=attendance_app]').checked = user.permissions.attendance_app
+    
+    if(user.permissions.attendance_app) {
+        document.querySelector('form .permissions .input-element sl-dropdown input').value = '...'
+        ipcRenderer.send('request-branch', user.permissions.attendance_app_branch)
+        ipcRenderer.on('respond-branch', (evt, arg) => {
+            document.querySelector('form .permissions .input-element sl-dropdown input').value = arg.name
+            document.querySelector('form .permissions .input-element sl-dropdown input').dataset.value = arg.key
+        })
+    }
+})
+
+// load branches
+ipcRenderer.send('request-branches')
+ipcRenderer.on('respond-branches', (evt, arg) => {
+    const container = document.querySelector('form .permissions .permissions-container .input-element sl-dropdown sl-menu .menu-items')
+    container.innerHTML = ''
+
+    Object.values(arg).forEach(branch => {
+        const item = document.createElement('sl-menu-item')
+        item.value = branch.key
+        item.innerHTML = branch.name
+        item.addEventListener('click', (e) => {
+
+            document.querySelector('form .permissions .permissions-container sl-switch[name=attendance_app]').checked = true
+
+            document.querySelector('form .permissions .permissions-container .input-element sl-dropdown input').value = branch.name
+            document.querySelector('form .permissions .permissions-container .input-element sl-dropdown input').dataset.value = branch.key
+        })
+
+        container.appendChild(item)
+    })
+})
+
+// manage branches
+document.querySelector('form .permissions .permissions-container .input-element sl-dropdown sl-menu .manage-branches-btn').addEventListener('click', () => {
+    ipcRenderer.send('show-branch-manager')
 })
 
 // main back button 
@@ -137,14 +174,23 @@ form.addEventListener('submit', (e) => {
         //check page 2 validity
         if (document.querySelectorAll('form .permissions .permissions-container sl-switch.main[checked]').length < 1) {
             document.querySelector('form .permissions .buttons small').innerHTML = 'At least one(1) permission group must be allowed.'
+        } else if (document.querySelector('form .permissions .permissions-container sl-switch[name=attendance_app]').checked && document.querySelector('form .permissions .permissions-container .input-element sl-dropdown input').value === '') {
+
+            document.querySelector('form .permissions .permissions-container .input-element sl-dropdown input').select()
+            document.querySelector('form .permissions .permissions-container .input-element sl-dropdown input').parentElement.parentElement.dataset.invalid = true
+            document.querySelector('form .permissions .permissions-container .input-element sl-dropdown input').parentElement.nextElementSibling.innerHTML = 'This field cant be empty.'
+
         } else {
             //reset validity
             document.querySelector('form .permissions .buttons small').innerHTML = ''
+            document.querySelector('form .permissions .permissions-container .input-element sl-dropdown input').parentElement.parentElement.dataset.invalid = false
+            document.querySelector('form .permissions .permissions-container .input-element sl-dropdown input').parentElement.nextElementSibling.innerHTML = ''
 
             // set new user object properties
             document.querySelectorAll('form .permissions .permissions-container sl-switch').forEach(element => {
                 updatedUserObject.permissions[element.name] = element.checked
             })
+            updatedUserObject.permissions['attendance_app_branch'] = document.querySelector('form .permissions .permissions-container .input-element sl-dropdown input').dataset.value
 
             // final submit
             finalSubmit()

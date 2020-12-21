@@ -118,7 +118,6 @@
                         <sl-switch name="modify_employees" class="sub">Modify Employees Records</sl-switch>
                         <sl-switch name="modify_employee_shifts" class="sub">Modify Employees Shift Schedules</sl-switch>
                         <sl-switch name="deactivate_reactivate_employees" class="sub">Deactivate/Reactivate Employees</sl-switch>
-                        <sl-switch name="attendance_app" class="sub">Attendance App</sl-switch>
                     </div>
                     <div class="permission-group">
                         <sl-switch name="reports" class="main">Reports
@@ -151,6 +150,34 @@
                                 <sl-icon name="info-circle-fill"></sl-icon>
                             </sl-tooltip>
                         </sl-switch>
+                    </div>
+
+                    <div class="permission-group">
+                        <sl-switch name="attendance_app" class="main">Attendance App
+                            <sl-tooltip content="Time-in and Time-out employees using the Android Attendance App.">
+                                <sl-icon name="info-circle-fill"></sl-icon>
+                            </sl-tooltip>
+                        </sl-switch>
+                    
+                        <div class="input-element sub">
+                            <label>Designated Branch</label>
+                    
+                            <sl-dropdown hoist type="input" hoist>
+                                <input slot="trigger" readonly type="text" name="branch">
+                                <sl-menu data-for="branch">
+                                    <div class="menu-items">
+                                        <!-- <sl-menu-item type="normal" value='d01'>Branch 1</sl-menu-item>
+                                                            <sl-menu-item type="normal" value='d02'>Branch 2</sl-menu-item>
+                                                            <sl-menu-item type="normal" value='d03'>Branch 3</sl-menu-item> -->
+                                    </div>
+                                    <sl-menu-item type="manage" class="manage-branches-btn">Manage Branches
+                                        <sl-icon slot="prefix" name="sliders"></sl-icon>
+                                    </sl-menu-item>
+                                </sl-menu>
+                            </sl-dropdown>
+                    
+                            <small></small>
+                        </div>
                     </div>
             
                 </div>

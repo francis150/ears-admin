@@ -193,9 +193,6 @@ function viewUser(user) {
 
     document.querySelector('#profile-deactivate-reactivate-employees-per').style.textDecoration = user.permissions.deactivate_reactivate_employees ? 'none' : 'line-through'
     document.querySelector('#profile-deactivate-reactivate-employees-per sl-icon').name = user.permissions.deactivate_reactivate_employees ? 'check' : 'x'
-    
-    document.querySelector('#profile-attendance-app-per').style.textDecoration = user.permissions.attendance_app ? 'none' : 'line-through'
-    document.querySelector('#profile-attendance-app-per sl-icon').name = user.permissions.attendance_app ? 'check' : 'x'
 
     document.querySelector('#profile-reports-per').style.textDecoration = user.permissions.reports ? 'none' : 'line-through'
     document.querySelector('#profile-reports-per sl-icon').name = user.permissions.reports ? 'check' : 'x'
@@ -221,7 +218,19 @@ function viewUser(user) {
     document.querySelector('#profile-settings-per').style.textDecoration = user.permissions.settings ? 'none' : 'line-through'
     document.querySelector('#profile-settings-per sl-icon').name = user.permissions.settings ? 'check' : 'x'
 
+    document.querySelector('#profile-attendance-app-per').style.textDecoration = user.permissions.attendance_app ? 'none' : 'line-through'
+    document.querySelector('#profile-attendance-app-per sl-icon').name = user.permissions.attendance_app ? 'check' : 'x'
 
+    if (user.permissions.attendance_app) {
+        
+        ipcRenderer.send('request-branch', user.permissions.attendance_app_branch)
+        ipcRenderer.on('respond-branch', (evt, arg) => {
+            document.querySelector('#profile-attendance-app-branch').innerHTML = `<sl-icon name="shop" style="font-size: 14px; margin: 5px;"></sl-icon> ${arg.name}`
+        })
+
+    } else { 
+        document.querySelector('#profile-attendance-app-branch').innerHTML = ''
+    }
 
 }
 

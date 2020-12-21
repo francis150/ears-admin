@@ -143,6 +143,9 @@ main {
                 display: grid;
                 grid-template-columns: auto auto;
                 gap: 30px;
+                overflow-y: scroll;
+                height: 300px;
+                padding-right: 10px;
 
                 .permission-group {
                     display: flex;

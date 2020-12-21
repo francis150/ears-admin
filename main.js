@@ -859,6 +859,13 @@ ipcMain.on('request-branches', (evt) => {
     })
 })
 
+ipcMain.on('request-branch', (evt, arg) => {
+    firedb.ref(`branches/${arg}`).once('value')
+    .then((snapshot) => {
+        evt.reply('respond-branch', snapshot.val())
+    })
+})
+
 ipcMain.on('branch-shifts-listed', (evt, key) => {
     let count = 0
     firedb.ref('employees').once('value')
