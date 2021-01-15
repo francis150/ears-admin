@@ -474,8 +474,31 @@ main {
                 }
             }
 
+            button {
+                height: 35px;
+                background: $purple;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                font-family: semi-bold;
+                margin: 20px 0;
+                cursor: pointer;
+                transition: .2s all ease;
+
+                &:focus {
+                    outline: none;
+                }
+
+                &:hover {
+                    transform: translateY(-5px);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+            }
+
             .performance {
-                margin-top: 40px;
 
                 h5 {
                     font-family: semi-bold;

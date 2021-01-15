@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.css">
-    <link rel="stylesheet" href="../styles/employees.css">
-    <title>Ears Admin App | Employees</title>
+    <link rel="stylesheet" href="../styles/realtime-monitor.css">
+    <title>Ears Admin App | Realtime Monitor</title>
 </head>
 <body>
-
     <sl-drawer class="nav-menu">
     
         <div slot="label" class="profile">
@@ -54,44 +53,31 @@
     </div>
     <div class="alert-wrapper"></div>
     
-
+    
     <header>
-        <h1>Employees</h1>
+        <h1>Realtime Monitor</h1>
         <button id="menu-btn">Menu</button>
     </header>
-
-    <sl-dialog label="Identification Card" class="id-dialog">
-        <div class="id-card">
-            <div class="front">
-                <sl-avatar></sl-avatar>
-                <h2></h2>
-                <p>...</p>
-                <h6>Employee ID Card</h6>
-                <div class="yellow"></div>
-            </div>
-            <div class="back">
-                <canvas class="qr-code"></canvas>
-                <h2>E.A.R.S.</h2>
-                <p></p>
-                <h6>Employee ID Card</h6>
-                <div class="yellow"></div>
-            </div>
-        </div>
-        <div class="buttons" slot="footer">
-            <button class="print-btn"><sl-icon name="printer"></sl-icon>Print</button>
-        </div>
-    </sl-dialog>
 
     <main>
         <div class="list">
 
             <div class="header">
-
-                <div class="search">
-                    <input type="text" placeholder="Search">
-                    <!-- <a class="search-suggestion" href="#">suggestion 1</a>
-                    <a class="search-suggestion" href="#">suggestion 2</a>
-                    <a class="search-suggestion" href="#">suggestion 3</a> -->
+                
+                <div class="input-element">
+                    <sl-dropdown type="input">
+                        <input slot="trigger" readonly type="text" placeholder="Choose a branch">
+                        <sl-menu data-for="branch">
+                            <div class="menu-items">
+                                <!-- <sl-menu-item type="normal" value='d01'>Designation 1</sl-menu-item>
+                                <sl-menu-item type="normal" value='d02'>Designation 2</sl-menu-item>
+                                <sl-menu-item type="normal" value='d03'>Designation 3</sl-menu-item> -->
+                            </div>
+                            <sl-menu-item class="manage-branches" type="manage">Manage Branches<sl-icon slot="prefix"
+                                    name="sliders"></sl-icon>
+                            </sl-menu-item>
+                        </sl-menu>
+                    </sl-dropdown>
                 </div>
 
                 <sl-tooltip class="employee-counter" content="Employees Listed">
@@ -99,59 +85,33 @@
                     <p class="counter-value">0</p>
                 </sl-tooltip>
 
-                <sl-dropdown close-on-select="false" class="filter">
-                    <sl-tooltip slot="trigger" content="Filter">
-                        <sl-icon-button name="funnel"></sl-icon-button>
-                    </sl-tooltip>
-                    <sl-menu>
-                        <sl-menu-label>Employee Type</sl-menu-label>
-                        <div class="employee-type-filter">
-                            <!-- <sl-menu-item checked>Regular</sl-menu-item>
-                            <sl-menu-item checked>Probationary</sl-menu-item> -->
-                        </div>
-                        <sl-menu-divider></sl-menu-divider>
-                        <sl-menu-label>Job Type</sl-menu-label>
-                        <div class="job-type-filter">
-                            <!-- <sl-menu-item checked>Full-time</sl-menu-item>
-                            <sl-menu-item checked>Part-time</sl-menu-item>
-                            <sl-menu-item checked>On-call</sl-menu-item> -->
-                        </div>
-                        <sl-menu-divider></sl-menu-divider>
-                        <sl-menu-item class="deactivated-filter">Deactivated</sl-menu-item>
-                    </sl-menu>
-                </sl-dropdown>
-
-                <sl-tooltip content="Add New Employee">
-                    <sl-icon-button id="new-employee-btn" name="plus-circle"></sl-icon-button>
-                </sl-tooltip>
-
             </div>
 
-            <div class="employee-list">
+            <div class="employee-list-container">
+
+                <div class="employee-list">
                 
-                <!-- <div class="employee">
-                    <sl-avatar></sl-avatar>
-                    <div class="texts-wrapper">
-                        <h2>Dela Victoria, Francis Ian</h2>
-                        <div class="badges-wrapper">
-                            <span>Employee Type</span>
-                            <span>Job Type</span>
-                            <span>Deactivated</span>
+                    <!-- <div class="employee">
+                        <sl-avatar></sl-avatar>
+                        <div class="texts-wrapper">
+                            <h2>Francis Ian Dasdfasdfasdf.</h2>
+                            <p>Cashier</p>
                         </div>
-                    </div>
-                </div> -->
+                    </div> -->
                 
+                </div>
+
             </div>
 
         </div>
         <div class="profile">
             <div class="content">
-
+            
                 <div class="top">
                     <div class="badges">
                         <!-- <span>Deactivated</span>
-                        <span>Regular</span>
-                        <span>On-call</span> -->
+                                    <span>Regular</span>
+                                    <span>On-call</span> -->
                     </div>
                     <sl-avatar></sl-avatar>
                     <sl-dropdown class="options">
@@ -159,21 +119,34 @@
                             <sl-icon-button style="font-size: 1.2em;" name="three-dots-vertical"></sl-icon-button>
                         </sl-tooltip>
                         <sl-menu>
-                            <sl-menu-item class="shift-schedule-btn"><sl-icon slot="prefix" name="calendar-week"></sl-icon>Shift Schedule</sl-menu-item>
-                            <sl-menu-item><sl-icon slot="prefix" name="hourglass-split"></sl-icon>Activity Log</sl-menu-item>
-                            <sl-menu-item><sl-icon slot="prefix" name="calendar3-range"></sl-icon>Schedule a Leave</sl-menu-item>
-                            <sl-menu-item class="view-id-btn"><sl-icon slot="prefix" name="person-square"></sl-icon>Print ID</sl-menu-item>
+                            <!-- <sl-menu-item class="shift-schedule-btn">
+                                <sl-icon slot="prefix" name="calendar-week"></sl-icon>Shift Schedule
+                            </sl-menu-item>
+                            <sl-menu-item>
+                                <sl-icon slot="prefix" name="hourglass-split"></sl-icon>Activity Log
+                            </sl-menu-item>
+                            <sl-menu-item>
+                                <sl-icon slot="prefix" name="calendar3-range"></sl-icon>Schedule a Leave
+                            </sl-menu-item>
+                            <sl-menu-item class="view-id-btn">
+                                <sl-icon slot="prefix" name="person-square"></sl-icon>View ID
+                            </sl-menu-item>
                             <sl-menu-divider></sl-menu-divider>
-                            <sl-menu-item class="edit-btn"><sl-icon slot="prefix" name="pencil"></sl-icon>Edit</sl-menu-item>
-                            <sl-menu-item class="deactivate-btn"><sl-icon slot="prefix" name="slash-circle"></sl-icon>Deactivate</sl-menu-item>
-                            <sl-menu-item class="reactivate-btn">Re-activate <sl-icon slot="prefix" name="check-circle"></sl-icon></sl-menu-item>
+                            <sl-menu-item class="edit-btn">
+                                <sl-icon slot="prefix" name="pencil"></sl-icon>Edit
+                            </sl-menu-item>
+                            <sl-menu-item class="deactivate-btn">
+                                <sl-icon slot="prefix" name="slash-circle"></sl-icon>Deactivate
+                            </sl-menu-item>
+                            <sl-menu-item class="reactivate-btn">Re-activate <sl-icon slot="prefix" name="check-circle"></sl-icon>
+                            </sl-menu-item> -->
                         </sl-menu>
                     </sl-dropdown>
                 </div>
                 <div class="info">
-                    <h2></h2>
+                    <h2>...</h2>
                     <p>...</p>
-
+            
                     <div class="more-info">
                         <sl-tooltip content="Contact Number">
                             <span class="contact-number">
@@ -190,7 +163,7 @@
                 <button>Activity Log</button>
                 <div class="performance">
                     <h5>Performance</h5>
-
+            
                     <div class="attendance">
                         <sl-progress-ring percentage="50" size="65">100%</sl-progress-ring>
                         <div class="texts">
@@ -198,19 +171,21 @@
                             <p><span class="absences">18 Absences</span> • <span class="work-days">365 Work Days</span></p>
                         </div>
                     </div>
-
+            
                     <div class="timeliness">
                         <sl-progress-ring percentage="50" size="65">100%</sl-progress-ring>
                         <div class="texts">
                             <h2>Timeliness</h2>
-                            <p><span class="lates">18 Lates</span> • <span class="early-outs">8 Early-outs</span> • <span class="work-days">365 Work Days</span></p>
+                            <p><span class="lates">18 Lates</span> • <span class="early-outs">8 Early-outs</span> • <span
+                                    class="work-days">365 Work Days</span></p>
                         </div>
                     </div>
                 </div>
-
+            
             </div>
         </div>
     </main>
+
 
     <footer id="footer">
         <div class="left">
@@ -221,12 +196,9 @@
     </footer>
 
     <script type="module" src="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.esm.js"></script>
+    
+    <script src="../scripts/realtime-monitor.js"></script>
 
-    <script src="../scripts/employee.js"></script>
-
-    <!-- Copy this in all html file - in exact same order -->
-    <script src="../scripts/_dialogbox-handles.js"></script>
-    <script src="../scripts/_alert-handles.js"></script>
     <script src="../scripts/_menu-handles.js"></script>
     <script src="../scripts/_status-bar-handles.js"></script>
 </body>

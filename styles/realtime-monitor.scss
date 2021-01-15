@@ -1,0 +1,335 @@
+@import "./partials/fonts";
+@import "./partials/colors";
+@import "./partials/scrollbar";
+@import "./partials/menu";
+@import "./partials/loader";
+@import "./partials/header";
+@import "./partials/footer";
+@import "./partials/alert-wrapper";
+@import "./partials/input";
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    padding: 0 30px;
+    justify-content: space-between;
+
+    .list {
+        height: 530px;
+        width: 606px;
+        margin-top: 15px;
+
+        .header {
+            display: flex;
+            flex-direction: row;
+
+            .input-element {
+                width: 280px;
+            }
+
+            .employee-counter {
+                cursor: pointer;
+
+                .counter-icon {
+                    font-size: 1.3rem;
+                    color: $icon-gray;
+                    margin-left: 30px;
+                    margin-top: 10px;
+                }
+
+                .counter-value {
+                    margin-top: 13px;
+                    font-family: semi-bold;
+                    font-size: 14px;
+                    color: $dark-grey;
+                    margin-left: 10px;
+                }  
+            }
+        }
+
+        .employee-list-container {
+            height: 475px;
+            width: 606px;
+            overflow-y: hidden;
+            padding-right: 8px;
+
+            &:hover {
+                overflow-y: scroll;
+                padding-right: 0;
+            }
+
+            .employee-list {
+                display: grid;
+                grid-template-columns: auto auto;
+                gap: 10px;       
+                transition: .5s all ease;            
+            
+
+                .employee {
+                    display: flex;
+                    background: $light-grey;
+                    height: 75px;
+                    width: 100%;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    align-items: center;
+                    padding: 13px 20px;
+                    transition: .2s all ease-in-out;
+                    animation: showEmployee .2s ease;
+
+                    &:hover{ 
+                        background: $light-grey2;
+                    }
+
+                    &:active { 
+                        transform: scale(0.9);
+                    }
+
+                    sl-avatar {
+                        &::part(base){
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 50%;
+                            background: white;
+                        }
+
+                        &::part(icon) {
+                            font-size: 25px;
+                            color: $icon-gray;
+                        }
+                    }
+
+                    .texts-wrapper {
+                        margin-left: 15px;
+
+                        h2 {
+                            font-family: semi-bold;
+                            font-size: 21px;
+                            color: $dark-grey;
+                            white-space: nowrap;
+                            width: 180px;
+                            overflow: hidden;
+                            text-overflow: ellipsis; 
+                        }
+
+                        p {
+                            font-family: semi-bold;
+                            text-transform: uppercase;
+                            font-size: 14px;
+                            letter-spacing: 0.2em;
+                            margin-top: 5px;
+                            white-space: nowrap;
+                            width: 180px;
+                            overflow: hidden;
+                            text-overflow: ellipsis; 
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .profile {
+        display: flex;
+        flex-direction: column;
+        height: 530px;
+        width: 514px;
+        background: $light-grey;
+        border-radius: 5px;
+        margin-top: 15px;
+
+        .content {
+            width: 100%;
+            height: 100%;
+            /* display: flex; */
+            display: none;
+            flex-direction: column;
+            padding: 30px;
+
+            .top {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                .badges {
+                    width: 30%;
+
+                    p {
+                        background: $dark-grey;
+                        padding: 2px 5px;
+                        width: fit-content;
+                        font-family: regular;
+                        font-size: 10px;
+                        color: white;
+                        border-radius: 3px;
+                        margin-right: 5px;
+                        margin-bottom: 2px;
+                    }
+                }
+
+                sl-avatar {
+                    &::part(base){
+                        width: 115px;
+                        height: 115px;
+                        border-radius: 50%;
+                        border: solid 3px $light-grey;
+                        background: white;
+                    }
+
+                    &::part(icon) {
+                        font-size: 50px;
+                        color: $icon-gray;
+                    }
+                }
+
+                .options {
+                    width: 30%;
+                    &::part(base) {
+                        display: flex;
+                        flex-direction: row-reverse;
+                    }
+
+                    sl-menu-item {
+                        color: $dark-grey;
+                        
+                        sl-icon {
+                            margin-right: 10px;
+                        }
+                    }
+                }
+            }
+
+            .info{
+                margin-top: 10px;
+                text-align: center;
+
+                h2 {
+                    font-family: semi-bold;
+                    color: $dark-grey;
+                    font-size: 23px;
+                    margin-bottom: 5px;
+                }
+
+                p {
+                    text-transform: uppercase;
+                    font-family: semi-bold;
+                    font-size: 16px;
+                    letter-spacing: 0.2em;
+                    color: $dark-grey;
+                    opacity: 0.9;
+                }
+
+                .more-info {
+                    margin-top: 20px;
+                    display: flex;
+                    justify-content: center;
+                    gap: 30px;
+
+                    span {
+                        font-family: regular;
+                        font-size: 15px;
+                        color: $dark-grey;
+                        opacity: .9;
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+
+                        sl-icon {
+                            margin-right: 10px;
+                        }
+                    }
+                }
+            }
+
+            button {
+                height: 35px;
+                background: $purple;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                font-family: semi-bold;
+                margin: 20px 0;
+                cursor: pointer;
+                transition: .2s all ease;
+
+                &:focus {
+                    outline: none;
+                }
+
+                &:hover {
+                    transform: translateY(-5px);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+            }
+
+            .performance {
+
+                h5 {
+                    font-family: semi-bold;
+                    font-size: 16px;
+                    opacity: 0.8;
+                    color: $dark-grey;
+                    margin-bottom: 10px;
+                }
+
+                .attendance, .timeliness {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 10px;
+
+                    sl-progress-ring {
+                        &::part(label) {
+                            font-family: regular;
+                            font-size: 12px;
+                            color: $dark-grey;
+                        }
+                    }
+
+                    .texts {
+                        margin-left: 5px;
+
+                        h2 {
+                            font-family: regular;
+                            font-size: 18px;
+                            color: $dark-grey;
+                            margin-bottom: 5px;
+                        }
+
+                        p {
+                            font-family: semi-bold;
+                            font-size: 12px;
+                            opacity: .8;
+
+                            .absences, .lates, .early-outs {
+                                color: $red;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes showEmployee {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+@keyframes removeEmployee {
+    to {
+        opacity: 0;
+        transform: scale(0);
+    }
+}

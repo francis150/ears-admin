@@ -4,9 +4,6 @@ const { remote, ipcRenderer } = electron
 const _moment = require('moment')
 const qrcode = require('qrcode')
 
-const currentWindow = remote.getCurrentWindow()
-currentWindow.openDevTools()
-
 // request employees list when filters are all loaded
 let filtersLoaded = 0
 function filterLoaded() {

@@ -75,7 +75,7 @@ ipcMain.on('user-login', (evt, login) => {
                             }
                         })
 
-                        mainWindow.loadURL(path.join('file://', __dirname, 'views/user-accounts.html'))
+                        mainWindow.loadURL(path.join('file://', __dirname, 'views/realtime-monitor.html'))
 
                         mainWindow.on('closed', () => {
                             firstWindow = null
@@ -108,7 +108,8 @@ ipcMain.on('user-login', (evt, login) => {
 /* NOTE NAVIGATION */
 let backURL = ''
 ipcMain.on('nav-to-realtime-monitor', (evt, arg) => {
-    console.log('nav-to-realtime-monitor')
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/realtime-monitor.html'))
 })
 
 ipcMain.on('nav-to-employees', (evt, arg) => {
@@ -170,6 +171,23 @@ ipcMain.on('nav-to-settings', (evt, arg) => {
 
 ipcMain.on('nav-back', () => {
     mainWindow.loadURL(backURL)
+})
+
+
+/* NOTE REALTIME MONITOR */
+ipcMain.on('monitor-branch', (evt, arg) => {
+    // retrieve on attendance added
+    const ref = firedb.ref(`/active_attendance/${moment().format('DD-MM-YYYY')}/${arg}`)
+    
+    ref.off()
+    
+    ref.on('child_added', (attendance) => {
+        evt.reply('add-employee-monitor', attendance.val())
+    })
+
+    ref.on('child_removed', (attendance) => {
+        evt.reply('remove-employee-monitor', attendance.val())
+    })
 })
 
 

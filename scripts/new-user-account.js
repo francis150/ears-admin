@@ -164,9 +164,13 @@ form.addEventListener('submit', (e) => {
             // set new user object properties
             document.querySelectorAll('form .permissions .permissions-container sl-switch').forEach(element => {
                 newUserObject.permissions[element.name] = element.checked
+
+                if (element.name === 'attendance_app_branch' && element.checked) {
+                    newUserObject.permissions['attendance_app_branch'] = document.querySelector('form .permissions .permissions-container .input-element sl-dropdown input').dataset.value
+                }
             })
 
-            newUserObject.permissions['attendance_app_branch'] = document.querySelector('form .permissions .permissions-container .input-element sl-dropdown input').dataset.value
+            
 
             //go page 3
             document.querySelector('form .permissions').style.display = 'none'
