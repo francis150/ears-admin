@@ -1,0 +1,403 @@
+@import "./partials/fonts";
+@import "./partials/colors";
+@import "./partials/scrollbar";
+@import "./partials/menu";
+@import "./partials/loader";
+@import "./partials/header";
+@import "./partials/footer";
+@import "./partials/input";
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+sl-dialog {
+    &::part(header) {
+        display: none;
+    }
+
+    .top-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h2 {
+            font-family: semi-bold;
+            font-size: 20px;
+            color: $dark-grey;
+        }
+
+        h6 {
+            font-family: semi-bold;
+            font-size: 14px;
+            color: $dark-grey;
+        }
+    }
+
+    .profile-branch {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-top: 40px;
+
+        .profile {
+            display: flex;
+            align-items: center;
+            width: 80%;
+
+            sl-avatar {
+                &::part(base){
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                    border: solid 3px $light-grey;
+                    background: $light-grey;
+                }
+
+                &::part(icon) {
+                    font-size: 30px;
+                    color: $icon-gray;
+                }
+            }
+
+            .profile-texts {
+                margin-left: 10px;
+
+                h1 {
+                    font-family: semi-bold;
+                    font-size: 18px;
+                    color: $dark-grey;
+                    margin-bottom: 5px;
+                }
+
+                p {
+                    font-family: semi-bold;
+                    font-size: 12px;
+                    color: $dark-grey;
+                    opacity: 8;
+                    letter-spacing: 0.2em;
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+        .branch {
+
+            h1 {
+                text-align: end;
+                font-family: semi-bold;
+                font-size: 12px;
+                color: $dark-grey;
+                margin-bottom: 5px;
+            }
+
+            p {
+                text-align: end;
+                font-family: regular;
+                font-size: 12px;
+                color: $dark-grey;
+            }
+        }
+    }
+
+    .summary {
+        margin-top: 40px;
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 20px;
+
+        .group {
+            h4 {
+                font-family: semi-bold;
+                font-size: 12px;
+                color: $dark-grey;
+            }
+
+            p {
+                font-family: regular;
+                font-size: 30px;
+                color: $dark-grey;
+            }
+        }
+
+        .red {
+            h4 {
+                color: $red;
+            }
+        }
+
+        .total-hours-group {
+            p {
+                font-size: 40px;
+            }
+        }
+    }
+
+    .button {
+        button {
+            margin-right: 10px;
+            background: none;
+            font-family: bold;
+            font-size: 14px;
+            color: $purple;
+            border: none;
+            border-bottom: 3px solid white;
+            padding-bottom: 10px;
+            cursor: pointer;
+
+            transition: border-color .2s ease-in-out;
+
+            &:focus {
+                outline: none;
+            } 
+
+            &:hover {
+                border-color: $purple;
+            }
+        }
+    }
+}
+
+main {
+    display: flex;
+    padding: 0 30px;
+    justify-content: space-between;
+    gap: 10px;
+
+    .filters {
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+
+        h2 {
+            font-family: semi-bold;
+            font-size: 20px;
+            color: $dark-grey;
+            margin-bottom: 30px;
+        }
+
+        div {
+            margin-bottom: 10px;
+
+            sl-checkbox {
+                margin-bottom: 10px;
+
+                &::part(checked-icon) {
+                    color: white;
+                    background: $purple;
+                }
+
+                &::part(label) {
+                    color: $icon-gray;
+                    font-family: bold;
+                    font-size: 14px;
+                }
+            }
+
+            .search {
+                border-radius: 5px;
+                z-index: 1;
+                position: absolute;
+                transition: all .3s ease;
+                display: flex;
+                flex-direction: column;
+                background: white;
+
+                &:focus-within {
+                    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.10);
+                }
+
+                input {
+                    border-radius: 5px;
+                    font-size: 13px;
+                    font-family: semi-bold;
+                    padding: 13px 20px;
+                    background: $light-grey;
+                    color: $dark-grey;
+                    border: none;
+                    width: 280px;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+
+                a {
+                    font-family: medium;
+                    font-size: 16px;
+                    color: $dark-grey;
+                    padding: 13px 20px;
+                    transition: background .4s ease;
+                    text-decoration: none;
+
+                    &:hover {
+                        background: $light-grey;
+                        cursor: pointer;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        background: $light-grey;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    .data {
+        width: 75%;
+        height: 550px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .summary {
+            background: $light-grey;
+            border-radius: 5px;
+            /* height: 200px; */
+            height: 0;
+            display: grid;
+            grid-template-columns: auto auto;
+            overflow: hidden;
+            transition: height .3s ease;
+
+            div {
+                margin: 20px;
+
+                h6 {
+                    font-family: semi-bold;
+                    font-size: 12px;
+                    color: $red;
+                }
+
+                .total-hours-label {
+                    color: $green;
+                }
+
+                p {
+                    font-family: regular;
+                    font-size: 40px;
+                    color: $dark-grey;
+
+                    span {
+                        font-size: 18px;
+                        font-family: semi-bold;
+                    }
+                }
+            }
+        }
+
+        .data-list {
+            min-height: 320px;
+            padding: 20px;
+            transition: height .3s ease;
+
+            .column-names {
+                display: flex;
+                flex-direction: row;
+                gap: 5px;
+                padding-right: 15px;
+                margin-bottom: 10px;
+
+                p {
+                    text-align: center;
+                    font-family: bold;
+                    color: $dark-grey;
+                    font-size: 14px;
+                }
+
+                .c-date {
+                    width: 20%;
+                }
+
+                .c-name {
+                    padding: 0 10px;
+                    text-align: left;
+                    width: 40%;
+                }
+
+                .c-branch {
+                    width: 16%;
+                }
+
+                .c-time-in {
+                    width: 12%;
+                }
+
+                .c-time-out {
+                    width: 12%;
+                }
+            }
+
+            .attendance-data {
+                padding-right: 15px;
+                height: 100%;
+                overflow: hidden;
+
+                &:hover {
+                    overflow-y: scroll;
+                    padding-right: 7px;
+                }
+
+                .attendance {
+                    background: $light-grey;
+                    height: 40px;
+                    border-radius: 5px;
+                    align-items: center;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 5px;
+                    cursor: pointer;
+                    margin-bottom: 5px;
+                    transition: .3s all ease;
+                    animation: .3s showData ease;
+
+                    &:hover {
+                        background: $light-grey2;
+                    }
+
+                    p {
+                        text-align: center;
+                        font-family: semi-bold;
+                        color: $dark-grey;
+                        font-size: 14px;
+                    }
+
+                    .date {
+                        width: 20%;
+                    }
+
+                    .name {
+                        padding: 0 10px;
+                        text-align: left;
+                        width: 40%;
+                    }
+
+                    .branch {
+                        width: 16%;
+                    }
+
+                    .time-in {
+                        width: 12%;
+                    }
+
+                    .time-out {
+                        width: 12%;
+                    }
+                    
+                }
+            }
+        }
+    }
+}
+
+@keyframes showData {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+}

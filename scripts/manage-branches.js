@@ -3,7 +3,7 @@ const electron = require('electron')
 const { remote, ipcRenderer } = electron
 
 const currentWindow = remote.getCurrentWindow()
-currentWindow.openDevTools()
+//currentWindow.openDevTools()
 
 // add form on submit
 const form = document.querySelector('form')

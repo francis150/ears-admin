@@ -6,7 +6,7 @@ const firebase = require('../firebase')
 firestorage = firebase.storage()
 
 const currentWindow = remote.getCurrentWindow()
-currentWindow.openDevTools()
+//currentWindow.openDevTools()
 
 const form = document.querySelector('form')
 

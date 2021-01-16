@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.css">
+    <link rel="stylesheet" href="../styles/reports.css">
+    <title>Ears Admin App | Reports</title>
+</head>
+<body>
+    <sl-drawer class="nav-menu">
+    
+        <div slot="label" class="profile">
+            <sl-avatar id="current-user-image"></sl-avatar>
+            <div class="profile-texts">
+                <h2 id="current-user-name">Loading...</h2>
+                <span id="current-user-title">Loading...</span>
+            </div>
+        </div>
+    
+        <div class="group">
+            <h6 id="nav-realtime-monitor">Realtime Monitor</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-employees">Employees</h6>
+            <p id="nav-add-new-employee">Add New Employee</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-reports">Reports</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-user-accounts">User Accounts</h6>
+            <p id="nav-create-new-user-account">Create New User Account</p>
+        </div>
+        <div class="group">
+            <h6 id="nav-history-log">History Log</h6>
+        </div>
+        <div class="group">
+            <h6 id="nav-settings">Settings</h6>
+        </div>
+    
+        <div class="group" slot="footer">
+            <h6>My Profile</h6>
+            <p>Switch User</p>
+            <p>Change Username</p>
+            <p>Change Password</p>
+        </div>
+    </sl-drawer>
+    <div class="loader">
+        <div class="loader-indicator">
+        </div>
+        <h1 id="loader-message">Wait a bit.</h1>
+    </div>
+
+    <sl-dialog class="attendance-details-dialog">
+        <div class="top-title">
+            <h2>Attendance Details</h2>
+            <h6 class="date">...</h6>
+        </div>
+        <div class="profile-branch">
+            <div class="profile">
+                <sl-avatar class="employee-image"></sl-avatar>
+                <div class="profile-texts">
+                    <h1 class="employee-name">...</h1>
+                    <p class="employee-designation">...</p>
+                </div>
+            </div>
+
+            <div class="branch">
+                <h1 class="branch-name">...</h1>
+                <p class="branch-description">...</p>
+            </div>
+        </div>
+        <div class="summary">
+            <div class="group">
+                <h4>Designated Time-in</h4>
+                <p class="designated-timein">...</p>
+            </div>
+            <div class="group">
+                <h4>Designated Time-out</h4>
+                <p class="designated-timeout"></p>
+            </div>
+            <div class="group">
+                <h4>Time-in</h4>
+                <p class="timein">...</p>
+            </div>
+            <div class="group">
+                <h4>Time-out</h4>
+                <p class="timeout">...</p>
+            </div>
+            <div class="group red">
+                <h4>Late</h4>
+                <p class="late">...</p>
+            </div>
+            <div class="group red">
+                <h4>Early Out</h4>
+                <p class="earlyout">...</p>
+            </div>
+            <div class="group total-hours-group">
+                <h4>Total Hours</h4>
+                <p class="total-hours">...</p>
+            </div>
+        </div>
+        <div class="button" slot="footer">
+            <button>Close</button>
+        </div>
+    </sl-dialog>
+
+    <header>
+        <h1>Reports</h1>
+        <button id="menu-btn">Menu</button>
+    </header>
+
+    <main>
+        <section class="filters">
+            <h2>Filters</h2>
+
+            <div class="branch-filter-wrapper">
+
+                <sl-checkbox>Branch</sl-checkbox>
+                
+                <div class="input-element">
+                    <sl-dropdown type="input">
+                        <input slot="trigger" readonly type="text">
+                        <sl-menu data-for="branch">
+                            <sl-menu-item type="normal" value='d01'>Designation 1</sl-menu-item>
+                            <sl-menu-item type="normal" value='d02'>Designation 2</sl-menu-item>
+                            <sl-menu-item type="normal" value='d03'>Designation 3</sl-menu-item>
+                        </sl-menu>
+                    </sl-dropdown>
+                </div>
+
+            </div>
+
+            <div class="employee-filter-wrapper">
+            
+                <sl-checkbox>Employee</sl-checkbox>
+            
+                <div class="search">
+                    <input type="text" placeholder="Search" disabled>
+                    <!-- <a class="search-suggestion" href="#">suggestion 1</a>
+                    <a class="search-suggestion" href="#">suggestion 2</a>
+                    <a class="search-suggestion" href="#">suggestion 3</a> -->
+                </div>
+            
+            </div>
+
+        </section>
+        <section class="data">
+
+            <div class="summary">
+
+                <div>
+                    <h6 class="total-hours-label">Total On Duty Time</h6>
+                    <p class="total-hours">...</p> 
+                </div>
+
+                <div>
+                    <h6>Total Late Time</h6>
+                    <p class="total-late">...</p>
+                </div>
+
+                <div>
+                    <h6>Absences</h6>
+                    <p class="total-absences">...</p>
+                </div>
+
+                <div>
+                    <h6>Total Early Out Time</h6>
+                    <p class="total-early-out">...</p>
+                </div>
+
+            </div>
+            <div class="data-list">
+
+                <div class="column-names">
+                    <p class="c-date">Date</p>
+                    <p class="c-name">Name</p>
+                    <p class="c-branch">Branch</p>
+                    <p class="c-time-in">Time-in</p>
+                    <p class="c-time-out">Time-out</p>
+                </div>
+
+                <div class="attendance-data">
+
+                    <!-- <div class="attendance">
+                        <p class="date">Jan 16, 2021 Thu</p>
+                        <p class="name">Dela Victoria, Francis Ian</p>
+                        <p class="branch">SCC Branch</p>
+                        <p class="time-in">09:00 AM</p>
+                        <p class="time-out">05:00 PM</p>
+                    </div> -->
+
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <div class="left">
+        </div>
+        <div class="right">
+            <p class="time-text"></p>
+        </div>
+    </footer>
+
+    <script type="module" src="../node_modules/@shoelace-style/shoelace/dist/shoelace/shoelace.esm.js"></script>
+
+    <script src="../scripts/reports.js"></script>
+
+    <script src="../scripts/_menu-handles.js"></script>
+    <script src="../scripts/_status-bar-handles.js"></script>
+</body>
+</html>

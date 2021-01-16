@@ -75,7 +75,7 @@ ipcMain.on('user-login', (evt, login) => {
                             }
                         })
 
-                        mainWindow.loadURL(path.join('file://', __dirname, 'views/realtime-monitor.html'))
+                        mainWindow.loadURL(path.join('file://', __dirname, 'views/reports.html'))
 
                         mainWindow.on('closed', () => {
                             firstWindow = null
@@ -139,7 +139,8 @@ ipcMain.on('nav-to-employee-shifts', (evt, arg) => {
 })
 
 ipcMain.on('nav-to-reports', (evt, arg) => {
-    console.log('nav-to-reports')
+    backURL = mainWindow.webContents.getURL()
+    mainWindow.loadURL(path.join('file://', __dirname, 'views/reports.html'))
 })
 
 ipcMain.on('nav-to-user-accounts', (evt, arg) => {
@@ -187,6 +188,22 @@ ipcMain.on('monitor-branch', (evt, arg) => {
 
     ref.on('child_removed', (attendance) => {
         evt.reply('remove-employee-monitor', attendance.val())
+    })
+})
+
+
+/* NOTE REPORTS */
+ipcMain.on('request-employee-attendance-data', (evt, key) => {
+    firedb.ref('attendance_log').on('value', (snapshot) => {
+        snapshot.forEach(date => {
+            date.forEach(branch => {
+                branch.forEach(attendance => {
+                    if (attendance.val().employee_key === key) {
+                        evt.reply('add-employee-attendance-data', attendance.val())
+                    }
+                })
+            })
+        })
     })
 })
 

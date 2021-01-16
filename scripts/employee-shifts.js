@@ -5,7 +5,7 @@ const { remote, ipcRenderer } = electron
 const _moment = require('moment')
 
 const currentWindow = remote.getCurrentWindow()
-currentWindow.openDevTools()
+//currentWindow.openDevTools()
 
 // receive & load subject employee key
 ipcRenderer.once('load-subject-employee', (evt, key) => {

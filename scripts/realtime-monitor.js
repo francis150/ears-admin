@@ -3,7 +3,7 @@ const {remote, ipcRenderer} = electron
 const _moment = require('moment')
 
 const currentWindow = remote.getCurrentWindow()
-currentWindow.openDevTools()
+//currentWindow.openDevTools()
 
 // load branches to dropdown
 ipcRenderer.send('request-branches')
