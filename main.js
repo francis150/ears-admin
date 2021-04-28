@@ -75,7 +75,7 @@ ipcMain.on('user-login', (evt, login) => {
                             }
                         })
 
-                        mainWindow.loadURL(path.join('file://', __dirname, 'views/reports.html'))
+                        mainWindow.loadURL(path.join('file://', __dirname, 'views/user-accounts.html'))
 
                         mainWindow.on('closed', () => {
                             firstWindow = null

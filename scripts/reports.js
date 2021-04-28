@@ -3,7 +3,7 @@ const {remote, ipcRenderer} = electron
 const _moment = require('moment')
 
 const currentWindow = remote.getCurrentWindow()
-currentWindow.openDevTools()
+//currentWindow.openDevTools()
 
 let 
 totalHours = _moment.duration(),
