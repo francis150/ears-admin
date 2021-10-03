@@ -1,6 +1,6 @@
 # EARS Admin
 
-This project was the one I made when I was still in school and this was the first time learning `NodeJS`. It was a disaster! 😂 But nonetheless, I still want to share this with you guys. 
+This project was the one I made when I was still in school and this was my first time learning `NodeJS`. It was a disaster! 😂 But nonetheless, I still want to share this with you guys. 
 
 This app is a realtime employee attendance monitoring app mainly targeted for **multi-branch business**.
 
