@@ -1,4 +1,4 @@
-# EARS Admin
+# 🕰 EARS Admin (Desktop App)
 
 This project was the one I made when I was still in school and this was my first time learning `NodeJS`. It was a disaster! 😂 But nonetheless, I still want to share this with you guys. 
 
