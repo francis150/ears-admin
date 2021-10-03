@@ -20,4 +20,4 @@ This app is the admin side of the solution. It is used by the management or admi
 
 ---
 
-[Checkout the Mobile End of this Solution](https://github.com/francis150/ears-attendance-app)
+[Checkout the Mobile End (Client) of this Solution](https://github.com/francis150/ears-attendance-app)
