@@ -4,7 +4,7 @@
 
 This project was the one I made when I was still in school and this was my first time learning `NodeJS`. It was a disaster! 😂 But nonetheless, I still want to share this with you guys. 
 
-This app is a real-time employee attendance monitoring app mainly targeted for **multi-branch businesses**.
+This app is a real-time employee attendance solution mainly targeted for **multi-branch businesses**.
 
 This app is the admin side of the solution. It is used by the management or administration of the business(Manager, HR, Owner). 
 
